@@ -1,4 +1,4 @@
-import React from "react";
+
 
 import { BsThreeDots } from "react-icons/bs";
 
@@ -36,9 +36,9 @@ export default function ActivityLog() {
         <BsThreeDots />
       </div>
       <div className="activity__container">
-        {data.map((transaction) => {
+        {data.map((transaction, index) => {
           return (
-            <div className="transaction">
+            <div key={index} className="transaction">
               <div className="timestamp">
                 <h5>{transaction.day}</h5>
                 <h6>{transaction.date}</h6>

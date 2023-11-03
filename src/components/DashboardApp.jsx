@@ -8,7 +8,7 @@ import Wallets from "./Wallets";
 
 export default function DashboardApp() {
   return (
-    <div class="app">
+    <div className="app">
       <Navbar />
       <div className="app__grid">
         <div className="app__grid__1">
