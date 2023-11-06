@@ -6,8 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from './components/layoutHome/HomePage';
 import Cart from './components/layoutHome/Cart';
 import Login from './components/layoutHome/Login';
-import Checkout from './components/layoutHome/Checkout';
-// import Checkout from './components/layoutHome/CheckOut';
+import Checkout from './components/layoutHome/CheckOut';
 
 
 function App() {

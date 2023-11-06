@@ -553,12 +553,11 @@ const HomePage = () => {
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
                                                         <li style={{ left: "-26px" }}>
-                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" 
-                                                            className="quick-view modal-view detail-link" href="#">
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
                                                                 <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
+                                                        <li style={{ left: "-4px" }}>
                                                             <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
@@ -593,25 +592,18 @@ const HomePage = () => {
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/2.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -629,9 +621,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">
-                                                        BO&amp;Play Wireless Speaker
-                                                    </a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -642,30 +632,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--2">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/3.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -683,7 +666,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Brone Candle</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -694,30 +677,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--4">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/4.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -735,7 +711,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Brone Lamp Glasses</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -746,30 +722,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12 cat--2">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/5.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -787,7 +756,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Clothes Boxed</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -798,30 +767,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--3">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/6.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -839,9 +801,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">
-                                                        Liquid Unero Ginger Lily
-                                                    </a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -852,30 +812,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--2">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/7.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -893,7 +846,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Miliraty Backpack</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -904,30 +857,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--2">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/8.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -945,7 +891,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Saved Wines Corkscrew</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -956,30 +902,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--4">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/9.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -997,7 +936,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Simple Fabric Bags</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -1008,30 +947,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--3">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/10.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -1049,7 +981,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Simple Fabric Chair</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -1060,30 +992,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--4">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/11.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -1101,7 +1026,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Unero Round Sunglass</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -1112,30 +1037,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--3">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/12.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -1153,7 +1071,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Unero Small Bag</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -1164,30 +1082,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--3">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/13.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -1205,7 +1116,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Wood Complex Lamp Box</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -1268,30 +1179,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 col-sm-4 col-xs-12 cat--4">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/15.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -1309,7 +1213,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Wood Simple Chair V2</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>
@@ -1320,30 +1224,23 @@ const HomePage = () => {
                                     </div>
                                     {/* End Single Product */}
                                     {/* Start Single Product */}
-                                    <div className="col-md-3 single__pro col-lg-3 hidden-sm col-xs-12 cat--3">
+                                    <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12">
                                         <div className="product foo">
                                             <div className="product__inner">
                                                 <div className="pro__thumb">
                                                     <a href="#">
-                                                        <img src="images/product/16.png" alt="product images" />
+                                                        <img src="images/product/1.png" alt="product images" />
                                                     </a>
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
-                                                        <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                        <li style={{ left: "-4px" }}>
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -1361,7 +1258,7 @@ const HomePage = () => {
                                             </div>
                                             <div className="product__details">
                                                 <h2>
-                                                    <a href="product-details.html">Wood Simple Clock</a>
+                                                    <a href="product-details.html">Simple Black Clock</a>
                                                 </h2>
                                                 <ul className="product__price">
                                                     <li className="old__price">$16.00</li>

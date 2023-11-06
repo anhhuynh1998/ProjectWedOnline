@@ -4,13 +4,16 @@ const Cart = () => {
     return (
         <div className="wrapper fixed__footer">
             {/* Start Header Style */}
-            <header id="header" className="htc-header header--3 bg__white">
+
+            <header id="header" className="htc-header bg__white">
+
                 {/* Start Mainmenu Area */}
                 <div
                     id="sticky-header-with-topbar"
                     className="mainmenu__area sticky__header"
                 >
                     <div className="container">
+
                         <div className="row">
                             <div className="col-md-2 col-lg-2 col-sm-3 col-xs-3">
                                 <div className="logo">
@@ -239,7 +242,9 @@ const Cart = () => {
                             </div>
                         </div>
                         <div className="mobile-menu-area" />
+
                     </div>
+
                 </div>
 
                 {/* End Mainmenu Area */}

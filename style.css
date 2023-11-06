@@ -192,7 +192,7 @@
     content: "";
     height: 24px;
     position: absolute;
-    right: 0;
+    right: -9px;
     top: 50%;
     transform: translateY(-50%);
     width: 1px;
