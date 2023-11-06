@@ -1,6 +1,9 @@
 /* eslint-disable react/jsx-no-target-blank */
 
-const Navbar = () => {
+import { NavLink } from "react-router-dom";
+
+const HomePage = () => {
+
     return (
         <div>
             <div className="wrapper fixed__footer">
@@ -23,79 +26,34 @@ const Navbar = () => {
                                 {/* Start MAinmenu Ares */}
                                 <div className="col-md-8 col-lg-8 col-sm-6 col-xs-6">
                                     <nav className="mainmenu__nav hidden-xs hidden-sm">
-                                        <ul className="main__menu">
-                                            <li className="drop">
-                                                <a href="index.html">Home</a>
-                                                <ul className="dropdown">
-                                                    <li>
-                                                        <a href="index.html">Home 1</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-2.html">Home 2</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-3.html">Home 3</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-4.html">Home 4</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-5.html">Home 5</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-6.html">Home 6</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-7.html">Home 7</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-8.html">Home 8</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-9.html">Home 9</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-10.html">Home 10</a>
-                                                    </li>
-                                                </ul>
+                                        <ul className="main__menu" >
+                                            <li className="drop" >
+                                                <a >Home</a>
                                             </li>
-                                            <li>
-                                                <a href="about.html">About</a>
-                                            </li>
+                                            {/* Nam */}
                                             <li className="drop">
-                                                <a href="blog.html">Blog</a>
-                                                <ul className="dropdown">
-                                                    <li>
-                                                        <a href="blog.html">blog</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="blog-details.html">blog details</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li className="drop">
-                                                <a href="shop.html">Shop</a>
+                                                <a href="about.html" >Nam</a>
                                                 <ul className="dropdown mega_dropdown">
                                                     {/* Start Single Mega MEnu */}
                                                     <li>
                                                         <a className="mega__title" href="shop.html">
-                                                            Shop Pages
+                                                            Áo
                                                         </a>
                                                         <ul className="mega__item">
                                                             <li>
-                                                                <a href="shop.html">shop</a>
+                                                                <a href="shop.html">Tất Cả Áo</a>
                                                             </li>
                                                             <li>
-                                                                <a href="shop-sidebar.html">shop sidebar</a>
+                                                                <a href="shop-sidebar.html">Áo Sơ mi</a>
                                                             </li>
                                                             <li>
-                                                                <a href="cart.html">cart</a>
+                                                                <a href="cart.html">Áo Thun</a>
                                                             </li>
                                                             <li>
-                                                                <a href="checkout.html">checkout</a>
+                                                                <a href="checkout.html">Áo Khoác</a>
                                                             </li>
                                                             <li>
-                                                                <a href="wishlist.html">wishlist</a>
+                                                                <a href="wishlist.html">Áo Khoác</a>
                                                             </li>
                                                         </ul>
                                                     </li>
@@ -103,23 +61,23 @@ const Navbar = () => {
                                                     {/* Start Single Mega MEnu */}
                                                     <li>
                                                         <a className="mega__title" href="shop.html">
-                                                            Variable Product
+                                                            Quần
                                                         </a>
                                                         <ul className="mega__item">
                                                             <li>
-                                                                <a href="#">Category</a>
+                                                                <a href="#">Tất Cả Quần</a>
                                                             </li>
                                                             <li>
-                                                                <a href="#">My Account</a>
+                                                                <a href="#">Quần Jean</a>
                                                             </li>
                                                             <li>
-                                                                <a href="wishlist.html">Wishlist</a>
+                                                                <a href="wishlist.html">Quần Tây</a>
                                                             </li>
                                                             <li>
-                                                                <a href="cart.html">Shopping Carte</a>
+                                                                <a href="cart.html">Quần Short</a>
                                                             </li>
                                                             <li>
-                                                                <a href="checkout.html">Checkout</a>
+                                                                <a href="checkout.html">Quần Nỉ</a>
                                                             </li>
                                                         </ul>
                                                     </li>
@@ -127,171 +85,156 @@ const Navbar = () => {
                                                     {/* Start Single Mega MEnu */}
                                                     <li>
                                                         <a className="mega__title" href="shop.html">
-                                                            Product Types
+                                                            Phụ Kiện
                                                         </a>
                                                         <ul className="mega__item">
                                                             <li>
-                                                                <a href="#">Simple Product</a>
+                                                                <a href="#">Mũ</a>
                                                             </li>
                                                             <li>
-                                                                <a href="#">Variable Product</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">Grouped Product</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">Downloadable Product</a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">Simple Product</a>
+                                                                <a href="#">Túi</a>
                                                             </li>
                                                         </ul>
                                                     </li>
                                                     {/* End Single Mega MEnu */}
                                                 </ul>
                                             </li>
+
+                                            {/* Nữ */}
                                             <li className="drop">
-                                                <a href="#">pages</a>
-                                                <ul className="dropdown">
+                                                <a href="about.html">Nữ</a>
+                                                <ul className="dropdown mega_dropdown">
+                                                    {/* Start Single Mega MEnu */}
                                                     <li>
-                                                        <a href="about.html">about</a>
+                                                        <a className="mega__title" href="shop.html">
+                                                            Áo
+                                                        </a>
+                                                        <ul className="mega__item">
+                                                            <li>
+                                                                <a href="shop.html">Tất Cả Áo</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="shop-sidebar.html">Áo Sơ mi</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="cart.html">Áo Thun</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="checkout.html">Áo Len</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="wishlist.html">Áo Hoodie</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="wishlist.html">Áo Lông Cừu</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    {/* End Single Mega MEnu */}
+                                                    {/* Start Single Mega MEnu */}
+                                                    <li>
+                                                        <a className="mega__title" href="shop.html">
+                                                            Quần
+                                                        </a>
+                                                        <ul className="mega__item">
+                                                            <li>
+                                                                <a href="#">Tất Cả Quần</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Quần Jean</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="wishlist.html">Quần Tây</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="cart.html">Quần Ống Rộng</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="checkout.html">Quần Nỉ</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="checkout.html">Quần Legging</a>
+                                                            </li>
+                                                        </ul>
                                                     </li>
                                                     <li>
-                                                        <a href="shop.html">shop</a>
+                                                        <a className="mega__title" href="shop.html">
+                                                            Đầm & Chân Váy
+                                                        </a>
+                                                        <ul className="mega__item">
+                                                            <li>
+                                                                <a href="#">Váy</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Đầm</a>
+                                                            </li>
+                                                        </ul>
                                                     </li>
+                                                    {/* End Single Mega MEnu */}
+                                                    {/* Start Single Mega MEnu */}
                                                     <li>
-                                                        <a href="shop-sidebar.html">shop sidebar</a>
+                                                        <a className="mega__title" href="shop.html">
+                                                            Phụ Kiện
+                                                        </a>
+                                                        <ul className="mega__item">
+                                                            <li>
+                                                                <a href="#">Túi</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Mũ</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Kính</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">Giày</a>
+                                                            </li>
+                                                        </ul>
                                                     </li>
-                                                    <li>
-                                                        <a href="product-details.html">product details</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="cart.html">cart</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="wishlist.html">wishlist</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="checkout.html">checkout</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="team.html">team</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="login-register.html">login &amp; register</a>
-                                                    </li>
+                                                    {/* End Single Mega MEnu */}
                                                 </ul>
                                             </li>
+
+                                            {/* sidebar */}
+                                            <li>
+                                                <a href="shop-sidebar.html">Shop Sidebar</a>
+                                            </li>
+
                                             <li>
                                                 <a href="contact.html">contact</a>
                                             </li>
                                         </ul>
                                     </nav>
-                                    <div className="mobile-menu clearfix visible-xs visible-sm">
-                                        <nav id="mobile_dropdown">
-                                            <ul>
-                                                <li>
-                                                    <a href="index.html">Home</a>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="index.html">Home 1</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-2.html">Home 2</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-3.html">Home 3</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-4.html">Home 4</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-5.html">Home 5</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-6.html">Home 6</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-7.html">Home 7</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-8.html">Home 8</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-9.html">Home 9</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-10.html">Home 10</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="about.html">About</a>
-                                                </li>
-                                                <li>
-                                                    <a href="blog.html">blog</a>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="blog.html">blog</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="blog-details.html">blog details</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="#">pages</a>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="about.html">about</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop.html">shop</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-sidebar.html">shop sidebar</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="product-details.html">product details</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="cart.html">cart</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="wishlist.html">wishlist</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="checkout.html">checkout</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="team.html">team</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="login-register.html">login &amp; register</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>
-                                                    <a href="contact.html">contact</a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                    </div>
+
                                 </div>
                                 {/* End MAinmenu Ares */}
                                 <div className="col-md-2 col-sm-4 col-xs-3">
                                     <ul className="menu-extra">
-                                        <li className="search search__open hidden-xs">
+                                        <li className="search search__open hidden-xs" >
                                             <span className="ti-search" />
                                         </li>
-                                        <li>
-                                            <a href="login-register.html">
-                                                <span className="ti-user" />
-                                            </a>
-                                        </li>
-                                        <li className="cart__menu">
-                                            <span className="ti-shopping-cart" />
-                                        </li>
+                                        {/* <nav className="navbar navbar-light bg-light">
+                                                <div className="container-fluid">
+                                                    <form className="d-flex">
+                                                        <input className="form-control me-2" type="search" 
+                                                        placeholder="Search" aria-label="Search"/>
+                                                        <button className="btn btn-outline-success" type="submit">Search</button>
+                                                    </form>
+                                                </div>
+                                            </nav> */}
+                                        <NavLink to={`/login`}>
+                                            <li>
+                                                <a href="login-register.html">
+                                                    <span className="ti-user col-md-2" />
+                                                </a>
+                                            </li>
+                                        </NavLink>
+                                        <NavLink to={`/cart`}>
+                                            <li className="cart__menu">
+                                                <span className="ti-shopping-cart col-md-2" />
+                                            </li>
+                                        </NavLink>
+
                                         <li className="toggle__menu hidden-xs hidden-sm">
                                             <span className="ti-menu" />
                                         </li>
@@ -307,6 +250,7 @@ const Navbar = () => {
                 <div className="body__overlay" />
                 {/* Start Offset Wrapper */}
                 <div className="offset__wrapper">
+
                     {/* Start Search Popap */}
                     <div className="search__area">
                         <div className="container">
@@ -327,6 +271,7 @@ const Navbar = () => {
                             </div>
                         </div>
                     </div>
+
                     {/* End Search Popap */}
                     {/* Start Offset MEnu */}
                     <div className="offsetmenu">
@@ -545,60 +490,33 @@ const Navbar = () => {
                 </div>
                 {/* End Offset Wrapper */}
                 {/* Start Slider Area */}
-                <div className="slider__container slider--one">
-                    <div className="slider__activation__wrap owl-carousel owl-theme">
-                        {/* Start Single Slide */}
-                        <div
-                            className="slide slider__full--screen"
-                            style={{
-                                background:
-                                    "rgba(0, 0, 0, 0) url(images/slider/bg/1.png) no-repeat scroll center center / cover"
-                            }}
-                        >
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-4 col-sm-12 col-xs-12">
-                                        <div className="slider__inner">
-                                            <h1>
-                                                New Product <span className="text--theme">Collection</span>
-                                            </h1>
-                                            <div className="slider__btn">
-                                                <a className="htc__btn" href="cart.html">
-                                                    shop now
-                                                </a>
-                                            </div>
-                                        </div>
+                {/* Start Single Slide */}
+                <div
+                    className="slide slider__full--screen"
+                    style={{
+                        background:
+                            "rgba(0, 0, 0, 0) url(images/bg/thu.jpeg) no-repeat scroll center center / cover",
+                        height: "500px"
+                    }}
+                >
+                    <div className="ht__bradcaump__wrap ">
+                        <div className="container ">
+                            <div className="row ">
+                                <div className="col-xs-12 ">
+                                    <div className="bradcaump__inner text-center " style={{ paddingLeft: "530px" }}>
+                                        <h2 className="bradcaump-title" style={{ color: "white" }}>New Product Collection</h2>
+
+                                        <a className="breadcrumb-item" style={{ color: "white" }}>
+                                            Show Now
+                                        </a>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         {/* End Single Slide */}
-                        {/* Start Single Slide */}
-                        <div
-                            className="slide slider__full--screen"
-                            style={{
-                                background:
-                                    "rgba(0, 0, 0, 0) url(images/slider/bg/2.png) no-repeat scroll center center / cover"
-                            }}
-                        >
-                            <div className="container">
-                                <div className="row">
-                                    <div className="col-md-8 col-lg-8 col-sm-12 col-xs-12">
-                                        <div className="slider__inner">
-                                            <h1>
-                                                New Product <span className="text--theme">Collection</span>
-                                            </h1>
-                                            <div className="slider__btn">
-                                                <a className="htc__btn" href="cart.html">
-                                                    shop now
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* End Single Slide */}
+
                     </div>
                 </div>
                 {/* Start Slider Area */}
@@ -634,20 +552,14 @@ const Navbar = () => {
                                                 </div>
                                                 <div className="product__hover__info">
                                                     <ul className="product__action">
-                                                        <li>
-                                                            <a
-                                                                data-toggle="modal"
-                                                                data-target="#productModal"
-                                                                title="Quick View"
-                                                                className="quick-view modal-view detail-link"
-                                                                href="#"
-                                                            >
-                                                                <span className="ti-plus" />
+                                                        <li style={{ left: "-26px" }}>
+                                                            <a data-toggle="modal" data-target="#productModal" title="Quick View" 
+                                                            className="quick-view modal-view detail-link" href="#">
+                                                                <span className="ti-plus"></span>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a title="Add TO Cart" href="cart.html">
-                                                                <span className="ti-shopping-cart" />
+                                                            <a title="Add TO Cart" href="cart.html"><span className="ti-shopping-cart"></span>
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -1463,14 +1375,17 @@ const Navbar = () => {
                             </div>
                         </div>
                     </div>
+
                 </section>
                 {/* End Our Product Area */}
+
                 {/* Start Footer Area */}
                 <footer
                     className="htc__foooter__area"
                     style={{
                         background:
-                            "rgba(0, 0, 0, 0) url(images/bg/1.jpg) no-repeat scroll center center / cover"
+                            "rgba(0, 0, 0, 0) url(images/bg/6.jpg) no-repeat scroll center center / cover",
+
                     }}
                 >
                     <div className="container">
@@ -1559,9 +1474,9 @@ const Navbar = () => {
                                         <h2 className="ft__title">Contact Us</h2>
                                         <div className="footer__inner">
                                             <p>
-                                                319 Clematis St.
+                                                28 Nguyen Tri Phuong
                                                 <br />
-                                                Suite 100 WPB, FL 33401
+                                                Hue
                                             </p>
                                         </div>
                                     </div>
@@ -1604,35 +1519,7 @@ const Navbar = () => {
                                 {/* End Single Footer Widget */}
                             </div>
                         </div>
-                        {/* Start Copyright Area */}
-                        <div className="htc__copyright__area">
-                            <div className="row">
-                                <div className="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                                    <div className="copyright__inner">
-                                        <div className="copyright">
-                                            <p>
-                                                © 2017{" "}
-                                                <a href="https://devitems.com" target="_blank">
-                                                    Devitems
-                                                </a>
-                                                All Right Reserved.
-                                            </p>
-                                        </div>
-                                        <ul className="footer__menu">
-                                            <li>
-                                                <a href="index.html">Home</a>
-                                            </li>
-                                            <li>
-                                                <a href="shop.html">Product</a>
-                                            </li>
-                                            <li>
-                                                <a href="contact.html">Contact Us</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         {/* End Copyright Area */}
                     </div>
                 </footer>
@@ -1830,4 +1717,4 @@ const Navbar = () => {
         </div>
     )
 }
-export default Navbar;
+export default HomePage;
