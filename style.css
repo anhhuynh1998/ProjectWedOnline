@@ -192,7 +192,7 @@
     content: "";
     height: 24px;
     position: absolute;
-    right: -9px;
+    right: 0px;
     top: 50%;
     transform: translateY(-50%);
     width: 1px;
@@ -252,8 +252,7 @@
     padding-left: 12px;
 }
 .product__price li.old__price {
-    color: #9c9b9b;
-    text-decoration: line-through;
+    color: #000000;
 }
 .product__menu {
     text-align: center;
@@ -324,11 +323,11 @@
     -moz-border-left-colors: none;
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
-    border-color: currentcolor currentcolor #8e8e8e;
+    border-color: currentcolor currentcolor #ffffff;
     border-image: none;
     border-style: none none solid;
     border-width: 0 0 1px;
-    color: #686868;
+    color: #ffffff;
     font-size: 16px;
     height: 40px;
     line-height: 40px;
@@ -359,12 +358,13 @@
     margin-bottom: 20px;
 }
 .tabs__checkbox span {
-  color: #686868;
+  color: #ffffff;
   text-transform: capitalize;
   padding-left: 5px;
 }
 .htc__login__btn a {
-    border: 1px solid #d5d5d5;
+    text-decoration: none;
+    border: 1px solid #ffffff;
     display: inline-block;
     font-size: 20px;
     height: 50px;
@@ -373,7 +373,7 @@
     text-transform: capitalize;
     transition: all 0.5s ease 0s;
     width: 150px;
-    color: #4b4b4b;
+    color: #ffffff;
     text-transform: uppercase;
 }
 .htc__login__btn {
@@ -383,7 +383,7 @@
     margin-top: 14px;
 }
 .htc__social__connect h2 {
-    color: #000;
+    color: #ffffff;
     font-size: 16px;
     margin-bottom: 25px;
     margin-top: 50px;
@@ -477,7 +477,6 @@
     padding-top: 20px;
 }
 .product-images {
-    min-width: 50%;
     padding-right: 50px;
 }
 .product-info h1 {
@@ -514,7 +513,6 @@
 }
 
 .product-info {
-    padding-left: 50px;
     width: 50%;
 }
 .quick-desc {
@@ -607,7 +605,6 @@ h3.widget-title-modal {
     color: #ff4136;
 }
 .addtocart-btn {
-    margin-top: 66px;
     text-align: left;
 }
 .addtocart-btn a {
@@ -3698,11 +3695,9 @@ a.shipping-calculator-button:hover{
     padding-left: 60px;
     padding-right: 60px;
 }
-
-
-
-
-
-
-
-
+.col-md-12{
+    display: flex;
+}
+.carousel-item{
+    max-width: 300px !important;
+}

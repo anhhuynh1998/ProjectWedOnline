@@ -288,6 +288,7 @@ img,
 
 p+img,
 img:last-child {
+  width: 400px;
   margin-bottom: 0;
 }
 
@@ -309,7 +310,7 @@ mark {
 }
 
 .bg__white {
-  background: #fff;
+  background: #f3f3f3;
 }
 
 .bg__gray {
@@ -1032,7 +1033,10 @@ textarea:focus {
 }
 
 .ptb--130 {
-  padding: 130px 0
+  padding: 55px 0
+}
+.login--130{
+  padding: 132px 0;
 }
 
 .ptb--140 {

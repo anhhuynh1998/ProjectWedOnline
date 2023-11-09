@@ -1,4 +1,3 @@
-import React from "react";
 import avatar from "../assets/avatarImage.jpeg";
 export default function Navbar() {
   return (
