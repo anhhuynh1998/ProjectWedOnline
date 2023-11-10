@@ -54,7 +54,7 @@ const ProductList = () => {
                             </div>
                             <div className="product__details">
                                 <h2>
-                                    <a href="product-details.html">{item.name}</a>
+                                    <span>{item.name}</span>
                                 </h2>
                                 <ul className="product__price">
                                     <li className="old__price"> SIZE {item.size}</li>

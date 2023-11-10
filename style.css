@@ -3698,6 +3698,9 @@ a.shipping-calculator-button:hover{
 .col-md-12{
     display: flex;
 }
-.carousel-item{
+/* .carousel-item{
     max-width: 300px !important;
+} */
+#exampleModal{
+    padding-right: 350px;
 }

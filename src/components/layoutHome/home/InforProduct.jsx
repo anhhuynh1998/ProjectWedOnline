@@ -4,19 +4,19 @@ const InforProduct = () => {
         <div id="quickview-wrapper">
             {/* Modal */}
             <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                aria-labelledby="exampleModalLabel" aria-hidden="true" >
                 <div className="modal-dialog" role="document">
-                    <div className="modal-content" style={{ width: "906px", margin: "0 0  0 -190px" }}>
+                    <div className="modal-content" style={{width:"835px"}}>
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel"></h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div className="modal-body" style={{ padding: " 0 0 28px 20px" }}>
+                        <div className="modal-body">
                             <div className="modal-product">
                                 {/* Start product images */}
-                                <div className="product-images">
+                                <div className="product-images" style={{width:"602px"}}>
                                     <div className="main-image images">
                                         {/* <img alt="big images" src="images/product/big-img/1.jpg" /> */}
                                         <div id="carouselExampleDark" className="carousel carousel-dark slide" data-bs-ride="carousel">
@@ -103,13 +103,9 @@ const InforProduct = () => {
                                         <a href="#">Add to cart</a>
                                     </div>
                                 </div>
-                                {/* .product-info */}
                             </div>
-                            {/* .modal-product */}
                         </div>
-
                     </div>
-
                 </div>
             </div>
 

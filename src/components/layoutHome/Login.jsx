@@ -76,19 +76,15 @@ const Login = () => {
                                     <form style={{ width: "420px", marginLeft: "50px" }}>
                                         <div className="row g-3 mb-3">
                                             <div className="col">
-                                                <h6 style={{ fontWeight: "500" }}>Họ</h6>
-                                                <input type="text" className="form-control rounded-3 border border-secondary" placeholder="Họ" aria-label="Username" aria-describedby="basic-addon1" />
+                                                <h6 style={{ fontWeight: "500" }}>Tên</h6>
+                                                <input type="text" className="form-control rounded-3 border border-secondary" placeholder="Tên" aria-label="Username" aria-describedby="basic-addon1" />
                                             </div>
                                             <div className="col">
-                                                <h6 style={{ fontWeight: "500" }}>Tên </h6>
-                                                <input type="text" className="form-control rounded-3 border border-secondary" placeholder="Tên" aria-label="Username" aria-describedby="basic-addon1" />
+                                                <h6 style={{ fontWeight: "500" }}>SDT </h6>
+                                                <input type="text" className="form-control rounded-3 border border-secondary" placeholder="SDT" aria-label="Phone" aria-describedby="basic-addon1" />
                                             </div>
                                         </div>
 
-                                        <h6 style={{ fontWeight: "500" }}>SDT</h6>
-                                        <div className="input-group mb-3">
-                                            <input type="text" className="form-control rounded-3 border border-secondary small fw-light py-2" placeholder="Số Điện Thoại" aria-label="Username" aria-describedby="basic-addon1" />
-                                        </div>
                                         <div className='mb-3'>
                                             <h6>Giới Tính</h6>
                                             <div className="form-check form-check-inline">
