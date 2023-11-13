@@ -8,7 +8,7 @@ import Cart from './components/layoutHome/Cart';
 import Checkout from './components/layoutHome/CheckOut';
 import NavbarHome from './components/layoutHome/NavbarHome';
 import Footer from './components/layoutHome/Footer';
-import ShopSideBar from './components/layoutHome/ShopSideBar';
+import ShopSideBar from './components/layoutHome/ShopSideBar/ShopSideBar';
 
 function App() {
   return (

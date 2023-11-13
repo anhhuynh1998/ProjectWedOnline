@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
 import ProductService from "../../../homeService/productService";
+import InforProduct from "./InforProduct";
 
 const ProductList = () => {
 
     const [productList, setProductList] = useState([]);
+    const [productId, setProductId] = useState("");
+
+    const handleSelectedProduct = (id) => {
+        setProductId(id);
+    }
 
     useEffect(() => {
         async function getALl() {
             let response = await ProductService.getAll();
-            console.log(response);
             setProductList(response.data.content);
         }
         getALl();
@@ -16,6 +21,7 @@ const ProductList = () => {
 
     return (
         <div className="product__list">
+            <InforProduct productId={productId} />
             {
                 productList.map((item, index) => (
                     <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12" key={index}>
@@ -29,9 +35,14 @@ const ProductList = () => {
                                 <div className="product__hover__info">
                                     <ul className="product__action">
                                         <li >
-                                            <a data-toggle="modal" data-target="#exampleModal" title="Quick View"
-                                                href="#">
-                                                <span type="button" className="ti-plus"></span>
+                                            <a
+                                                data-toggle="modal" data-target="#productDetail"
+                                                onClick={() => {
+                                                    handleSelectedProduct(item.id);
+                                                }}
+                                            >
+                                                <span type="button" className="ti-plus" ></span>
+
                                             </a>
                                         </li>
                                         <li >

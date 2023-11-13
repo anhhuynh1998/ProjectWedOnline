@@ -3701,6 +3701,10 @@ a.shipping-calculator-button:hover{
 /* .carousel-item{
     max-width: 300px !important;
 } */
-#exampleModal{
+#productDetail{
     padding-right: 350px;
+}
+#searchProduct{
+    display: flex;
+    justify-content: flex-end;
 }

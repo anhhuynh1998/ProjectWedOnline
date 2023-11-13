@@ -1,37 +1,69 @@
-const InforProduct = () => {
+import { useEffect, useState } from "react";
+import ProductService from "../../../homeService/productService";
+
+
+const InforProduct = ({ productId }) => {
+    const [product, setProduct] = useState({});
+    const [listFile, setListFile] = useState([]);
+
+    console.log(productId);
+
+    useEffect(() => {
+        async function getAll() {
+            let response = await ProductService.getById(productId);
+            setProduct(response.data);
+            setListFile(response.data.listFile)
+
+        }
+
+        getAll();
+    }, [productId])
+    console.log(product);
 
     return (
         <div id="quickview-wrapper">
-            {/* Modal */}
-            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
-                aria-labelledby="exampleModalLabel" aria-hidden="true" >
+
+            <div className={`modal fade`} id="productDetail" tabIndex="-1"
+                aria-labelledby="exampleModalLabel" >
                 <div className="modal-dialog" role="document">
-                    <div className="modal-content" style={{width:"835px"}}>
-                        <div className="modal-header">
+                    <div className="modal-content" style={{ width: "835px" }} >
+                        <div className="modal-header" >
                             <h5 className="modal-title" id="exampleModalLabel"></h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">
-                            <div className="modal-product">
+
+                            <div className="modal-product" >
                                 {/* Start product images */}
-                                <div className="product-images" style={{width:"602px"}}>
+                                <div className="product-images" style={{ width: "602px" }}>
                                     <div className="main-image images">
+
                                         {/* <img alt="big images" src="images/product/big-img/1.jpg" /> */}
                                         <div id="carouselExampleDark" className="carousel carousel-dark slide" data-bs-ride="carousel">
-                                            <div className="carousel-indicators">
-                                                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" className="active" aria-current="true" aria-label="Slide 1"></button>
-                                                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                            </div>
                                             <div className="carousel-inner">
-                                                <div className="carousel-item active" data-bs-interval="10000" >
-                                                    <img src="images/product/big-img/1.jpg" className="d-block w-100" alt="big images" />
-                                                    <div className="carousel-caption d-none d-md-block">
-                                                    </div>
-                                                </div>
-                                                <div className="carousel-item" data-bs-interval="2000">
+                                                    {
+                                                        listFile.map((e, index) => (
+                                                            <>
+                                                                <div className="carousel-indicators" key={index} >
+                                                                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to={index} className={index === 0 ? "active" : ""}
+                                                                        aria-current={index === 0 ? "true" : "false"}
+                                                                        aria-label={`Slide ${index + 1}`} >
+                                                                    </button>
+                                                                </div>
+                                                                <div className={`carousel-item ${index === 0 ? "active" : ""}`}
+                                                                    data-bs-interval="10000"
+                                                                    key={index} >
+                                                                    <img src={e} className="d-block w-100" alt="big images" />
+                                                                    <div className="carousel-caption d-none d-md-block">
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                        ))
+                                                    }
+
+                                                {/* <div className="carousel-item" data-bs-interval="2000">
                                                     <img src="images/product/big-img/1.jpg" className="d-block w-100" alt="big images" />
                                                     <div className="carousel-caption d-none d-md-block">
                                                     </div>
@@ -40,7 +72,7 @@ const InforProduct = () => {
                                                     <img src="images/product/big-img/1.jpg" className="d-block w-100" alt="big images" />
                                                     <div className="carousel-caption d-none d-md-block">
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                                                 <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -54,60 +86,59 @@ const InforProduct = () => {
                                     </div>
                                 </div>
 
-                                {/* end product images */}
-                                <div className="product-info">
-                                    <h1>Simple Fabric Bags</h1>
-                                    <div className="rating__and__review">
-                                        <ul className="rating">
-                                            <li>
-                                                <span className="ti-star" />
-                                            </li>
-                                            <li>
-                                                <span className="ti-star" />
-                                            </li>
-                                            <li>
-                                                <span className="ti-star" />
-                                            </li>
-                                            <li>
-                                                <span className="ti-star" />
-                                            </li>
-                                            <li>
-                                                <span className="ti-star" />
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="price-box-3">
-                                        <div className="s-price-box">
-                                            <span className="new-price">$17.20</span>
-                                            <span className="old-price">$45.00</span>
+                                {
+                                    <div className="product-info" key={product.id}>
+                                        <h1>{product.name}</h1>
+                                        <div className="rating__and__review">
+                                            <ul className="rating">
+                                                <li>
+                                                    <span className="ti-star" />
+                                                </li>
+                                                <li>
+                                                    <span className="ti-star" />
+                                                </li>
+                                                <li>
+                                                    <span className="ti-star" />
+                                                </li>
+                                                <li>
+                                                    <span className="ti-star" />
+                                                </li>
+                                                <li>
+                                                    <span className="ti-star" />
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div className="price-box-3">
+                                            <div className="s-price-box">
+                                                <span className="new-price">{product.price} VND</span>
+                                            </div>
+                                        </div>
+                                        <div className="quick-desc">{product.description}
+                                        </div>
+                                        <div className="select__size">
+                                            <h2>Size </h2>
+                                            <ul className="color__list">
+                                                <li className="l__size">
+                                                    <a title={product.size} href="">
+                                                        {product.size}
+                                                    </a>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                        <div className="addtocart-btn">
+                                            <a href="#">Add to cart</a>
                                         </div>
                                     </div>
-                                    <div className="quick-desc">
-                                        Designed for simplicity and made from high quality materials. Its sleek
-                                        geometry and material combinations creates a modern look.
-                                    </div>
 
-                                    <div className="select__size">
-                                        <h2>Size</h2>
-                                        <ul className="color__list">
-                                            <li className="l__size">
-                                                <a title="L" href="#">
-                                                    L
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-
-                                    <div className="addtocart-btn">
-                                        <a href="#">Add to cart</a>
-                                    </div>
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
         </div>
 
