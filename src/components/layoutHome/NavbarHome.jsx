@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import { NavLink } from "react-router-dom"
 import CategoryService from "../../homeService/categoryService"
+import { UseProduct } from "./UseContext";
 
 
 const NavbarHome = () => {
 
     const [gender, setGender] = useState([]);
+<<<<<<< Updated upstream
+=======
+    const { cartItemCount } = useContext(UseProduct);
+>>>>>>> Stashed changes
 
 
     useEffect(() => {
@@ -37,49 +42,41 @@ const NavbarHome = () => {
                                 <li className="drop" >
                                     <a href="/home">Trang Chủ</a>
                                 </li>
-                                {/* Nam */}
                                 {
                                     gender.map((male, index) => (
                                         <li className="drop" key={index}>
                                             <a href="about.html">{male.name}</a>
                                             <ul className="dropdown mega_dropdown">
-                                                {/* Start Single Mega MEnu */}
-                                                {male.categoryChildren.map((category, categoryIndex) => (
-                                                    <li key={categoryIndex}>
-                                                        <a className="mega__title" >
-                                                            {category.name}
-                                                        </a>
-                                                        <ul className="mega__item">
-
-                                                            {category.categoryChildren.map((item) =>
-                                                                <li key={index + item.id}>
-                                                                    <a href="shop.html" >{item.name}</a>
-                                                                </li>)}
-                                                        </ul>
-                                                    </li>
-                                                ))}
+                                                {
+                                                    male.categoryChildren.map((category, categoryIndex) => (
+                                                        <li key={categoryIndex}>
+                                                            <a className="mega__title" >{category.name}</a>
+                                                            <ul className="mega__item">
+                                                                {
+                                                                    category.categoryChildren.map((item) =>
+                                                                        <li key={index + item.id}>
+                                                                            <a href="shop.html" >{item.name}</a>
+                                                                        </li>
+                                                                    )
+                                                                }
+                                                            </ul>
+                                                        </li>
+                                                    ))
+                                                }
                                             </ul>
                                         </li>
-
                                     ))
                                 }
 
-                                {/* sidebar */}
                                 <li>
                                     <a href="/sidebar" style={{ textDecoration: "none" }}>Shop Sidebar</a>
                                 </li>
-
                                 <li>
                                     <a href="contact.html" style={{ textDecoration: "none" }}>Liên Hệ</a>
                                 </li>
                             </ul>
                         </nav>
-
                     </div>
-
-
-
-                    {/* End MAinmenu Ares */}
                     <div className="col-md-2 col-sm-4 col-xs-3">
                         <ul className="menu-extra">
 
@@ -87,26 +84,29 @@ const NavbarHome = () => {
                                 <span className="ti-user col-md-2" data-toggle="modal"
                                     data-target="#exampleLogin" />
                             </li>
-
-                            <NavLink to={`/cart`}>
-                                <li className="cart__menu">
-                                    <span className="ti-shopping-cart col-md-2" />
-                                </li>
-                            </NavLink>
-
+                            <div>
+                                <NavLink to={`/cart`}>
+                                    <li className="cart__menu ">
+                                        <span className="ti-shopping-cart col-md-2 me-1" />
+                                    </li>
+                                </NavLink>
+                                <span className="cart__count text-white">{cartItemCount}</span>
+                            </div>
                             <li className="toggle__menu hidden-xs hidden-sm">
                                 <span className="ti-menu" />
                             </li>
+
                         </ul>
                     </div>
-
                 </div>
-
                 <div className="mobile-menu-area" />
             </div>
+<<<<<<< Updated upstream
 
            
 
+=======
+>>>>>>> Stashed changes
         </div>
 
     )

@@ -1,28 +1,33 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductService from "../../../homeService/productService";
+import { UseProduct } from "../UseContext";
+import CartDetailService from "../../../homeService/cartDetailService";
 
 
-const InforProduct = ({ productId }) => {
+
+const InforProduct = () => {
+    const { productId, cartItemCount, setCartItemCount, cartDetailList, setCartDetailList } = useContext(UseProduct);
     const [product, setProduct] = useState({});
     const [listFile, setListFile] = useState([]);
 
-    console.log(productId);
-
     useEffect(() => {
-        async function getAll() {
+        async function getById() {
             let response = await ProductService.getById(productId);
             setProduct(response.data);
             setListFile(response.data.listFile)
-
         }
-
-        getAll();
+        getById();
     }, [productId])
-    console.log(product);
+
+    const handleAddCart = async (product) => {
+        setCartItemCount(cartItemCount + 1);
+        let response = await CartDetailService.create(product);
+        console.log(response);
+        setCartDetailList(response.config.data)
+    }
 
     return (
         <div id="quickview-wrapper">
-
             <div className={`modal fade`} id="productDetail" tabIndex="-1"
                 aria-labelledby="exampleModalLabel" >
                 <div className="modal-dialog" role="document">
@@ -34,35 +39,31 @@ const InforProduct = ({ productId }) => {
                             </button>
                         </div>
                         <div className="modal-body">
-
                             <div className="modal-product" >
-                                {/* Start product images */}
                                 <div className="product-images" style={{ width: "602px" }}>
                                     <div className="main-image images">
-
-                                        {/* <img alt="big images" src="images/product/big-img/1.jpg" /> */}
                                         <div id="carouselExampleDark" className="carousel carousel-dark slide" data-bs-ride="carousel">
                                             <div className="carousel-inner">
-                                                    {
-                                                        listFile.map((e, index) => (
-                                                            <>
-                                                                <div className="carousel-indicators" key={index} >
-                                                                    <button type="button" data-bs-target="#carouselExampleDark"
-                                                                     data-bs-slide-to={index} className={index === 0 ? "active" : ""}
-                                                                        aria-current={index === 0 ? "true" : "false"}
-                                                                        aria-label={`Slide ${index + 1}`} >
-                                                                    </button>
+                                                {
+                                                    listFile.map((e, index) => (
+                                                        <>
+                                                            <div className="carousel-indicators" key={index} >
+                                                                <button type="button" data-bs-target="#carouselExampleDark"
+                                                                    data-bs-slide-to={index} className={index === 0 ? "active" : ""}
+                                                                    aria-current={index === 0 ? "true" : "false"}
+                                                                    aria-label={`Slide ${index + 1}`} >
+                                                                </button>
+                                                            </div>
+                                                            <div className={`carousel-item ${index === 0 ? "active" : ""}`}
+                                                                data-bs-interval="10000"
+                                                                key={index} >
+                                                                <img src={e} className="d-block w-100" alt="big images" />
+                                                                <div className="carousel-caption d-none d-md-block">
                                                                 </div>
-                                                                <div className={`carousel-item ${index === 0 ? "active" : ""}`}
-                                                                    data-bs-interval="10000"
-                                                                    key={index} >
-                                                                    <img src={e} className="d-block w-100" alt="big images" />
-                                                                    <div className="carousel-caption d-none d-md-block">
-                                                                    </div>
-                                                                </div>
-                                                            </>
-                                                        ))
-                                                    }
+                                                            </div>
+                                                        </>
+                                                    ))
+                                                }
                                             </div>
                                             <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                                                 <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -117,11 +118,11 @@ const InforProduct = ({ productId }) => {
                                             </ul>
                                         </div>
 
-                                        <div className="addtocart-btn">
-                                            <a href="#">Add to cart</a>
+                                        <div className="addtocart-btn"
+                                            onClick={() => handleAddCart(product)}>
+                                            <a type="button" className="text-white"> Add to cart</a>
                                         </div>
                                     </div>
-
                                 }
                             </div>
                         </div>

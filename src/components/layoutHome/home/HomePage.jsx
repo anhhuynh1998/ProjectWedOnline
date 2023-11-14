@@ -7,12 +7,11 @@ import InforProduct from "./InforProduct";
 
 
 const HomePage = () => {
-    
 
     return (
-        
+
         <div>
-            
+
             <div>
                 {/* Start Header Style */}
                 <div className="body__overlay" />
@@ -73,7 +72,7 @@ const HomePage = () => {
                 {/* List Product */}
                 <HomeProductPrice />
             </div>
-            
+
             <InforProduct />
             <Login />
         </div >

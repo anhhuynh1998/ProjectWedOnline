@@ -1,27 +1,23 @@
-import { useEffect, useState } from "react";
-import ProductService from "../../../homeService/productService";
+import { useContext } from "react";
 import InforProduct from "./InforProduct";
+import { UseProduct } from "../UseContext";
+
 
 const ProductList = () => {
 
-    const [productList, setProductList] = useState([]);
-    const [productId, setProductId] = useState("");
+    const { productList,
+        setProductList,
+        productId,
+        setProductId
+    } = useContext(UseProduct);
 
     const handleSelectedProduct = (id) => {
         setProductId(id);
     }
 
-    useEffect(() => {
-        async function getALl() {
-            let response = await ProductService.getAll();
-            setProductList(response.data.content);
-        }
-        getALl();
-    }, [])
-
     return (
         <div className="product__list">
-            <InforProduct productId={productId} />
+            <InforProduct />
             {
                 productList.map((item, index) => (
                     <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12" key={index}>
@@ -64,6 +60,7 @@ const ProductList = () => {
                                 </div>
                             </div>
                             <div className="product__details">
+
                                 <h2>
                                     <span>{item.name}</span>
                                 </h2>
