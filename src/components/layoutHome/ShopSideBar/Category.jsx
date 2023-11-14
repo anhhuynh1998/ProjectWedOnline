@@ -1,52 +1,67 @@
+import { useEffect, useState } from "react"
+import CategoryService from '../../../homeService/categoryService';
+
+
+
 const Category = () => {
-    return(
+    // const [categories, setCategories] = useState([]);
+    // const [categoryChildren, setCategoryChildren] = useState([]);
+    const [gender, setGender] = useState([])
+
+    useEffect(() => {
+        async function getAllCategory() {
+            let response = await CategoryService.getCategory();
+            console.log("long tin chua", response.data);
+            setGender(response.data)
+            // setCategoryChildren(response.data.categoryChildren);
+
+        }
+        getAllCategory()
+
+    }, [])
+
+    return (
         <>
             <div className="htc__shop__cat">
-                                        <h4 className="section-title-4">PRODUCT CATEGORIES</h4>
-                                        <ul className="sidebar__list">
-                                            <li>
-                                                <a href="#">
-                                                    Accessories <span>3</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Book <span>4</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Clothing <span>3</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Homelife <span>6</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Kids &amp; Baby <span>10</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Stationery <span>3</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Health &amp; Beauty <span>12</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    Home Appliances <span>15</span>
-                                                </a>
-                                            </li>
-                                        </ul>
+                <h4 className="section-title-4">PRODUCT CATEGORIES</h4>
+                <div className="category">
+                    {gender.map((item, index) => (
+                        <div className="btn-group dropright sidebar__list" key={index}>
+                            <button
+                                type="button"
+                                className="btn bg-white text-dark dropdown-toggle"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                {item.name}
+                            </button>
+                            <div className="dropdown-menu">
+                                {item.categoryChildren.map((category, categoryIndex) => (
+                                    <div key={categoryIndex}>
+                                        <a className="dropdown-item" href="#">
+                                            {category.name}
+                                        </a>
+                                        {category.categoryChildren && (
+                                            <ul className="submenu">
+                                                {category.categoryChildren.map((subItem, subIndex) => (
+                                                    <li key={subIndex}>
+                                                        <a href="">{subItem.name}</a>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
                                     </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            
         </>
-        )
-}   
+
+    )
+
+}
 export default Category

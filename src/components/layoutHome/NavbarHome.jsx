@@ -6,7 +6,7 @@ import CategoryService from "../../homeService/categoryService"
 const NavbarHome = () => {
 
     const [gender, setGender] = useState([]);
-   
+
 
     useEffect(() => {
         async function getCategory() {
@@ -105,8 +105,10 @@ const NavbarHome = () => {
                 <div className="mobile-menu-area" />
             </div>
 
+           
 
         </div>
+
     )
 }
 export default NavbarHome

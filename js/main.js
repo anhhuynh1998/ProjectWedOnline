@@ -111,6 +111,7 @@ $('.product__menu button').on('click', function(event) {
       sticky_id.addClass("scroll-header");
     }
   });
+  
 
 
 

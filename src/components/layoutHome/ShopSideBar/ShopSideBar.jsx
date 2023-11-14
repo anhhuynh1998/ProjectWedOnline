@@ -1,11 +1,29 @@
+import { useEffect, useState } from "react"
 import Category from "./Category"
-import ProductShop from "./ProductShop"
 import SearchProduct from "./SearchProduct"
 import SizeProduct from "./SizeProduct"
 import SortPrice from "./SortPrice"
 import Tags from "./Tags"
+import ProductShopComponent from "./ProductShop"
+import ProductService from "../../../homeService/productService"
 
 const ShopSideBar = () => {
+    const [sortPrice, setSortPrice] = useState({
+        min: "",
+        max: ""
+    });
+    const [productList, setProductList] = useState([]);
+    const [search, setSearch] = useState("");
+    
+
+    useEffect(() => {
+        async function getALlProducts() {
+            console.log(sortPrice.max);
+            let response = await ProductService.getProductByFilter(sortPrice.min, sortPrice.max, search);
+            setProductList(response.data.content);
+        }
+        getALlProducts();
+    }, [sortPrice, search])
 
     return (
         <>
@@ -61,14 +79,14 @@ const ShopSideBar = () => {
                 </div>
 
                 <section className="htc__shop__sidebar bg__white ptb--20">
-                    <SearchProduct />
+                    <SearchProduct setSearch={setSearch} />
                     <div className="container">
                         <div className="row">
                             <div className="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                 <div className="htc__shop__left__sidebar">
 
                                     {/* Start Range */}
-                                    <SortPrice />
+                                    <SortPrice setSortPrice={setSortPrice} />
 
                                     {/* category */}
                                     <Category />
@@ -78,31 +96,30 @@ const ShopSideBar = () => {
 
                                     {/* Start Tag Area */}
                                     <Tags />
-                                    {/* End Tag Area */}
                                 </div>
                             </div>
-                            <ProductShop />
+                            <ProductShopComponent productList={productList} />
                         </div>
 
-        <div className="col-md-12">
-        <div className="col-md-5 mx-auto" id="searchProduct">
-                        <nav aria-label="...">
-                            <ul className="pagination">
-                                <li className="page-item disabled">
-                                    <a className="page-link" href="#" tabIndex="-1">Previous</a>
-                                </li>
-                                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                <li className="page-item active">
-                                    <a className="page-link" href="#">2 <span className="sr-only">(current)</span></a>
-                                </li>
-                                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                <li className="page-item">
-                                    <a className="page-link" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    </div>
+                        <div className="col-md-12">
+                            <div className="col-md-5 mx-auto" id="searchProduct">
+                                <nav aria-label="...">
+                                    <ul className="pagination">
+                                        <li className="page-item disabled">
+                                            <a className="page-link" href="#" tabIndex="-1">Previous</a>
+                                        </li>
+                                        <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                        <li className="page-item active">
+                                            <a className="page-link" href="#">2 <span className="sr-only">(current)</span></a>
+                                        </li>
+                                        <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                        <li className="page-item">
+                                            <a className="page-link" href="#">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>

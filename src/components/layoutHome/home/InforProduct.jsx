@@ -47,7 +47,8 @@ const InforProduct = ({ productId }) => {
                                                         listFile.map((e, index) => (
                                                             <>
                                                                 <div className="carousel-indicators" key={index} >
-                                                                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to={index} className={index === 0 ? "active" : ""}
+                                                                    <button type="button" data-bs-target="#carouselExampleDark"
+                                                                     data-bs-slide-to={index} className={index === 0 ? "active" : ""}
                                                                         aria-current={index === 0 ? "true" : "false"}
                                                                         aria-label={`Slide ${index + 1}`} >
                                                                     </button>
@@ -62,17 +63,6 @@ const InforProduct = ({ productId }) => {
                                                             </>
                                                         ))
                                                     }
-
-                                                {/* <div className="carousel-item" data-bs-interval="2000">
-                                                    <img src="images/product/big-img/1.jpg" className="d-block w-100" alt="big images" />
-                                                    <div className="carousel-caption d-none d-md-block">
-                                                    </div>
-                                                </div>
-                                                <div className="carousel-item">
-                                                    <img src="images/product/big-img/1.jpg" className="d-block w-100" alt="big images" />
-                                                    <div className="carousel-caption d-none d-md-block">
-                                                    </div>
-                                                </div> */}
                                             </div>
                                             <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                                                 <span className="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -138,8 +128,6 @@ const InforProduct = ({ productId }) => {
                     </div>
                 </div>
             </div>
-
-
         </div>
 
     )

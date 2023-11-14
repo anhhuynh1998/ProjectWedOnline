@@ -10,6 +10,9 @@ class ProductService {
     static getById(id){
         return axios.get(PRODUCT_IPA+`/${id}`)
     }
+    static getProductByFilter(min,max,search){
+        return axios.get(PRODUCT_IPA + `/filter?priceMin=${min}&priceMax=${max}&search=${search}`)
+    }
     
 }
 export default ProductService;

@@ -1,32 +1,30 @@
+import { useState } from "react";
+import { MultiSelect } from "react-multi-select-component"
+
+const options = [
+    { label: "Xl", value: "xl" },
+    { label: "L", value: "l" },
+    { label: "M", value: "m" },
+    { label: "S", value: "s" },
+    // { label: "Strawberry 🍓", value: "strawberry", disabled: true },
+];
+
 const SizeProduct = () => {
-    return(
-            <>
-                 <div className="htc__shop__cat">
-                                        <h4 className="section-title-4">SIZE PRODUCT</h4>
-                                        <ul className="sidebar__list">
-                                            <li>
-                                                <a href="#">
-                                                    xl <span>3</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    l <span>4</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    m <span>10</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#">
-                                                    s<span>3</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-            </>
-        )
+    const [selected, setSelected] = useState([]);
+    return (
+        <>
+            <div className="htc__shop__cat">
+                <h4 className="section-title-4">SIZE PRODUCT</h4>
+                <div>
+                    <MultiSelect
+                        options={options}
+                        value={selected}
+                        onChange={setSelected}
+                        labelledBy="Select"
+                    />
+                </div>
+            </div>
+        </>
+    )
 }
 export default SizeProduct
