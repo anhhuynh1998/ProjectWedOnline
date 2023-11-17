@@ -7,10 +7,9 @@ import { UseProduct } from "./UseContext";
 const NavbarHome = () => {
 
     const [gender, setGender] = useState([]);
-<<<<<<< Updated upstream
-=======
+
     const { cartItemCount } = useContext(UseProduct);
->>>>>>> Stashed changes
+
 
 
     useEffect(() => {
@@ -101,12 +100,7 @@ const NavbarHome = () => {
                 </div>
                 <div className="mobile-menu-area" />
             </div>
-<<<<<<< Updated upstream
 
-           
-
-=======
->>>>>>> Stashed changes
         </div>
 
     )

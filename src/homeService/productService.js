@@ -10,13 +10,11 @@ class ProductService {
     static getById(id) {
         return axios.get(PRODUCT_API + `/${id}`)
     }
-<<<<<<< Updated upstream
-    static getProductByFilter(min,max,search){
+
+    static getProductByFilter(min, max, search) {
         return axios.get(PRODUCT_IPA + `/filter?priceMin=${min}&priceMax=${max}&search=${search}`)
     }
-    
-=======
 
->>>>>>> Stashed changes
+
 }
 export default ProductService;

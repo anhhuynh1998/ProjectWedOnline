@@ -1,4 +1,4 @@
-import { search } from "fontawesome";
+// import { search } from "fontawesome";
 
 const SearchProduct = ({ setSearch }) => {
     const handleSearch = () => {
