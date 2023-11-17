@@ -8,6 +8,9 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css'
 import '../src/cssAdmin/styles.css'
+import "./assets/scss/light-bootstrap-dashboard-react.scss?v=2.0.0"
+import "./assets/css/animate.min.css"
+import './assets/css/demo.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
