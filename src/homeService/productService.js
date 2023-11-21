@@ -1,20 +1,23 @@
 import axios from "axios";
 
-const PRODUCT_API = `http://localhost:8080/api/home/product`;
-
+const PRODUCT_API = `http://localhost:8080/api/home/products`;
 
 class ProductService {
-    static getAll() {
-        return axios.get(PRODUCT_API);
+  static getAll() {
+    return axios.get(PRODUCT_API);
+  }
+  static getById(id) {
+    console.log(id);
+    if (id) {
+      return axios.get(PRODUCT_API + `/${id}`);
     }
-    static getById(id) {
-        return axios.get(PRODUCT_API + `/${id}`)
-    }
+    return new Promise();
+  }
 
-    static getProductByFilter(min, max, search) {
-        return axios.get(PRODUCT_IPA + `/filter?priceMin=${min}&priceMax=${max}&search=${search}`)
-    }
-
-
+  static getProductByFilter(min, max, search) {
+    return axios.get(
+      PRODUCT_API + `/filter?priceMin=${min}&priceMax=${max}&search=${search}`
+    );
+  }
 }
 export default ProductService;
