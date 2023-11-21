@@ -1,23 +1,17 @@
 import { useContext } from "react";
-import InforProduct from "./InforProduct";
 import { UseProduct } from "../UseContext";
-
 
 const ProductList = () => {
 
-    const { productList,
-        setProductList,
-        productId,
-        setProductId
-    } = useContext(UseProduct);
+    const { productList, setProductId, setCount } = useContext(UseProduct);
 
     const handleSelectedProduct = (id) => {
+        setCount(0);
         setProductId(id);
     }
 
     return (
         <div className="product__list">
-            <InforProduct />
             {
                 productList.map((item, index) => (
                     <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12" key={index}>
@@ -33,12 +27,9 @@ const ProductList = () => {
                                         <li >
                                             <a
                                                 data-toggle="modal" data-target="#productDetail"
-                                                onClick={() => {
-                                                    handleSelectedProduct(item.id);
-                                                }}
+                                                onClick={() => handleSelectedProduct(item.id)}
                                             >
                                                 <span type="button" className="ti-plus" ></span>
-
                                             </a>
                                         </li>
                                         <li >

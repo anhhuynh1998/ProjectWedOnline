@@ -7,7 +7,6 @@ class ProductService {
     return axios.get(PRODUCT_API);
   }
   static getById(id) {
-    console.log(id);
     if (id) {
       return axios.get(PRODUCT_API + `/${id}`);
     }

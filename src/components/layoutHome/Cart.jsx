@@ -1,12 +1,21 @@
 
-import { useContext } from "react"
+import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
-import { UseProduct } from "./UseContext"
+import CartTotal from "./CartTotal";
+import CartService from "../../homeService/cartService";
 
 const Cart = () => {
 
-    const { cartDetailList } = useContext(UseProduct);
-    console.log(cartDetailList);
+    const [cartDetails, setCartDetails] = useState([]);
+    useEffect(() => {
+        async function findAllByUser() {
+            let response = await CartService.findAllByUser();
+            console.log(response);
+            setCartDetails(response.data);
+        }
+        findAllByUser();
+    }, [])
+
     return (
         <div >
             <div className="body__overlay" />
@@ -55,89 +64,41 @@ const Cart = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                cartDetailList.map(item => (
+                                                cartDetails.listCartDetail && cartDetails.listCartDetail.map(item => (
                                                     <tr key={item.id}>
                                                         <td className="product-thumbnail">
                                                             <a href="#">
-                                                                <img src={cartDetailList.listFile[0]} alt="product img" />
+                                                                <img src={item.product.listFile[0]} alt="product img" />
                                                             </a>
                                                         </td>
                                                         <td className="product-name">
-                                                            <a>{cartDetailList.name}</a>
+                                                            <a>{item.product.name}</a>
                                                         </td>
                                                         <td className="product-price">
-                                                            <span className="amount">{cartDetailList.price}</span>
+                                                            <span className="amount">{item.product.price}</span>
                                                         </td>
                                                         <td className="product-quantity">
-                                                            <input type="number" defaultValue={1} />
+                                                            <input type="number" defaultValue={1} readOnly />
                                                         </td>
-                                                        <td className="product-subtotal">£50.00</td>
+                                                        <td className="product-subtotal">{item.total}</td>
                                                         <td className="product-remove">
                                                             <a href="#">X</a>
                                                         </td>
                                                     </tr>
-
                                                 ))
                                             }
-
                                         </tbody>
                                     </table>
                                 </div>
                                 <div className="row">
                                     <div className="col-md-8 col-sm-7 col-xs-12">
-                                        <div className="buttons-cart">
-                                            <input type="submit" defaultValue="Update Cart" />
+                                        <div className="buttons-cart ms-3">
                                             <a type="button" className="text-white">Continue Shopping</a>
                                         </div>
                                     </div>
 
                                     {/* cart totals */}
-                                    <div className="col-md-4 col-sm-5 col-xs-12">
-                                        <div className="cart_totals">
-                                            <h2>Cart Totals</h2>
-                                            <table>
-                                                <tbody>
-                                                    <tr className="cart-subtotal">
-                                                        <th>Subtotal</th>
-                                                        <td>
-                                                            <span className="amount">£215.00</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr className="shipping">
-                                                        <th>Shipping</th>
-                                                        <td>
-                                                            <ul id="shipping_method">
-                                                                <li>
-                                                                    <input type="radio" name="shipping_option" id="flatRate" />
-                                                                    <label htmlFor="flatRate">
-                                                                        Flat Rate: <span className="amount">£7.00</span>
-                                                                    </label>
-                                                                </li>
-                                                                <li>
-                                                                    <input type="radio" name="shipping_option" id="freeShipping" />
-                                                                    <label htmlFor="freeShipping">Free Shipping</label>
-                                                                </li>
-                                                            </ul>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr className="order-total">
-                                                        <th>Total</th>
-                                                        <td>
-                                                            <strong>
-                                                                <span className="amount">£215.00</span>
-                                                            </strong>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <NavLink to={`/checkout`}>
-                                                <div className="wc-proceed-to-checkout">
-                                                    <a type="button" className="text-white">Proceed to Checkout</a>
-                                                </div>
-                                            </NavLink>
-                                        </div>
-                                    </div>
+                                    <CartTotal cartDetails={cartDetails} />
                                 </div>
                             </form>
                         </div>

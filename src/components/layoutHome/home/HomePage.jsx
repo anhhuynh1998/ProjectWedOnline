@@ -9,20 +9,16 @@ import InforProduct from "./InforProduct";
 const HomePage = () => {
 
     return (
-
         <div>
-
             <div>
                 {/* Start Header Style */}
                 <div className="body__overlay" />
                 {/* Start Offset Wrapper */}
                 <div className="offset__wrapper">
-
                     {/* Start Search Popap */}
                     <div className="search__area">
                         <div className="container">
                             <div className="row">
-
                                 <div className="col-md-12">
                                     <div className="search__inner">
                                         <form action="#" method="get">
@@ -40,7 +36,6 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
-
                 <div
                     className="slide slider__full--screen"
                     style={{
@@ -64,15 +59,12 @@ const HomePage = () => {
                                 </div>
                             </div>
                         </div>
-
                         {/* End Single Slide */}
-
                     </div>
                 </div>
                 {/* List Product */}
                 <HomeProductPrice />
             </div>
-
             <InforProduct />
             <Login />
         </div >

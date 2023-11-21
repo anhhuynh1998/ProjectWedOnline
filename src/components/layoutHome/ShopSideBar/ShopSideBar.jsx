@@ -12,15 +12,15 @@ const ShopSideBar = () => {
         min: "",
         max: ""
     });
-    const [productList, setProductList] = useState([]);
+    const [products, setProducts] = useState([]);
     const [search, setSearch] = useState("");
-    
+
 
     useEffect(() => {
         async function getALlProducts() {
             console.log(sortPrice.max);
             let response = await ProductService.getProductByFilter(sortPrice.min, sortPrice.max, search);
-            setProductList(response.data.content);
+            setProducts(response.data.content);
         }
         getALlProducts();
     }, [sortPrice, search])
@@ -98,7 +98,7 @@ const ShopSideBar = () => {
                                     <Tags />
                                 </div>
                             </div>
-                            <ProductShopComponent productList={productList} />
+                            <ProductShopComponent productList={products} />
                         </div>
 
                         <div className="col-md-12">

@@ -1,11 +1,8 @@
-import { useEffect, useState } from 'react';
-import ProductService from '../../../homeService/productService';
+import { useState } from 'react';
 import Detail from './Detail';
-import ProductList from '../home/ProductList';
 
 const ProductShopComponent = ({ productList }) => {
     const [productId, setProductId] = useState("");
-    //    const [productList, setProductList] = useState([]);
     const handleSelectedProduct = (id) => {
         setProductId(id);
     }

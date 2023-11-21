@@ -130,7 +130,6 @@ const Login = () => {
                                         <div className='d-grid gap-2 d-md-flex '>
                                             <button type="button" className="btn btn-danger mt-2" style={{ width: "100%" }}>Đăng Kí</button>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>

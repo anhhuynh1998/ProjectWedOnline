@@ -1,14 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import ProductService from "../../../homeService/productService";
 import { UseProduct } from "../UseContext";
-import CartDetailService from "../../../homeService/cartDetailService";
+import CartDetailService from "../../../homeService/cartService";
+import ListFile from "./ListFile";
 
 
 
 const InforProduct = () => {
-    const { productId, cartItemCount, setCartItemCount, cartDetailList, setCartDetailList } = useContext(UseProduct);
+    const { productId, cartItemCount, setCartItemCount, cartDetailList, setCartDetailList, count } = useContext(UseProduct);
     const [product, setProduct] = useState({});
     const [listFile, setListFile] = useState([]);
+
 
     useEffect(() => {
         async function getById() {
@@ -19,11 +21,12 @@ const InforProduct = () => {
         getById();
     }, [productId])
 
-    const handleAddCart = async (product) => {
+    const handleAddCart = async () => {
         setCartItemCount(cartItemCount + 1);
-        let response = await CartDetailService.create(product);
+        let response = await CartDetailService.addToCart(product);
         console.log(response);
-        setCartDetailList(response.config.data)
+        setCartDetailList(response.data);
+
     }
 
     return (
@@ -43,28 +46,7 @@ const InforProduct = () => {
                                 <div className="product-images" style={{ width: "602px" }}>
                                     <div className="main-image images">
                                         <div id="carouselExampleDark" className="carousel carousel-dark slide" data-bs-ride="carousel">
-                                            <div className="carousel-inner">
-                                                {
-                                                    listFile.map((e, index) => (
-                                                        <>
-                                                            <div className="carousel-indicators" key={index} >
-                                                                <button type="button" data-bs-target="#carouselExampleDark"
-                                                                    data-bs-slide-to={index} className={index === 0 ? "active" : ""}
-                                                                    aria-current={index === 0 ? "true" : "false"}
-                                                                    aria-label={`Slide ${index + 1}`} >
-                                                                </button>
-                                                            </div>
-                                                            <div className={`carousel-item ${index === 0 ? "active" : ""}`}
-                                                                data-bs-interval="10000"
-                                                                key={index} >
-                                                                <img src={e} className="d-block w-100" alt="big images" />
-                                                                <div className="carousel-caption d-none d-md-block">
-                                                                </div>
-                                                            </div>
-                                                        </>
-                                                    ))
-                                                }
-                                            </div>
+                                            <ListFile listFile={listFile} count={count} />
                                             <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                                                 <span className="carousel-control-prev-icon" aria-hidden="true"></span>
                                                 <span className="visually-hidden">Previous</span>
@@ -80,25 +62,6 @@ const InforProduct = () => {
                                 {
                                     <div className="product-info" key={product.id}>
                                         <h1>{product.name}</h1>
-                                        <div className="rating__and__review">
-                                            <ul className="rating">
-                                                <li>
-                                                    <span className="ti-star" />
-                                                </li>
-                                                <li>
-                                                    <span className="ti-star" />
-                                                </li>
-                                                <li>
-                                                    <span className="ti-star" />
-                                                </li>
-                                                <li>
-                                                    <span className="ti-star" />
-                                                </li>
-                                                <li>
-                                                    <span className="ti-star" />
-                                                </li>
-                                            </ul>
-                                        </div>
                                         <div className="price-box-3">
                                             <div className="s-price-box">
                                                 <span className="new-price">{product.price} VND</span>

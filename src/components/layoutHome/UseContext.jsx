@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
 import ProductService from "../../homeService/productService";
 
@@ -8,6 +9,8 @@ const UseContext = ({ children }) => {
     const [productId, setProductId] = useState('');
     const [cartItemCount, setCartItemCount] = useState(0);
     const [cartDetailList, setCartDetailList] = useState([]);
+    const [count, setCount] = useState(0);
+
 
     useEffect(() => {
         async function getALl() {
@@ -22,7 +25,8 @@ const UseContext = ({ children }) => {
             productList, setProductList,
             productId, setProductId,
             cartItemCount, setCartItemCount,
-            cartDetailList, setCartDetailList
+            cartDetailList, setCartDetailList,
+            count, setCount
         }}>
             {children}
         </UseProduct.Provider>
