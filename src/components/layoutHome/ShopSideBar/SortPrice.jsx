@@ -26,7 +26,6 @@ const SortPrice = ({setSortPrice}) => {
                 })
             }
         }
-         
 
         console.log("đây",selectedValue);
     }
@@ -35,7 +34,6 @@ const SortPrice = ({setSortPrice}) => {
                  <div className="htc-grid-range">
                                         <h4 className="section-title-4">FILTER BY PRICE</h4>
                                         <div className="form-row align-items-center">
-                                            <label className="mr-sm-2" htmlFor="inlineFormCustomSelect"></label>
                                             <select className="custom-select mr-sm-2" 
                                             id="inlineFormCustomSelect"
                                             onChange={handleSortChange}>

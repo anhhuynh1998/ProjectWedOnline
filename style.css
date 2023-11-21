@@ -3714,11 +3714,56 @@ a.shipping-calculator-button:hover{
 .category{
     display: inline-grid;
 }
-.dropdown-hover:hover>.dropdown-menu {
-    display: inline-block;
-    }
-    
-    .dropdown-hover>.dropdown-toggle:active {
+.dropdown:hover>.dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown>.dropdown-toggle:active {
     /*Without this, clicking will make it sticky*/
-    pointer-events: none;
-    }
+      pointer-events: none;
+  }
+  .horizontal-menu {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+    
+  .item {
+    flex: 1; /* Để mỗi item mở rộng và chia đều không gian */
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    margin: 5px; /* Tăng khoảng cách giữa các item */
+  }
+  
+  .submenu {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .submenu li {
+   
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  .nameCategory{
+    color: #000;
+}
+
+/* Ẩn menu khi chưa hover */
+.dropdown-menu.cart {
+    display: none;
+    width: 360px;
+    top: -150px !important;
+  }
+  
+  /* Hiển thị menu khi hover */
+  .btn-group.dropright:hover .dropdown-menu.cart {
+    display: block;
+  }
+  
+  
+  
+
+  
+ 

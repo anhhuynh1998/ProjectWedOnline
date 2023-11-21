@@ -6,6 +6,7 @@ import SortPrice from "./SortPrice"
 import Tags from "./Tags"
 import ProductShopComponent from "./ProductShop"
 import ProductService from "../../../homeService/productService"
+// import CategoryService from "../../../homeService/categoryService"
 
 const ShopSideBar = () => {
     const [sortPrice, setSortPrice] = useState({
@@ -14,16 +15,27 @@ const ShopSideBar = () => {
     });
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState("");
-
+    const [size, setSelectedSize] = useState("");
+    const [category, setCategories] = useState([]);
+    console.log(sortPrice);
 
     useEffect(() => {
         async function getALlProducts() {
             console.log(sortPrice.max);
-            let response = await ProductService.getProductByFilter(sortPrice.min, sortPrice.max, search);
+            let response = await ProductService.getProductByFilter(sortPrice.min,
+                sortPrice.max, search, size, category);
             setProducts(response.data.content);
         }
         getALlProducts();
-    }, [sortPrice, search])
+    }, [sortPrice, search, size, category])
+    // useEffect(() => {
+    //     async function getProductsFromCategory() {
+    //         let response = await CategoryService.getProductsByCategory();
+    //         console.log("loai o day", response.data.content);
+    //         setCategories(response.data.content);
+    //     }
+    //     getProductsFromCategory();
+    // }, [])
 
     return (
         <>
@@ -89,10 +101,10 @@ const ShopSideBar = () => {
                                     <SortPrice setSortPrice={setSortPrice} />
 
                                     {/* category */}
-                                    <Category />
+                                    <Category setCategories={setCategories} />
 
                                     {/* Start Size Cat */}
-                                    <SizeProduct />
+                                    <SizeProduct setSelectedSize={setSelectedSize} />
 
                                     {/* Start Tag Area */}
                                     <Tags />

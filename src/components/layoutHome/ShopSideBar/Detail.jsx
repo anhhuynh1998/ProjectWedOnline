@@ -15,7 +15,6 @@ const Detail = ({ productId }) => {
         }
         getAll();
     }, [productId])
-    console.log(product);
 
         return (
         <div id="quickview-wrapper">

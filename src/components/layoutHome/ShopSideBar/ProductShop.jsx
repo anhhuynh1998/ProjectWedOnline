@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import Detail from './Detail';
 
-const ProductShopComponent = ({ productList }) => {
+const ProductShop = ({ productList }) => {
+
     const [productId, setProductId] = useState("");
     const handleSelectedProduct = (id) => {
         setProductId(id);
@@ -55,13 +56,16 @@ const ProductShopComponent = ({ productList }) => {
                                         </div>
                                     </div>
                                     <div className="product__details">
+                                       
                                         <h2>
                                             <a href="product-details.html">{item.name}</a>
                                         </h2>
+                                       
                                         <ul className="product__price">
                                             <li className="old__price">Size {item.size}</li>
                                             <li className="new__price">Price {item.price}</li>
                                         </ul>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -72,4 +76,4 @@ const ProductShopComponent = ({ productList }) => {
         </div>
     )
 }
-export default ProductShopComponent
+export default ProductShop
