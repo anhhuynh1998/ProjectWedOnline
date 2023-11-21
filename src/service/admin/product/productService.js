@@ -26,4 +26,13 @@ export class ProductService {
     static createProducts(data) {
         return axios.post('http://localhost:8080/api/products', data)
     }
+    static updateProducts(data, id) {
+        return axios.update(`http://localhost:8080/api/products/update/${id}`, data)
+    }
+    static deleteProducts(id) {
+        return axios.delete(`http://localhost:8080/api/products/${id}`)
+    }
+    static getProductsById(productId) {
+        return axios.get(`http://localhost:8080/api/products/${productId}`)
+    }
 }

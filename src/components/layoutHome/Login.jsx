@@ -28,15 +28,15 @@ const Login = () => {
             <div className="modal fade " id="exampleLogin" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog " role="document">
                     <div className="modal-content " style={{ width: "550px" }}>
-                        <div className="modal-header" style={{backgroundColor:"#e3e3e3d9"}}>
+                        <div className="modal-header" style={{ backgroundColor: "#e3e3e3d9" }}>
                             <ul className="nav nav-tabs " role="tablist">
                                 <li className="nav-item  " onClick={() => handleTabChange('login')}>
                                     <a className={`nav-link ${activeTab === 'login' ? 'active' : ''}`} id="login-tab" data-toggle="tab" href="#login"
-                                     role="tab" aria-controls="login" aria-selected={activeTab === 'login'}>Login</a>
+                                        role="tab" aria-controls="login" aria-selected={activeTab === 'login'}>Login</a>
                                 </li>
                                 <li className="nav-item " onClick={() => handleTabChange('register')}>
-                                    <a className={`nav-link ${activeTab === 'register' ? 'active' : ''}`} id="register-tab" data-toggle="tab" href="#register" 
-                                    role="tab" aria-controls="register" aria-selected={activeTab === 'register'}>Register</a>
+                                    <a className={`nav-link ${activeTab === 'register' ? 'active' : ''}`} id="register-tab" data-toggle="tab" href="#register"
+                                        role="tab" aria-controls="register" aria-selected={activeTab === 'register'}>Register</a>
                                 </li>
                             </ul>
                         </div>
@@ -50,19 +50,19 @@ const Login = () => {
                                             <input type="Tên Đăng Nhập" className="form-control rounded-3 border border-secondary small fw-light py-2" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
                                         </div>
                                         <h6 htmlFor="" style={{ fontWeight: "500" }}>Mật Khẩu</h6>
-                                        
+
                                         <div className="input-group mb-3">
                                             <input type={type}
                                                 className="form-control rounded-3 border border-secondary small fw-light py-2"
-                                                placeholder="Mật Khẩu" aria-label="Recipient's username" aria-describedby="basic-addon2" 
+                                                placeholder="Mật Khẩu" aria-label="Recipient's username" aria-describedby="basic-addon2"
                                                 value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            autoComplete="current-password" style={{position: "relative"}}/>
-                                                <span className="flex justify-around items-center" style={{position:"absolute", right:"17px", zIndex:"99", bottom:"10px"}}>
-                                            <Icon onClick={handleToggle} class="absolute mr-10" icon={icon} size={20} />
-                                        </span>
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                autoComplete="current-password" style={{ position: "relative" }} />
+                                            <span className="flex justify-around items-center" style={{ position: "absolute", right: "17px", zIndex: "99", bottom: "10px" }}>
+                                                <Icon onClick={handleToggle} class="absolute mr-10" icon={icon} size={20} />
+                                            </span>
                                         </div>
-                                       
+
 
                                         <div className='d-grid gap-2 d-md-flex '>
                                             <button type="button" className="btn btn-danger mt-2" style={{ width: "100%" }}>Đăng Nhập</button>
@@ -111,18 +111,18 @@ const Login = () => {
                                             <input type="date" className="form-control rounded-3 border border-secondary small fw-light py-2" placeholder="Số Điện Thoại" aria-label="Username" aria-describedby="basic-addon1" />
                                         </div>
 
-                                        <h6  style={{ fontWeight: "500" }}>Mật Khẩu</h6>
+                                        <h6 style={{ fontWeight: "500" }}>Mật Khẩu</h6>
                                         <div className="input-group mb-3">
                                             <input type={type}
                                                 className="form-control rounded-3 border border-secondary small fw-light py-2"
-                                                placeholder="Mật Khẩu" aria-label="Recipient's username" aria-describedby="basic-addon2" 
+                                                placeholder="Mật Khẩu" aria-label="Recipient's username" aria-describedby="basic-addon2"
                                                 value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            autoComplete="current-password" style={{position: "relative"}}/>
-                                                <span className="flex justify-around items-center" 
-                                                style={{position:"absolute", right:"17px", zIndex:"99", bottom:"10px"}}>
-                                            <Icon onClick={handleToggle} class="absolute mr-10" icon={icon} size={20} />
-                                        </span>
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                autoComplete="current-password" style={{ position: "relative" }} />
+                                            <span className="flex justify-around items-center"
+                                                style={{ position: "absolute", right: "17px", zIndex: "99", bottom: "10px" }}>
+                                                <Icon onClick={handleToggle} className="absolute mr-10" icon={icon} size={20} />
+                                            </span>
                                         </div>
                                         <p ><small>Bằng cách tạo tài khoản, Quý Khách đã đồng ý với Điều khoản &
                                             Điều kiện và Chính sách Bảo mật của chúng tôi.</small></p>

@@ -1,12 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { ProductService } from '../../../service/admin/product/productService'
 import Spinner from '../layouts/Spinner';
-import { NavLink, Outlet } from 'react-router-dom';
+import CreateProduct from './CreateProduct';
+import UpdateProduct from './UpdateProduct';
 
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const [selectedProductId, setSelectedProductId] = useState(null);
 
+  const openModal = () => {
+    setIsOpenModal(true);
+  };
+
+
+  const openUpdateModal = (productId) => {
+    console.log(productId);
+    setSelectedProductId(productId);
+    setIsOpenModal(true);
+  };
+
+
+  const closeModal = () => {
+    console.log("11111111");
+    setIsOpenModal(false);
+  };
 
   useEffect(() => {
     try {
@@ -14,6 +33,7 @@ const Product = () => {
       async function finAllProductList(search, pageable) {
         let response = await ProductService.getAllProduct(search, pageable)
         setProducts(response.data.content)
+        console.log(response);
         setLoading(false)
       }
       finAllProductList()
@@ -28,12 +48,11 @@ const Product = () => {
       <section>
         <div className="d-flex align-items-center">
           <h3 className="text-warning me-3"> List</h3>
-          <button className="btn  btn-outline-success">
-            <NavLink to={`/admin/product/add`}>
-              <i className="fa fa-plus me-2" />
-              Add Product
-            </NavLink>
+          <button className="btn  btn-outline-success" onClick={openModal}>
+            <i className="fa fa-plus me-2" />
+            Add Product
           </button>
+          {isOpenModal && <CreateProduct isOpenModal={isOpenModal} handleClose={closeModal} />}
         </div>
         <p className="fst-italic">Deserunt ut pariatur tempor aute incididunt Lorem esse. </p>
       </section>
@@ -51,19 +70,51 @@ const Product = () => {
                     <th>Kích Cỡ</th>
                     <th>Tình Trạng</th>
                     <th>Loại</th>
-                    <th>Actions</th>
+                    <th colSpan={3}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {products && products?.length && products?.map((pro) => (
-                    <tr key={pro.id}>
-                      <td>{pro.id}</td>
-                      <td>{pro.description}</td>
-                      <td>{pro.name}</td>
-                      <td>{pro.price}</td>
-                      <td>{pro.size}</td>
-                      <td>{pro.status}</td>
-                      <td>{pro.category}</td>
+                  {products && products?.length && products?.map((product) => (
+                    <tr key={product.id}>
+                      <td>{product.id}</td>
+                      <td>{product.description}</td>
+                      <td>{product.name}</td>
+                      <td>{product.price}</td>
+                      <td>{product.size}</td>
+                      <td>{product.status}</td>
+                      <td>{product.category}</td>
+                      <td>
+                        <i role="button" className="fa fa-edit me-3 btn btn-outline-success" style={{
+                          width: "50px"
+                        }}
+                          onClick={() => openUpdateModal(product.id)}
+                        />
+                        {isOpenModal && selectedProductId === product.id && (
+                          <UpdateProduct
+                            isOpenModal={isOpenModal}
+                            handleClose={closeModal}
+                            productId={selectedProductId}
+                          />
+                        )}
+                      </td>
+
+                      <td>
+
+                        <i role='button' className="fa-solid fa-arrow-right-arrow-left btn btn-outline-danger"
+                          style={{
+                            width: "50px"
+                          }}
+                        ></i>
+
+                      </td>
+                      <td>
+                        <i role="button" className="fa fa-trash me-1 btn btn-outline-danger"
+                          style={{
+                            width: "50px"
+                          }}
+                        />
+                        {/* onClick={() => deleteCustomerById(pro.id)} */}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -102,7 +153,7 @@ const Product = () => {
         </nav>
 
       </section>
-      <Outlet />
+
 
     </div>
   )

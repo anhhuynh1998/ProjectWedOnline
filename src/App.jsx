@@ -14,25 +14,33 @@ import Admin from './components/admin/layouts/Admin';
 function App() {
 
   return (
-
-    <UseContext>
-      <div className="wrapper fixed__footer">
-        <header id="header" className="htc-header">
-          <NavbarHome />
-        </header>
+    <>
+      <div>
         <Routes>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/sidebar" element={<ShopSideBar />} />
-          <Route path='/admin/*' element={<Admin />} >
-          </Route>
+          <Route path='/admin/*' element={<Admin />} />
+
         </Routes>
-        <div className="htc__foooter__area">
-          <Footer />
-        </div>
       </div>
-    </UseContext>
+      <UseContext>
+        <div className="wrapper fixed__footer">
+          <header id="header" className="htc-header">
+            <NavbarHome />
+          </header>
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/sidebar" element={<ShopSideBar />} />
+
+          </Routes>
+          <div className="htc__foooter__area">
+            <Footer />
+          </div>
+        </div>
+      </UseContext>
+
+    </>
+
 
 
 

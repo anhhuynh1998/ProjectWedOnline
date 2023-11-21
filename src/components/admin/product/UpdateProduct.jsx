@@ -5,13 +5,12 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup'
 import { yupResolver } from "@hookform/resolvers/yup"
-const CreateProduct = ({ isOpenModal, handleClose }) => {
+const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
+
     const registerSchema = yup.object({
         name: yup.string()
             .required("Vui Lòng Nhập Tên"),
         price: yup.number()
-            .min(10000)
-            .max(1000000)
             .required("Vui Lòng Nhập giá"),
         status: yup.string()
             .required("Vui Lòng Nhập Tình trạng"),
@@ -19,7 +18,7 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
             .required("Vui Lòng Nhập Mô tả")
     })
 
-
+    // const { productId } = useParams()
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
     const [subCategories, setSubCategories] = useState([])
@@ -27,9 +26,27 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubCategories, setSelectedSubCategories] = useState(null);
     const [selectedNestedCategories, setSelectedNestedCategories] = useState(null);
-    // const [avatarId, setAvatarId] = useState(null)
     const [enumValues, setEnumValues] = useState([]);
     const backToHome = useNavigate()
+    const fileInputRef = useRef(null);
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [avatarURLs, setAvatarURLs] = useState([]);
+    const [updateProduct, setUpdateProduct] = useState([])
+
+    useEffect(() => {
+        try {
+            const findProductById = async () => {
+                let productById = await ProductService.getProductsById(productId)
+                console.log(productById);
+                setUpdateProduct(productById.data.content)
+
+            }
+            findProductById()
+        } catch (error) {
+
+        }
+    }, [productId])
+
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -75,26 +92,24 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
         fetchNestedCategories();
     }, [selectedSubCategories]);
     useEffect(() => {
-        fetch('http://localhost:8080/api/sizes')
-            .then(response => response.json())
-            .then(data => setEnumValues(data))
-            .catch(error => console.error('Error fetching enums:', error));
+        try {
+            const findAllSize = async () => {
+                let sizeResponse = await ProductService.getAllSizeEnum()
+                setEnumValues(sizeResponse.data)
+                console.log(sizeResponse);
+            }
+            findAllSize()
+        } catch (error) {
+
+        }
     }, []);
-
-
-
-
-    const fileInputRef = useRef(null);
-    const [selectedFiles, setSelectedFiles] = useState([]);
-    const [avatarURLs, setAvatarURLs] = useState([]);
 
     const handleFileChange = (event) => {
         const newFiles = Array.from(event.target.files);
         setSelectedFiles([...selectedFiles, ...newFiles]);
     };
 
-    const handleCanvasClick = event => {
-        event.preventDefault();
+    const handleCanvasClick = () => {
         fileInputRef.current.click();
     };
     const handleRemoveImage = (index) => {
@@ -134,7 +149,7 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
 
 
 
-    const handleSubmitForm = async (data) => {
+    const handleSubmitUpdateProductForm = async (data) => {
         try {
             const imgFiles = await uploadAvatar(selectedFiles);
             const dataList = {
@@ -143,13 +158,13 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
                 ],
                 ...nestedCategories
             }
-            const response = await ProductService.createProducts(dataList);
-
+            const response = await ProductService.updateProducts(productId, dataList);
+            setUpdateProduct(dataList)
             if (response && response.data) {
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Thêm Mới Thành Công !',
+                    title: 'Sửa Thành Công !',
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -164,7 +179,8 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
     };
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
-        resolver: yupResolver(registerSchema)
+        resolver: yupResolver(registerSchema),
+        values: updateProduct
     })
     return (
         <React.Fragment>
@@ -177,7 +193,7 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
                     <div className="modal-dialog modal-xl">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h4 className="text-success">Create Product</h4>
+                                <h4 className="text-success">Update Product</h4>
                                 <button
                                     type="button"
                                     className="btn-close"
@@ -185,7 +201,7 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
                                     onClick={handleClose}
                                 />
                             </div>
-                            <form onSubmit={handleSubmit(handleSubmitForm)}>
+                            <form onSubmit={handleSubmit(handleSubmitUpdateProductForm)}>
                                 <div className="modal-body">
 
 
@@ -400,4 +416,4 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
     )
 }
 
-export default CreateProduct
+export default UpdateProduct
