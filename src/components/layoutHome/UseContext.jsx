@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
-import ProductService from "../../homeService/productService";
+import ProductService from "../../service/homeService/productService";
 
 const UseProduct = createContext();
 

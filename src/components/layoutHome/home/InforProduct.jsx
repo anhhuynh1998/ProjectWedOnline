@@ -1,10 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import ProductService from "../../../homeService/productService";
+import ProductService from "../../../service/homeService/productService";
 import { UseProduct } from "../UseContext";
-import CartDetailService from "../../../homeService/cartService";
+import CartService from "../../../service/homeService/cartService";
 import ListFile from "./ListFile";
-
-
 
 const InforProduct = () => {
     const { productId, cartItemCount, setCartItemCount, cartDetailList, setCartDetailList, count } = useContext(UseProduct);
@@ -23,9 +21,9 @@ const InforProduct = () => {
 
     const handleAddCart = async () => {
         setCartItemCount(cartItemCount + 1);
-        let response = await CartDetailService.addToCart(product);
-        console.log(response);
+        let response = await CartService.addToCart(product);
         setCartDetailList(response.data);
+        console.log(response.data);
 
     }
 

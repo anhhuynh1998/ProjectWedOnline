@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
-import ProductService from "../../../homeService/productService";
-import ProductList from '../home/ProductList';
+import ProductService from "../../../service/homeService/productService";
 
-const SizeProduct = ({setSelectedSize}) => {
+const SizeProduct = ({ setSelectedSize }) => {
   const [selectedSize, setSelectedSizes] = useState([]);
   const [options, setOptions] = useState([]);
 
@@ -30,12 +29,12 @@ const SizeProduct = ({setSelectedSize}) => {
 
   const handleSizeChange = (selected) => {
     setSelectedSizes(selected);
-    setSelectedSize(selected.map(({value})=> value));
+    setSelectedSize(selected.map(({ value }) => value));
   }
 
   return (
     <>
-      <div className="htc__shop__cat">  
+      <div className="htc__shop__cat">
         <h4 className="section-title-4">SIZE PRODUCT</h4>
         <div>
           <MultiSelect

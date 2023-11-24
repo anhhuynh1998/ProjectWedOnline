@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
-import CategoryService from '../../../homeService/categoryService';
-import ProductService from "../../../homeService/productService";
+import CategoryService from '../../../service/homeService/categoryService';
+import ProductService from "../../../service/homeService/productService";
 
 
 
-const Category = ({setCategories}) => {
+const Category = ({ setCategories }) => {
     const [gender, setGender] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    
+
     useEffect(() => {
         async function getAllCategory() {
             let response = await CategoryService.getCategory();
@@ -20,9 +20,9 @@ const Category = ({setCategories}) => {
     }, [])
     const handleCategoryClick = async (category) => {
         setSelectedCategory(category);
-        if(category){
+        if (category) {
             let response = await ProductService.getProductsByCategory(category.id);
-            console.log("o dayyyyyyy",response.data);
+            console.log("o dayyyyyyy", response.data);
         }
     }
     const getProductsFromCategory = async (products) => {
@@ -40,7 +40,7 @@ const Category = ({setCategories}) => {
                 <div className="category">
                     {gender.map((item, index) => (
                         <div key={index}
-                        className={`btn-group dropright sidebar__list  btn-outline ${selectedCategory === item ? 'active' : ''}`}
+                            className={`btn-group dropright sidebar__list  btn-outline ${selectedCategory === item ? 'active' : ''}`}
                             onClick={() => handleCategoryClick(item)}>
                             <button
                                 type="button"
@@ -62,7 +62,7 @@ const Category = ({setCategories}) => {
                                                 {category.categoryChildren.map((subItem, subIndex) => (
                                                     <li key={subIndex}>
                                                         <a href="" className={`text-dark ${selectedProduct === subItem ? 'active' : ''}`}
-                                                        onClick={() =>  getProductsFromCategory(subItem)}>{subItem.name}</a>
+                                                            onClick={() => getProductsFromCategory(subItem)}>{subItem.name}</a>
                                                     </li>
                                                 ))}
                                             </ul>

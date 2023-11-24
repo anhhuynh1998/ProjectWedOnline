@@ -1,66 +1,52 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom"
+/* eslint-disable react/prop-types */
+import { useEffect } from "react";
+import CartService from "../../service/homeService/cartService";
 
-const CartTotal = ({ cartDetails }) => {
-    const totalPrice = cartDetails.total;
-    const [total, setTotal] = useState(0);
+const CartTotal = ({ total, setTotal, totalPrice, shippingFee, name, phone, locationRegion }) => {
 
     useEffect(() => {
         setTotal(totalPrice)
     }, [totalPrice])
 
-    const handleFreeShipping = () => {
-        setTotal(totalPrice);
-    }
-    const handleShipping = () => {
-        setTotal(totalPrice + 30000)
+    const checkOut = async (e) => {
+        e.preventDefault();
+        await CartService.checkOut({
+            name,
+            phone,
+            shippingFee,
+            locationRegion: locationRegion
+        });
     }
 
     return (
-        <div className="col-md-4 col-sm-5 col-xs-12">
-            <div className="cart_totals">
-                <h2>Cart Totals</h2>
-                <table>
-                    <tbody>
-                        <tr className="cart-subtotal">
-                            <th>Subtotal</th>
-                            <td>
-                                <span className="amount">{totalPrice}</span>
-                            </td>
-                        </tr>
-                        <tr className="shipping">
-                            <th>Shipping</th>
-                            <td>
-                                <ul id="shipping_method">
-                                    <li onClick={handleShipping}>
-                                        <input type="radio" name="shipping_option" id="flatRate" />
-                                        <label htmlFor="flatRate" >
-                                            Flat Rate: <span className="amount">30000</span>
-                                        </label>
-                                    </li>
-                                    <li onClick={handleFreeShipping}>
-                                        <input type="radio" name="shipping_option" id="freeShipping" />
-                                        <label htmlFor="freeShipping" >Free Shipping</label>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-
-                        <tr className="order-total">
-                            <th>Total</th>
-                            <td>
-                                <strong>
-                                    <span className="amount">{total}</span>
-                                </strong>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <NavLink to={`/checkout`}>
-                    <div className="wc-proceed-to-checkout">
-                        <a type="button" className="text-white">Proceed to Checkout</a>
-                    </div>
-                </NavLink>
+        <div className="cart_totals">
+            <h2>Cart Totals</h2>
+            <table style={{ display: "block", width: "180px" }}>
+                <tbody>
+                    <tr className="cart-subtotal">
+                        <th>Subtotal</th>
+                        <td>
+                            <span className="amount">{totalPrice}</span>
+                        </td>
+                    </tr>
+                    <tr className="shipping">
+                        <th>Shipping</th>
+                        <td>
+                            <span className="amount">{shippingFee}</span>
+                        </td>
+                    </tr>
+                    <tr className="order-total">
+                        <th>Total</th>
+                        <td>
+                            <strong>
+                                <span className="amount">{total}</span>
+                            </strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div className="wc-proceed-to-checkout">
+                <button className="btn btn-danger" onClick={checkOut}> Proceed to Checkout</button>
             </div>
         </div>
     )

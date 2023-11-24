@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
-import CartTotal from "./CartTotal";
-import CartService from "../../homeService/cartService";
+import CartService from "../../service/homeService/cartService";
+import Checkout from "./Checkout";
 
 const Cart = () => {
 
@@ -10,11 +10,16 @@ const Cart = () => {
     useEffect(() => {
         async function findAllByUser() {
             let response = await CartService.findAllByUser();
-            console.log(response);
             setCartDetails(response.data);
         }
         findAllByUser();
     }, [])
+
+    const removeItem = async (id) => {
+        console.log(id);
+        let response = await CartService.removoItem(id);
+        setCartDetails(response.data);
+    }
 
     return (
         <div >
@@ -64,25 +69,25 @@ const Cart = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                cartDetails.listCartDetail && cartDetails.listCartDetail.map(item => (
+                                                cartDetails.listCartDetail && cartDetails.listCartDetail?.map(item => (
                                                     <tr key={item.id}>
                                                         <td className="product-thumbnail">
                                                             <a href="#">
-                                                                <img src={item.product.listFile[0]} alt="product img" />
+                                                                <img src={item.product?.listFile[0]} alt="product img" />
                                                             </a>
                                                         </td>
                                                         <td className="product-name">
-                                                            <a>{item.product.name}</a>
+                                                            <a>{item.product?.name}</a>
                                                         </td>
                                                         <td className="product-price">
-                                                            <span className="amount">{item.product.price}</span>
+                                                            <span className="amount">{item.product?.price}</span>
                                                         </td>
                                                         <td className="product-quantity">
                                                             <input type="number" defaultValue={1} readOnly />
                                                         </td>
-                                                        <td className="product-subtotal">{item.total}</td>
+                                                        <td className="product-subtotal">{item?.total}</td>
                                                         <td className="product-remove">
-                                                            <a href="#">X</a>
+                                                            <a type="button" onClick={() => removeItem(item?.id)}>X</a>
                                                         </td>
                                                     </tr>
                                                 ))
@@ -91,21 +96,13 @@ const Cart = () => {
                                     </table>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-8 col-sm-7 col-xs-12">
-                                        <div className="buttons-cart ms-3">
-                                            <a type="button" className="text-white">Continue Shopping</a>
-                                        </div>
-                                    </div>
-
-                                    {/* cart totals */}
-                                    <CartTotal cartDetails={cartDetails} />
+                                    <Checkout cartDetails={cartDetails} />
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }

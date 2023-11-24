@@ -5,8 +5,7 @@ import SizeProduct from "./SizeProduct"
 import SortPrice from "./SortPrice"
 import Tags from "./Tags"
 import ProductShopComponent from "./ProductShop"
-import ProductService from "../../../homeService/productService"
-// import CategoryService from "../../../homeService/categoryService"
+import ProductService from "../../../service/homeService/productService"
 
 const ShopSideBar = () => {
     const [sortPrice, setSortPrice] = useState({

@@ -11,7 +11,7 @@ const ProductList = () => {
     }
 
     return (
-        <div className="product__list">
+        <div className="product__list" style={{ display: "flex", flexWrap: "wrap" }}>
             {
                 productList.map((item, index) => (
                     <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12" key={index}>

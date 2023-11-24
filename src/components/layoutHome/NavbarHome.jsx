@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react"
 import { NavLink } from "react-router-dom"
-import CategoryService from "../../homeService/categoryService"
+import CategoryService from "../../service/homeService/categoryService"
 import { UseProduct } from "./UseContext";
 
 const NavbarHome = () => {

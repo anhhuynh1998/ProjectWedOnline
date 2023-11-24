@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProductService from "../../../homeService/productService";
+import ProductService from "../../../service/homeService/productService";
 
 const Detail = ({ productId }) => {
     const [product, setProduct] = useState({});
@@ -16,7 +16,7 @@ const Detail = ({ productId }) => {
         getAll();
     }, [productId])
 
-        return (
+    return (
         <div id="quickview-wrapper">
 
             <div className={`modal fade`} id="productDetail" tabIndex="-1"
@@ -124,7 +124,7 @@ const Detail = ({ productId }) => {
 
 
         </div>
-        )
- 
+    )
+
 }
 export default Detail
