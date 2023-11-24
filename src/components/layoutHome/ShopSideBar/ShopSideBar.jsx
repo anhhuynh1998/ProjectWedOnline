@@ -4,13 +4,9 @@ import SearchProduct from "./SearchProduct"
 import SizeProduct from "./SizeProduct"
 import SortPrice from "./SortPrice"
 import Tags from "./Tags"
-<<<<<<< Updated upstream
-import ProductShopComponent from "./ProductShop"
-import ProductService from "../../../service/homeService/productService"
-=======
-import ProductService from "../../../homeService/productService"
 import ProductShop from "./ProductShop"
->>>>>>> Stashed changes
+import ProductService from "../../../service/homeService/productService"
+
 
 const ShopSideBar = () => {
     const [sortPrice, setSortPrice] = useState({

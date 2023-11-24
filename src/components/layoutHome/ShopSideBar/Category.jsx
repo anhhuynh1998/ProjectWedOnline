@@ -1,21 +1,13 @@
 import { useEffect, useState } from "react"
-<<<<<<< Updated upstream
 import CategoryService from '../../../service/homeService/categoryService';
 import ProductService from "../../../service/homeService/productService";
 
 
-
-const Category = ({ setCategories }) => {
-    const [gender, setGender] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState(null);
-=======
-import CategoryService from '../../../homeService/categoryService';
-
 const Category = ({ setCategoryId }) => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
->>>>>>> Stashed changes
+    const [selectedProduct, setSelectedProduct] = useState(null);
+
 
     useEffect(() => {
         async function getAllCategory() {
@@ -28,16 +20,10 @@ const Category = ({ setCategoryId }) => {
 
     const handleCategoryClick = async (category) => {
         setSelectedCategory(category);
-<<<<<<< Updated upstream
         if (category) {
             let response = await ProductService.getProductsByCategory(category.id);
             console.log("o dayyyyyyy", response.data);
         }
-=======
-
-
-
->>>>>>> Stashed changes
     }
     const getProducts = (category) => {
         setCategoryId(category.id);
@@ -50,12 +36,10 @@ const Category = ({ setCategoryId }) => {
                 <div className="category">
                     {categories.map((item, index) => (
                         <div key={index}
-<<<<<<< Updated upstream
-                            className={`btn-group dropright sidebar__list  btn-outline ${selectedCategory === item ? 'active' : ''}`}
-=======
+
                             className={`btn-group dropright sidebar__list  btn-outline
                          ${selectedCategory === item ? 'active' : ''}`}
->>>>>>> Stashed changes
+
                             onClick={() => handleCategoryClick(item)}>
                             <button
                                 type="button"
@@ -76,14 +60,14 @@ const Category = ({ setCategoryId }) => {
                                             <ul className="submenu " style={{ paddingLeft: "15px" }}>
                                                 {category.categoryChildren.map((subItem, subIndex) => (
                                                     <li key={subIndex}>
-<<<<<<< Updated upstream
+
                                                         <a href="" className={`text-dark ${selectedProduct === subItem ? 'active' : ''}`}
                                                             onClick={() => getProductsFromCategory(subItem)}>{subItem.name}</a>
-=======
+
                                                         <button type="button" className="btn btn-outline-secondary rounded-3"
                                                             onClick={() => getProducts(subItem)}>
                                                             {subItem.name}</button>
->>>>>>> Stashed changes
+
                                                     </li>
                                                 ))}
                                             </ul>
