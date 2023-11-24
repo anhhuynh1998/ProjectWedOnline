@@ -8,7 +8,9 @@ import Login from "../../components/layoutHome/Login";
 import Footer from "../../components/layoutHome/Footer";
 import HomePage from "../../components/layoutHome/home/HomePage";
 
+
 const HomeScreen = () => {
+
   return (
     <UseContext>
       <div className="wrapper fixed__footer">
@@ -19,7 +21,8 @@ const HomeScreen = () => {
           <Route path="/home" element={<HomePage />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/sidebar" element={<ShopSideBar />} />
+          <Route path="/sidebar" element={ <ShopSideBar />}
+           />
 
           <Route path="/login" element={<Login />} />
         </Routes>

@@ -1,4 +1,5 @@
 import axios from "axios";
+import queryString from "query-string";
 
 const PRODUCT_API = `http://localhost:8080/api/home/products`;
 
@@ -13,9 +14,12 @@ class ProductService {
         return new Promise();
     }
 
-
-    static getProductByFilter(min, max, search, size) {
-        return axios.get(PRODUCT_API + `/filter?priceMin=${min}&priceMax=${max}&search=${search}&size=${size}`)
+    static getProductByFilter(min, max, search, size, categoryId, page) {
+        return axios.get(PRODUCT_API + `/filter?priceMin=${min}&priceMax=${max}&search=${search}&size=${size}&categoryId=${categoryId}&page=${page}`)
+    }
+    static getProductByFilterStringify(request) {
+        const url = queryString.stringify(request);
+        return axios.get(PRODUCT_API + `/filter?${url}`)
     }
 }
 export default ProductService;

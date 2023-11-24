@@ -4,7 +4,6 @@ import { UseProduct } from "../UseContext";
 const ProductList = () => {
 
     const { productList, setProductId, setCount } = useContext(UseProduct);
-
     const handleSelectedProduct = (id) => {
         setCount(0);
         setProductId(id);

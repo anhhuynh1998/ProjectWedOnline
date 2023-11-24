@@ -4,8 +4,13 @@ import SearchProduct from "./SearchProduct"
 import SizeProduct from "./SizeProduct"
 import SortPrice from "./SortPrice"
 import Tags from "./Tags"
+<<<<<<< Updated upstream
 import ProductShopComponent from "./ProductShop"
 import ProductService from "../../../service/homeService/productService"
+=======
+import ProductService from "../../../homeService/productService"
+import ProductShop from "./ProductShop"
+>>>>>>> Stashed changes
 
 const ShopSideBar = () => {
     const [sortPrice, setSortPrice] = useState({
@@ -15,26 +20,24 @@ const ShopSideBar = () => {
     const [products, setProducts] = useState([]);
     const [search, setSearch] = useState("");
     const [size, setSelectedSize] = useState("");
-    const [category, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [page, setPage] = useState(0);
     console.log(sortPrice);
 
+    async function getALlProducts() {
+        console.log(sortPrice.max);
+        setIsLoading(true);
+        let response = await ProductService.getProductByFilter(sortPrice.min,
+            sortPrice.max, search, size, categoryId, page);
+        setProducts(prevProduct => [...prevProduct, ...response.data.content]);
+        setPage(page => page + 1);
+        setIsLoading(false);
+    }
+
     useEffect(() => {
-        async function getALlProducts() {
-            console.log(sortPrice.max);
-            let response = await ProductService.getProductByFilter(sortPrice.min,
-                sortPrice.max, search, size, category);
-            setProducts(response.data.content);
-        }
         getALlProducts();
-    }, [sortPrice, search, size, category])
-    // useEffect(() => {
-    //     async function getProductsFromCategory() {
-    //         let response = await CategoryService.getProductsByCategory();
-    //         console.log("loai o day", response.data.content);
-    //         setCategories(response.data.content);
-    //     }
-    //     getProductsFromCategory();
-    // }, [])
+    }, [sortPrice, search, size, categoryId])
 
     return (
         <>
@@ -100,7 +103,7 @@ const ShopSideBar = () => {
                                     <SortPrice setSortPrice={setSortPrice} />
 
                                     {/* category */}
-                                    <Category setCategories={setCategories} />
+                                    <Category setCategoryId={setCategoryId} />
 
                                     {/* Start Size Cat */}
                                     <SizeProduct setSelectedSize={setSelectedSize} />
@@ -109,28 +112,9 @@ const ShopSideBar = () => {
                                     <Tags />
                                 </div>
                             </div>
-                            <ProductShopComponent productList={products} />
+                            <ProductShop productList={products} getALlProducts={getALlProducts} isLoading={isLoading} />
                         </div>
 
-                        <div className="col-md-12">
-                            <div className="col-md-5 mx-auto" id="searchProduct">
-                                <nav aria-label="...">
-                                    <ul className="pagination">
-                                        <li className="page-item disabled">
-                                            <a className="page-link" href="#" tabIndex="-1">Previous</a>
-                                        </li>
-                                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                        <li className="page-item active">
-                                            <a className="page-link" href="#">2 <span className="sr-only">(current)</span></a>
-                                        </li>
-                                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                        <li className="page-item">
-                                            <a className="page-link" href="#">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
                     </div>
                 </section>
             </div>

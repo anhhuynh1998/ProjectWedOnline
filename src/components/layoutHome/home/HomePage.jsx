@@ -1,13 +1,10 @@
-/* eslint-disable react/jsx-no-target-blank */
-
+import { useState } from "react";
 import Login from "../Login";
 import HomeProductPrice from "./HomeProductPrice";
 import InforProduct from "./InforProduct";
 
-
-
 const HomePage = () => {
-
+    const [loading, setLoading] = useState("");
     return (
         <div>
             <div>
