@@ -5,9 +5,12 @@ const API_SIZE = 'http://localhost:8080/api/sizes';
 const API_CATEGORIES = 'http://localhost:8080/api/categories'
 const API_UPLOAD_CLOUDINARY = 'http://localhost:8080/api/files/images'
 export class ProductService {
-    static getAllProduct(search, pageable) {
-        return axios.get(`http://localhost:8080/api/products?search=${search || ''}&&pageable=${pageable || 0}`)
+    static getAllProduct() {
+        return axios.get(PRODUCT_API)
     }
+    // static getAllProduct(search, pageable) {
+    //     return axios.get(`http://localhost:8080/api/products?search=${search || ''}&&pageable=${pageable || 0}`)
+    // }
     static getAllCategories() {
         return axios.get(API_CATEGORIES).then(response => response.data)
     }
@@ -20,6 +23,10 @@ export class ProductService {
     static getAllNestedCategories(subCategoriesId) {
         return axios.get(`http://localhost:8080/api/categories/${subCategoriesId}/nestedCategories`).then(response => response.data)
     }
+
+    static findCategoryById(id) {
+        return axios.get(`http://localhost:8080/api/categories/${id}`)
+    }
     static postFilesImageUpCloudinary() {
         return axios.post(API_UPLOAD_CLOUDINARY)
     }
@@ -27,7 +34,7 @@ export class ProductService {
         return axios.post('http://localhost:8080/api/products', data)
     }
     static updateProducts(data, id) {
-        return axios.update(`http://localhost:8080/api/products/update/${id}`, data)
+        return axios.patch(`http://localhost:8080/api/products/update/${id}`, data)
     }
     static deleteProducts(id) {
         return axios.delete(`http://localhost:8080/api/products/${id}`)

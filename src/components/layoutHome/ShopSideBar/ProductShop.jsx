@@ -4,7 +4,6 @@ import { InView } from 'react-intersection-observer';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import SkeletonLoad from './SkeletonLoad';
-
 const ProductShop = ({ productList, getALlProducts, isLoading }) => {
     const [productId, setProductId] = useState("");
     const handleSelectedProduct = (id) => {
@@ -24,8 +23,8 @@ const ProductShop = ({ productList, getALlProducts, isLoading }) => {
                         <Detail productId={productId} />
                         {
                             productList.map((item, index) => (
-                                <InView as="div" className="col-md-4 single__pro col-lg-4 cat--1 col-sm-4 col-xs-12" 
-                                key={index} delay={2000} onChange={(e) => handleLoadList(index, e)}>
+                                <InView as="div" className="col-md-4 single__pro col-lg-4 cat--1 col-sm-4 col-xs-12"
+                                    key={index} delay={2000} onChange={(e) => handleLoadList(index, e)}>
                                     <div className="product foo">
                                         <div className="product__inner">
                                             <div className="pro__thumb">

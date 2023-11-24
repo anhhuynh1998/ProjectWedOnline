@@ -1,9 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar, Container, Nav, Dropdown, Button } from "react-bootstrap";
-
 import routes from "../../../routes";
-
 const Header = () => {
   const location = useLocation();
   const mobileSidebarToggle = (e) => {
@@ -17,7 +15,6 @@ const Header = () => {
     };
     document.body.appendChild(node);
   };
-
   const getBrandText = () => {
     for (let i = 0; i < routes.length; i++) {
       if (location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {
@@ -190,5 +187,4 @@ const Header = () => {
     </Navbar>
   );
 };
-
 export default Header;

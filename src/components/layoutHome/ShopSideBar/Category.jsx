@@ -36,10 +36,8 @@ const Category = ({ setCategoryId }) => {
                 <div className="category">
                     {categories.map((item, index) => (
                         <div key={index}
-
                             className={`btn-group dropright sidebar__list  btn-outline
                          ${selectedCategory === item ? 'active' : ''}`}
-
                             onClick={() => handleCategoryClick(item)}>
                             <button
                                 type="button"

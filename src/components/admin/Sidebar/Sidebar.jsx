@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { useLocation, NavLink } from "react-router-dom";
 
 import { Nav } from "react-bootstrap";
@@ -47,7 +47,7 @@ const Sidebar = ({ color, image, routes }) => {
                   <NavLink
                     to={prop.layout + prop.path}
                     className="nav-link"
-                    // activeClassName="active"
+                  // activeClassName="active"
                   >
                     <i className={prop.icon} />
                     <p>{prop.name}</p>

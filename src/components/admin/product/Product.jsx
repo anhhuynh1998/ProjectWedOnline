@@ -24,15 +24,16 @@ const Product = () => {
 
   const closeModal = () => {
     console.log("11111111");
+    setSelectedProductId(null);
     setIsOpenModal(false);
   };
 
   useEffect(() => {
     try {
       setLoading(true)
-      async function finAllProductList(search, pageable) {
-        let response = await ProductService.getAllProduct(search, pageable)
-        setProducts(response.data.content)
+      async function finAllProductList() {
+        let response = await ProductService.getAllProduct()
+        setProducts(response.data)
         console.log(response);
         setLoading(false)
       }
@@ -41,6 +42,20 @@ const Product = () => {
 
     }
   }, [])
+  // useEffect(() => {
+  //   try {
+  //     setLoading(true)
+  //     async function finAllProductList(search, pageable) {
+  //       let response = await ProductService.getAllProduct(search, pageable)
+  //       setProducts(response.data.content)
+  //       console.log(response);
+  //       setLoading(false)
+  //     }
+  //     finAllProductList()
+  //   } catch (error) {
+
+  //   }
+  // }, [])
 
   return (
 
@@ -52,7 +67,7 @@ const Product = () => {
             <i className="fa fa-plus me-2" />
             Add Product
           </button>
-          {isOpenModal && <CreateProduct isOpenModal={isOpenModal} handleClose={closeModal} />}
+          {<CreateProduct isOpenModal={isOpenModal} handleClose={closeModal} />}
         </div>
         <p className="fst-italic">Deserunt ut pariatur tempor aute incididunt Lorem esse. </p>
       </section>

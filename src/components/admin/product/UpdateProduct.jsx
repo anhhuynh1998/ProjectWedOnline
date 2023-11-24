@@ -20,12 +20,6 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
 
     // const { productId } = useParams()
     const [products, setProducts] = useState([])
-    const [categories, setCategories] = useState([])
-    const [subCategories, setSubCategories] = useState([])
-    const [nestedCategories, setNestedCategories] = useState([])
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedSubCategories, setSelectedSubCategories] = useState(null);
-    const [selectedNestedCategories, setSelectedNestedCategories] = useState(null);
     const [enumValues, setEnumValues] = useState([]);
     const backToHome = useNavigate()
     const fileInputRef = useRef(null);
@@ -33,12 +27,25 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
     const [avatarURLs, setAvatarURLs] = useState([]);
     const [updateProduct, setUpdateProduct] = useState([])
 
+
+    const [categories, setCategories] = useState([])
+    const [subCategories, setSubCategories] = useState([])
+    const [nestedCategories, setNestedCategories] = useState([])
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedSubCategories, setSelectedSubCategories] = useState(null);
+    const [selectedNestedCategories, setSelectedNestedCategories] = useState(null);
+
+
     useEffect(() => {
         try {
             const findProductById = async () => {
                 let productById = await ProductService.getProductsById(productId)
                 console.log(productById);
-                setUpdateProduct(productById.data.content)
+                setUpdateProduct(productById.data)
+                setSelectedCategory(productById.data.categoryGranParentId)
+                setSelectedSubCategories(productById.data.categoryParentId)
+                setSelectedNestedCategories(productById.data.categoryId)
+
 
             }
             findProductById()
@@ -46,6 +53,10 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
 
         }
     }, [productId])
+    useEffect(() => {
+        console.log(selectedCategory);
+    }, [selectedCategory])
+
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -60,6 +71,7 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
 
         fetchCategories();
     }, []);
+
 
     useEffect(() => {
         const fetchSubcategories = async () => {
@@ -76,6 +88,8 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
 
         fetchSubcategories();
     }, [selectedCategory]);
+
+
     useEffect(() => {
         const fetchNestedCategories = async () => {
             try {
@@ -91,6 +105,10 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
 
         fetchNestedCategories();
     }, [selectedSubCategories]);
+
+
+
+
     useEffect(() => {
         try {
             const findAllSize = async () => {
@@ -120,6 +138,17 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
         const newAvatarURLs = [...avatarURLs];
         newAvatarURLs.splice(index, 1);
         setAvatarURLs(newAvatarURLs);
+    };
+
+    const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+        setSelectedSubCategories(null);
+        setSelectedNestedCategories(null);
+    };
+
+    const handleSubCategoryChange = (e) => {
+        setSelectedSubCategories(e.target.value);
+        setSelectedNestedCategories(null);
     };
 
     const uploadAvatar = async (files) => {
@@ -202,7 +231,11 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                                 />
                             </div>
                             <form onSubmit={handleSubmit(handleSubmitUpdateProductForm)}>
-                                <div className="modal-body">
+                                <div className="modal-body"
+                                    style={{
+                                        width: "100%"
+                                    }}
+                                >
 
 
                                     <div className="container">
@@ -249,7 +282,6 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                                                     <span className="text-danger">{errors?.status?.message}</span>
                                                 </div>
                                             </div>
-
                                             <div className="col-lg-12">
                                                 <div className="col-lg-4 mb-2">
                                                     <label className="fw-bold" htmlFor="">
@@ -258,11 +290,13 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                                                     <select
                                                         className="form-control"
                                                         value={selectedCategory}
-                                                        onChange={(e) => setSelectedCategory(e.target.value)}
+                                                        onChange={(e) => selectedCategory(e.target.value)}
+                                                        name='categoryGranParentId'
                                                     >
-                                                        <option value={products.category}>Chọn một danh mục</option>
+                                                        <option value="">Chọn một danh mục</option>
                                                         {categories?.map(category => (
                                                             <option key={category.id} value={category.id}>
+                                                                {category.categoryParent ? `${category.categoryParent.name} - ` : ''}
                                                                 {category.name}
                                                             </option>
                                                         ))}
@@ -275,12 +309,15 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                                                     <select
                                                         className="form-control"
                                                         value={selectedSubCategories}
-                                                        onChange={(e) => setSelectedSubCategories(e.target.value)}
-                                                        disabled={!selectedCategory}
+                                                        onChange={handleCategoryChange}
+                                                        name='categoryParentId'
                                                     >
-                                                        <option value="" disabled={!selectedCategory}>Select a subcategory</option>
+                                                        <option value="" >Select a subcategory</option>
                                                         {subCategories.map(subcategory => (
-                                                            <option key={subcategory.id} value={subcategory.id}>{subcategory.name}</option>
+                                                            <option key={subcategory.id} value={subcategory.id}>
+
+                                                                {subcategory.name}
+                                                            </option>
                                                         ))}
                                                     </select>
                                                 </div>
@@ -289,20 +326,22 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                                                         Types
                                                     </label>
                                                     <select
-                                                        name='category'
+                                                        name='categoryId'
                                                         className="form-control"
                                                         {...register("category")}
                                                         value={selectedNestedCategories}
-                                                        onChange={(e) => setSelectedNestedCategories(e.target.value)}
-                                                        disabled={!selectedSubCategories}
+                                                        onChange={handleSubCategoryChange}
+
                                                     >
-                                                        <option value="" disabled={!selectedSubCategories}>Select a nestedCategories</option>
                                                         {nestedCategories.map(nested => (
-                                                            <option key={nested.id} value={nested.id}>{nested.name}</option>
+                                                            <option key={nested.id} value={nested.id}>
+                                                                {nested.name}
+                                                            </option>
                                                         ))}
                                                     </select>
                                                 </div>
                                             </div>
+
 
                                             <div className="col-lg-12">
                                                 <div className="col-lg-4 mb-2">
@@ -374,8 +413,16 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                                                     ))}
                                                     <label
                                                         htmlFor="imageFileCreate"
-                                                        className="image-preview"
+                                                        className="image"
                                                         onClick={handleCanvasClick}
+                                                        style={{
+                                                            position: "absolute",
+                                                            height: "100%",
+                                                            display: "flex",
+                                                            width: "100%",
+                                                            alignItems: "center",
+                                                            justifyContent: "center"
+                                                        }}
                                                     >
                                                         <div className="content">
                                                             <div className="icon">

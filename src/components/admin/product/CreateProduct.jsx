@@ -138,11 +138,10 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
         try {
             const imgFiles = await uploadAvatar(selectedFiles);
             const dataList = {
-                ...data, files: [
-                    ...imgFiles
-                ],
+                ...data,
+                files: [...imgFiles],
                 ...nestedCategories
-            }
+            };
             const response = await ProductService.createProducts(dataList);
 
             if (response && response.data) {
@@ -152,16 +151,29 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
                     title: 'Thêm Mới Thành Công !',
                     showConfirmButton: false,
                     timer: 1500
+                }).then(() => {
+                    handleClose(); // Đóng modal khi thông báo hiển thị
                 });
-                backToHome("/admin/product");
+
                 console.log(response.data);
             } else {
                 console.error('Failed to create product. Response:', response);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Có lỗi xảy ra khi tạo sản phẩm!',
+                });
             }
         } catch (error) {
             console.error('Error creating product:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Có lỗi xảy ra khi tạo sản phẩm!',
+            });
         }
     };
+
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(registerSchema)
@@ -186,9 +198,9 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
                                 />
                             </div>
                             <form onSubmit={handleSubmit(handleSubmitForm)}>
-                                <div className="modal-body">
-
-
+                                <div className="modal-body" style={{
+                                    width: "100%"
+                                }}>
                                     <div className="container">
                                         <div className="row mt-3 mb-2">
                                             <div className="col-lg-12">
@@ -329,9 +341,9 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
                                                 border: "solid 1px",
                                                 height: "300px"
                                             }}>
-                                                <div className="wrapper" style={{ display: 'flex', flexWrap: 'wrap', height: '100%', minHeight: '100%' }}>
+                                                <div className="" style={{ display: 'flex', flexWrap: 'wrap', height: '100%', minHeight: '100%' }}>
                                                     {selectedFiles.map((file, index) => (
-                                                        <div key={index} className="image-preview" style={{
+                                                        <div key={index} className="image" style={{
                                                             position: 'relative'
                                                         }}>
                                                             <img src={URL.createObjectURL(file)} alt={file.name} style={{
@@ -358,8 +370,16 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
                                                     ))}
                                                     <label
                                                         htmlFor="imageFileCreate"
-                                                        className="image-preview"
+                                                        className="image"
                                                         onClick={handleCanvasClick}
+                                                        style={{
+                                                            position: "absolute",
+                                                            height: "100%",
+                                                            display: "flex",
+
+                                                            alignItems: "center",
+                                                            justifyContent: "center"
+                                                        }}
                                                     >
                                                         <div className="content">
                                                             <div className="icon">
@@ -384,7 +404,11 @@ const CreateProduct = ({ isOpenModal, handleClose }) => {
                                         </div>
                                     </div>
 
-                                    <div className="modal-footer">
+                                    <div className="modal-footer"
+                                        style={{
+                                            marginTop: "30px"
+                                        }}
+                                    >
                                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => handleClose()}>Close</button>
                                         <button type="submit" className="btn btn-primary">  Save </button>
                                         <button type="button" className="btn btn-sm btn-dark" onClick={() => reset()} >Cancel</button>
