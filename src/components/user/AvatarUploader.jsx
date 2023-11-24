@@ -5,18 +5,27 @@ import { useState, useRef } from "react";
 const AvatarUploader = ({ setAvatarId }) => {
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [avatarURL, setAvatarURL] = useState("");
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
     uploadAvatar(file);
+
+    // Đọc và hiển thị hình ảnh đã chọn
+    const reader = new FileReader();
+    reader.onload = () => {
+      setSelectedImage(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleCanvasClick = (event) => {
     event.preventDefault();
     fileInputRef.current.click();
   };
+
   const uploadAvatar = async (file) => {
     const formData = new FormData();
     formData.append("files", file);
@@ -28,8 +37,9 @@ const AvatarUploader = ({ setAvatarId }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setAvatarURL(data.avatarURL);
-        setAvatarId(data.id);
+        console.log(data);
+        setAvatarURL(data[0].url);
+        setAvatarId(data[0].id);
       } else {
         console.error("Failed to upload avatar");
       }
@@ -42,7 +52,8 @@ const AvatarUploader = ({ setAvatarId }) => {
     <div className="col-12 mb-3">
       <section>
         <div className="wrapper" style={{ minHeight: "100%" }}>
-          <canvas id="canvasCreate" />
+          {/* Thêm thẻ img để hiển thị hình ảnh */}
+          {selectedImage && <img src={selectedImage} alt="Selected" />}
           <label
             htmlFor="imageFileCreate"
             className="image-preview"

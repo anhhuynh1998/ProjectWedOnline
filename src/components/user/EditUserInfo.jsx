@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -35,7 +36,6 @@ const UpdateFormModal = ({
     resolver: yupResolver(editUserinfo),
   });
   const [avatarId, setAvatarId] = useState("");
-
   const [provinceId, setProvinceId] = useState();
   const [districtId, setDistrictId] = useState();
   const [wardId, setWardId] = useState();
@@ -172,7 +172,7 @@ const UpdateFormModal = ({
 
           setListUserInfo(listUserInfo);
           onClose();
-          swal.fire({
+          Swal.fire({
             position: "top-end",
             icon: "success",
             title: "Cập nhật thành công",

@@ -1,14 +1,17 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import serviceUserInfo from "../service/serviceUserInfo";
 import Swal from "sweetalert2";
 import AddUserInfo from "./AddUserInfo";
 import UpdateFormModal from "./EditUserInfo";
+import { useLocation } from "react-router-dom";
 
 const ListUserInfo = () => {
   const [listUserInfo, setListUserInfo] = useState([]);
   const [selectedUserInfo, setSelectedUserInfo] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  const [search, setSearch] = useState("");
 
   const openModal = () => {
     setIsOpen(true);
@@ -33,6 +36,7 @@ const ListUserInfo = () => {
     }
     getData();
   }, []);
+
   const handleDelete = async (userinfoRemove) => {
     try {
       const result = await Swal.fire({
@@ -63,8 +67,9 @@ const ListUserInfo = () => {
       console.log(error);
     }
   };
+
   return (
-    <div className="container-fluid dashboard">
+    <div className="container-fluid">
       <div>
         <div className="d-flex">
           <div className="col-lg-8">
@@ -80,32 +85,38 @@ const ListUserInfo = () => {
               listUserInfo={listUserInfo}
               setListUserInfo={setListUserInfo}
             />
+            <form className="d-flex p-2 m-2" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                value={search}
+                // onChange={(e) => handleInput(e)}
+              />
+            </form>
           </div>
         </div>
-
         <table className="table table-hover">
           <thead>
             <tr>
-              <th scope="col-1">ID</th>
-              <th scope="col-1">FullName</th>
-              <th scope="col-1">Email</th>
-              <th scope="col-1">Phone</th>
-              <th scope="col-1">Gender</th>
-              <th scope="col-1">Province</th>
-              <th scope="col-1">District</th>
-              <th scope="col-1">Ward</th>
-              <th scope="col-1">Address</th>
-              <th scope="col-1" colSpan={2}>
-                Action
-              </th>
+              <th scope="col-2">ID</th>
+              <th scope="col-2">FullName</th>
+              <th scope="col-2">Email</th>
+              <th scope="col-2">Phone</th>
+              <th scope="col-2">Gender</th>
+              <th scope="col-2">Province</th>
+              <th scope="col-2">District</th>
+              <th scope="col-2">Ward</th>
+              <th scope="col-2">Address</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {listUserInfo.map((item) => (
               <tr key={item.id}>
                 <td>{item.id}</td>
-                <td>{item.fullname}</td>
-                <td>{item.fullname}</td>
+                <td>{item.fullName}</td>
                 <td>{item.email}</td>
                 <td>{item.phone}</td>
                 <td>{item.gender}</td>

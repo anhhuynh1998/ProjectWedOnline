@@ -15,7 +15,7 @@ const Sidebar = ({ color, image, routes }) => {
       <div
         className="sidebar-background"
         style={{
-          backgroundImage: "url(" + image + ")"
+          backgroundImage: "url(" + image + ")",
         }}
       />
       <div className="sidebar-wrapper">
@@ -47,7 +47,7 @@ const Sidebar = ({ color, image, routes }) => {
                   <NavLink
                     to={prop.layout + prop.path}
                     className="nav-link"
-                    activeClassName="active"
+                    // activeClassName="active"
                   >
                     <i className={prop.icon} />
                     <p>{prop.name}</p>
@@ -60,6 +60,6 @@ const Sidebar = ({ color, image, routes }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Sidebar;

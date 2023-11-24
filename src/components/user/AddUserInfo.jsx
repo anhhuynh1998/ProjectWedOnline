@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 // import Swal from "sweetalert2";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -74,11 +74,17 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
       );
 
       if (response.ok) {
+        console.log(response);
         const data = await response.json();
         setListUserInfo([...listUserInfo, data]);
-        swal("Good job!", "Thêm mới thành công !!!", "success");
-        // reset();
-        // onClose();
+        // swal("Good job!", "Thêm mới thành công !!!", "success");
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "thêm mới thành công !.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         throw new Error("Failed to create userInfo");
       }
@@ -482,10 +488,6 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                     type="submit"
                     className="btn btn-primary"
                     style={{ padding: "6px 12px", margin: "4px 4px 0 5px" }}
-                    // onClick={() => {
-                    //   setIsDistrictDisabled(true);
-                    //   setIsWardDisabled(true);
-                    // }}
                   >
                     Create
                   </button>
