@@ -13,6 +13,7 @@ const Checkout = ({ cartDetails }) => {
     const [districts, setDistricts] = useState([]);
     const [wards, setWards] = useState([]);
     const [address, setAddress] = useState("");
+
     const [locationRegion, setLocationRegion] = useState({
         provinceId: 0,
         provinceName: "",

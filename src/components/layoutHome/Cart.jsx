@@ -5,7 +5,6 @@ import CartService from "../../service/homeService/cartService";
 import Checkout from "./Checkout";
 
 const Cart = () => {
-
     const [cartDetails, setCartDetails] = useState([]);
     useEffect(() => {
         async function findAllByUser() {
@@ -17,9 +16,10 @@ const Cart = () => {
 
     const removeItem = async (id) => {
         console.log(id);
-        let response = await CartService.removoItem(id);
+        let response = await CartService.removeItem(id);
         setCartDetails(response.data);
     }
+    console.log(cartDetails);
 
     return (
         <div >
@@ -87,7 +87,7 @@ const Cart = () => {
                                                         </td>
                                                         <td className="product-subtotal">{item?.total}</td>
                                                         <td className="product-remove">
-                                                            <a type="button" onClick={() => removeItem(item?.id)}>X</a>
+                                                            <a type="button" onClick={() => removeItem(item.product?.id)}>X</a>
                                                         </td>
                                                     </tr>
                                                 ))

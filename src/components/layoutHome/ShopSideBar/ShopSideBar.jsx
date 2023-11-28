@@ -25,16 +25,26 @@ const ShopSideBar = () => {
         setIsLoading(true);
         let response = await ProductService.getProductByFilter(sortPrice.min,
             sortPrice.max, search, size, categoryId, page);
+        console.log("response", response);
         setProducts(prevProduct => [...prevProduct, ...response.data.content]);
-        setPage(page => page + 1);
+
+        if (page < response.data.totalPages)
+            setPage(page => page + 1);
         setIsLoading(false);
     }
     console.log("kiemmmm", products);
 
 
     useEffect(() => {
+        console.log("ss0", search);
+        console.log("ghhg", products);
+    }, [search])
+
+    useEffect(() => {
         getALlProducts();
     }, [sortPrice, search, size, categoryId])
+
+
 
     return (
         <>
@@ -90,20 +100,20 @@ const ShopSideBar = () => {
                 </div>
 
                 <section className="htc__shop__sidebar bg__white ptb--20">
-                    <SearchProduct setSearch={setSearch} />
+                    <SearchProduct setSearch={setSearch} setPage={setPage} setProducts={setProducts} />
                     <div className="container">
                         <div className="row">
                             <div className="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                 <div className="htc__shop__left__sidebar">
 
                                     {/* Start Range */}
-                                    <SortPrice setSortPrice={setSortPrice} />
+                                    <SortPrice setSortPrice={setSortPrice} setProducts={setProducts} setPage={setPage} />
 
                                     {/* category */}
-                                    <Category setCategoryId={setCategoryId} />
+                                    <Category setCategoryId={setCategoryId} setProducts={setProducts} setPage={setPage} />
 
                                     {/* Start Size Cat */}
-                                    <SizeProduct setSelectedSize={setSelectedSize} />
+                                    <SizeProduct setSelectedSize={setSelectedSize} setProducts={setProducts} setPage={setPage} />
 
                                     {/* Start Tag Area */}
                                     <Tags />

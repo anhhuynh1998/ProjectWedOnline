@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import ProductService from "../../../service/homeService/productService";
 
-const SizeProduct = ({ setSelectedSize }) => {
+const SizeProduct = ({ setSelectedSize, setProducts, setPage }) => {
   const [selectedSize, setSelectedSizes] = useState([]);
   const [options, setOptions] = useState([]);
 
@@ -28,6 +28,8 @@ const SizeProduct = ({ setSelectedSize }) => {
   }, []);
 
   const handleSizeChange = (selected) => {
+    setPage(0);
+    setProducts([]);
     setSelectedSizes(selected);
     setSelectedSize(selected.map(({ value }) => value));
   }
