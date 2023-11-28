@@ -18,5 +18,9 @@ class CartService {
         if (id)
             return axios.delete(`${CART_API}/${id}`);
     }
+    static productsRevenue(id) {
+        if (id)
+            return axios.get(`${CART_API}/revenue${id}`);
+    }
 }
 export default CartService;

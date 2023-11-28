@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Detail from './Detail';
 import { InView } from 'react-intersection-observer';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+// import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import SkeletonLoad from './SkeletonLoad';
+
 const ProductShop = ({ productList, getALlProducts, isLoading }) => {
     const [productId, setProductId] = useState("");
     const handleSelectedProduct = (id) => {
@@ -14,7 +15,7 @@ const ProductShop = ({ productList, getALlProducts, isLoading }) => {
             getALlProducts();
         }
     }
-    console.log(isLoading);
+    console.log("loading",isLoading);
     return (
         <>
             <div className="col-md-9 col-lg-9 col-sm-12 col-xs-12 smt-30" >
@@ -78,7 +79,6 @@ const ProductShop = ({ productList, getALlProducts, isLoading }) => {
                                 </InView>
                             ))
                         }
-
                     </div>
                     {isLoading && <SkeletonLoad />}
                 </div>

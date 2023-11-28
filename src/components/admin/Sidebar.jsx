@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { NavLink } from "react-router-dom";
+
 export default function Sidebar() {
   return (
     <div className="sidebar">
@@ -34,6 +35,7 @@ export default function Sidebar() {
             </NavLink>
           </li>
         </div>
+        
       </ul>
     </div>
   );

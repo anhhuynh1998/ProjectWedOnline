@@ -19,10 +19,9 @@ const ShopSideBar = () => {
     const [categoryId, setCategoryId] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
-    console.log(sortPrice);
 
     async function getALlProducts() {
-        console.log(sortPrice.max);
+
         setIsLoading(true);
         let response = await ProductService.getProductByFilter(sortPrice.min,
             sortPrice.max, search, size, categoryId, page);
@@ -30,6 +29,8 @@ const ShopSideBar = () => {
         setPage(page => page + 1);
         setIsLoading(false);
     }
+    console.log("kiemmmm", products);
+
 
     useEffect(() => {
         getALlProducts();

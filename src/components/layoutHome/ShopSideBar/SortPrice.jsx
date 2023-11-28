@@ -1,10 +1,8 @@
-import React from "react";
 
 const SortPrice = ({setSortPrice}) => {
     
     const handleSortChange = (event) => {
         const selectedValue = event.target.value;
-        console.log(selectedValue);
         if(selectedValue == 1) {
             setSortPrice({
                 min: 0,
