@@ -2,8 +2,7 @@ import { useContext } from "react";
 import { UseProduct } from "../UseContext";
 
 const ProductList = () => {
-
-    const { productList, setProductId, setCount } = useContext(UseProduct);
+    const { productList, setProductId, setCount, handleAddCart } = useContext(UseProduct);
     const handleSelectedProduct = (id) => {
         setCount(0);
         setProductId(id);
@@ -14,10 +13,10 @@ const ProductList = () => {
             {
                 productList.map((item, index) => (
                     <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12" key={index}>
-                        <div className="product foo" >
+                        <div className="product foo"   >
                             <div className="product__inner">
                                 <div className="pro__thumb">
-                                    <a href="#">
+                                    <a >
                                         <img src={item.imageUrl} alt="product images" />
                                     </a>
                                 </div>
@@ -32,7 +31,7 @@ const ProductList = () => {
                                             </a>
                                         </li>
                                         <li >
-                                            <a title="Add TO Cart" href="cart.html">
+                                            <a type="button" title="Add TO Cart" onClick={() => handleAddCart(item)}>
                                                 <span className="ti-shopping-cart"></span>
                                             </a>
                                         </li>
@@ -45,7 +44,6 @@ const ProductList = () => {
                                         className="add-to-cart"
                                         href="wishlist.html"
                                     >
-                                        <span className="ti-heart" />
                                     </a>
                                 </div>
                             </div>

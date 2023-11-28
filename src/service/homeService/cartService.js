@@ -14,7 +14,7 @@ class CartService {
         if (data)
             return axios.patch(`${CART_API}/checkOut`, data);
     }
-    static removoItem(id) {
+    static removeItem(id) {
         if (id)
             return axios.delete(`${CART_API}/${id}`);
     }

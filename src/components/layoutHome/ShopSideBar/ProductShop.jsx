@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Detail from './Detail';
 import { InView } from 'react-intersection-observer';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'
 import SkeletonLoad from './SkeletonLoad';
 const ProductShop = ({ productList, getALlProducts, isLoading }) => {
@@ -14,12 +13,12 @@ const ProductShop = ({ productList, getALlProducts, isLoading }) => {
             getALlProducts();
         }
     }
-    console.log(isLoading);
+    console.log(productList);
     return (
         <>
             <div className="col-md-9 col-lg-9 col-sm-12 col-xs-12 smt-30" >
                 <div className="row" >
-                    <div className="product__list  ">
+                    <div className="product__list" style={{ display: 'flex', flexWrap: 'wrap' }}>
                         <Detail productId={productId} />
                         {
                             productList.map((item, index) => (

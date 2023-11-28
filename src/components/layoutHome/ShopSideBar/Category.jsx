@@ -3,7 +3,7 @@ import CategoryService from '../../../service/homeService/categoryService';
 import ProductService from "../../../service/homeService/productService";
 
 
-const Category = ({ setCategoryId }) => {
+const Category = ({ setCategoryId, setProducts, setPage }) => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -26,7 +26,10 @@ const Category = ({ setCategoryId }) => {
         }
     }
     const getProducts = (category) => {
+        setPage(0);
+        setProducts([]);
         setCategoryId(category.id);
+
     }
 
     return (
@@ -58,10 +61,6 @@ const Category = ({ setCategoryId }) => {
                                             <ul className="submenu " style={{ paddingLeft: "15px" }}>
                                                 {category.categoryChildren.map((subItem, subIndex) => (
                                                     <li key={subIndex}>
-
-                                                        <a href="" className={`text-dark ${selectedProduct === subItem ? 'active' : ''}`}
-                                                            onClick={() => getProductsFromCategory(subItem)}>{subItem.name}</a>
-
                                                         <button type="button" className="btn btn-outline-secondary rounded-3"
                                                             onClick={() => getProducts(subItem)}>
                                                             {subItem.name}</button>

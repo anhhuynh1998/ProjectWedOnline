@@ -1,14 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import ProductService from "../../../service/homeService/productService";
 import { UseProduct } from "../UseContext";
-import CartService from "../../../service/homeService/cartService";
 import ListFile from "./ListFile";
 
 const InforProduct = () => {
-    const { productId, cartItemCount, setCartItemCount, cartDetailList, setCartDetailList, count } = useContext(UseProduct);
+    const { productId, count, handleAddCart } = useContext(UseProduct);
+
     const [product, setProduct] = useState({});
     const [listFile, setListFile] = useState([]);
-
 
     useEffect(() => {
         async function getById() {
@@ -18,14 +17,6 @@ const InforProduct = () => {
         }
         getById();
     }, [productId])
-
-    const handleAddCart = async () => {
-        setCartItemCount(cartItemCount + 1);
-        let response = await CartService.addToCart(product);
-        setCartDetailList(response.data);
-        console.log(response.data);
-
-    }
 
     return (
         <div id="quickview-wrapper">
@@ -79,7 +70,7 @@ const InforProduct = () => {
                                             </ul>
                                         </div>
 
-                                        <div className="addtocart-btn"
+                                        <div className="addtocart-btn" data-dismiss="modal"
                                             onClick={() => handleAddCart(product)}>
                                             <a type="button" className="text-white"> Add to cart</a>
                                         </div>
@@ -91,7 +82,6 @@ const InforProduct = () => {
                 </div>
             </div>
         </div>
-
     )
 }
 export default InforProduct
