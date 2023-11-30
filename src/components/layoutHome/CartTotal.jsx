@@ -1,42 +1,57 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
 import CartService from "../../service/homeService/cartService";
+import { ToastCheckOutSuccess } from "../../toastify/Toast";
+import { useNavigate } from "react-router-dom";
 
 const CartTotal = ({ total, setTotal, totalPrice, shippingFee, name, phone, locationRegion }) => {
-
+    const backHome = useNavigate();
     useEffect(() => {
         setTotal(totalPrice)
     }, [totalPrice])
 
+    const data = {
+        name,
+        phone,
+        shippingFee,
+        totalPrice: total,
+        locationRegion
+    }
+
     const checkOut = async (e) => {
         e.preventDefault();
-        await CartService.checkOut({
-            name,
-            phone,
-            shippingFee,
-            locationRegion: locationRegion
-        });
+        if (localStorage.getItem("jwt")) {
+            await CartService.checkOut(data);
+            ToastCheckOutSuccess();
+        } else {
+            await CartService.checkOutNotLogin(data);
+            localStorage.removeItem("productDetail");
+            ToastCheckOutSuccess();
+            setTimeout(() => {
+                backHome("/home")
+            }, 4000)
+        }
     }
 
     return (
         <div className="cart_totals">
-            <h2>Cart Totals</h2>
+            <h2>TỔNG GIỎ HÀNG</h2>
             <table style={{ display: "block", width: "180px" }}>
                 <tbody>
                     <tr className="cart-subtotal">
-                        <th>Subtotal</th>
+                        <th>Tổng Phụ</th>
                         <td>
                             <span className="amount">{totalPrice}</span>
                         </td>
                     </tr>
                     <tr className="shipping">
-                        <th>Shipping</th>
+                        <th>Phí Vận Chuyển</th>
                         <td>
                             <span className="amount">{shippingFee}</span>
                         </td>
                     </tr>
                     <tr className="order-total">
-                        <th>Total</th>
+                        <th>Tổng Tiền</th>
                         <td>
                             <strong>
                                 <span className="amount">{total}</span>
@@ -46,7 +61,7 @@ const CartTotal = ({ total, setTotal, totalPrice, shippingFee, name, phone, loca
                 </tbody>
             </table>
             <div className="wc-proceed-to-checkout">
-                <button className="btn btn-danger" onClick={checkOut}> Proceed to Checkout</button>
+                <button className="btn btn-danger" onClick={checkOut}>Xác Nhận Đặt Hàng</button>
             </div>
         </div>
     )

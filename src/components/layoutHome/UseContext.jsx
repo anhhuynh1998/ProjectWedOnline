@@ -2,7 +2,8 @@
 import { createContext, useEffect, useState } from "react";
 import ProductService from "../../service/homeService/productService";
 import CartService from "../../service/homeService/cartService";
-import swal from "sweetalert";
+import { ToastAdToCartError, ToastAdToCartSuccess } from "../../toastify/Toast";
+import { useLocation } from "react-router-dom";
 
 const UseProduct = createContext();
 
@@ -12,28 +13,29 @@ const UseContext = ({ children }) => {
     const [cartItemCount, setCartItemCount] = useState(0);
     const [cartDetailList, setCartDetailList] = useState([]);
     const [count, setCount] = useState(0);
-    const productDetail = JSON.parse(localStorage.getItem("productDetail")) || [];
-
+    const location = useLocation();
     useEffect(() => {
         async function getALl() {
             let response = await ProductService.getAll();
             setProductList(response.data.content);
         }
         getALl();
-    }, [])
+    }, [location])
 
     const handleAddCart = async (data) => {
         if (localStorage.getItem("jwt")) {
             let response = await CartService.addToCart(data);
             setCartDetailList(response.data);
         } else {
-            if (!productDetail.some(e => e === data.id)) {
-                productDetail.push(data.id);
-                swal("Chúc Mừng", "Thêm Vào Giỏ Hàng Thành Công", "success")
-                localStorage.setItem("productDetail", JSON.stringify(productDetail));
-                setCartItemCount(productDetail.length);
-            } else {
-                swal("Thông Báo", "Sản Phẩm Đã Có Trong Giỏ Hàng", "error");
+            const products = JSON.parse(localStorage.getItem('productDetail')) || [];
+            if (products.some(e => e === data.id)) {
+                ToastAdToCartError();
+            }
+            else {
+                products.push(data.id);
+                localStorage.setItem("productDetail", JSON.stringify(products));
+                setCartItemCount(products.length);
+                ToastAdToCartSuccess();
             }
         }
     }

@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 
 import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
@@ -5,21 +6,48 @@ import CartService from "../../service/homeService/cartService";
 import Checkout from "./Checkout";
 
 const Cart = () => {
+    const productIdList = JSON.parse(localStorage.getItem('productDetail')) || [];
     const [cartDetails, setCartDetails] = useState([]);
+    const [totalNotLogin, setTotalNotLogin] = useState(0);
+
     useEffect(() => {
-        async function findAllByUser() {
-            let response = await CartService.findAllByUser();
-            setCartDetails(response.data);
+        if (localStorage.getItem("jwt")) {
+            async function findAllByUser() {
+                let response = await CartService.findAllByUser();
+                setCartDetails(response.data.listCartDetail);
+            }
+            findAllByUser();
         }
-        findAllByUser();
+        else {
+            async function showCartDetailsNotLogin() {
+                let response = await CartService.showCartDetailsNotLogin({ productIdList });
+                setCartDetails(response.data.listCartDetail);
+            }
+            showCartDetailsNotLogin();
+        }
     }, [])
 
-    const removeItem = async (id) => {
-        console.log(id);
-        let response = await CartService.removeItem(id);
-        setCartDetails(response.data);
-    }
+    useEffect(() => {
+        setTotalNotLogin(cartDetails?.reduce((total, e) => total + e.total, 0));
+    }, [cartDetails])
+
     console.log(cartDetails);
+
+    const removeItem = async (id) => {
+        if (localStorage.getItem("jwt")) {
+            let response = await CartService.removeItem(id);
+            setCartDetails(response.data);
+        }
+        else {
+            const updateProductDetails = productIdList.filter(e => e !== id)
+            localStorage.setItem("productDetail", JSON.stringify(updateProductDetails));
+            setCartDetails(
+                cartDetails?.filter(e => e.product.id !== id)
+            )
+            if (updateProductDetails.length === 0)
+                localStorage.removeItem("productDetail");
+        }
+    }
 
     return (
         <div >
@@ -69,25 +97,25 @@ const Cart = () => {
                                         </thead>
                                         <tbody>
                                             {
-                                                cartDetails.listCartDetail && cartDetails.listCartDetail?.map(item => (
-                                                    <tr key={item.id}>
+                                                cartDetails && cartDetails?.map((item, index) => (
+                                                    <tr key={index}>
                                                         <td className="product-thumbnail">
                                                             <a href="#">
-                                                                <img src={item.product?.listFile[0]} alt="product img" />
+                                                                <img src={item?.product?.listFile[0]} alt="product img" />
                                                             </a>
                                                         </td>
                                                         <td className="product-name">
                                                             <a>{item.product?.name}</a>
                                                         </td>
                                                         <td className="product-price">
-                                                            <span className="amount">{item.product?.price}</span>
+                                                            <span className="amount">{item?.product?.price}</span>
                                                         </td>
                                                         <td className="product-quantity">
                                                             <input type="number" defaultValue={1} readOnly />
                                                         </td>
                                                         <td className="product-subtotal">{item?.total}</td>
                                                         <td className="product-remove">
-                                                            <a type="button" onClick={() => removeItem(item.product?.id)}>X</a>
+                                                            <a type="button" onClick={() => removeItem(item?.product?.id)}>X</a>
                                                         </td>
                                                     </tr>
                                                 ))
@@ -96,7 +124,7 @@ const Cart = () => {
                                     </table>
                                 </div>
                                 <div className="row">
-                                    <Checkout cartDetails={cartDetails} />
+                                    <Checkout cartDetails={cartDetails} totalNotLogin={totalNotLogin} />
                                 </div>
                             </form>
                         </div>

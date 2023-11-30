@@ -3,6 +3,9 @@ import axios from "axios";
 const CART_API = `http://localhost:8080/api/home/carts`;
 
 class CartService {
+    static showCartDetailsNotLogin(data) {
+        return axios.post(`${CART_API}/showCartDetailsNotLogin`, data)
+    }
     static findAllByUser() {
         return axios.get(CART_API);
     }
@@ -11,8 +14,15 @@ class CartService {
             return axios.post(`${CART_API}/addToCart`, data);
     }
     static checkOut(data) {
-        if (data)
+        if (data) {
             return axios.patch(`${CART_API}/checkOut`, data);
+        }
+    }
+    static checkOutNotLogin(data) {
+        if (data) {
+            data.productIds = JSON.parse(localStorage.getItem('productDetail')) || [];
+            return axios.post(`${CART_API}/checkOutNotLogin`, data);
+        }
     }
     static removeItem(id) {
         if (id)

@@ -5,7 +5,6 @@ import ListFile from "./ListFile";
 
 const InforProduct = () => {
     const { productId, count, handleAddCart } = useContext(UseProduct);
-
     const [product, setProduct] = useState({});
     const [listFile, setListFile] = useState([]);
 

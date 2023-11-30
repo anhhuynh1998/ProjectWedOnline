@@ -3,8 +3,8 @@ import { useEffect, useState } from "react"
 import CartTotal from "./CartTotal"
 import LocationRegionService from "../../service/homeService/locationRegionService";
 
-const Checkout = ({ cartDetails }) => {
-    const totalPrice = cartDetails.total;
+const Checkout = ({ cartDetails, totalNotLogin }) => {
+    const totalPrice = cartDetails.total || totalNotLogin;
     const [total, setTotal] = useState(totalPrice);
     const [shippingFee, setShipping] = useState(0);
     const [name, setName] = useState("");
@@ -146,7 +146,8 @@ const Checkout = ({ cartDetails }) => {
                                                     <CartTotal total={total} setTotal={setTotal}
                                                         totalPrice={totalPrice} shippingFee={shippingFee}
                                                         name={name} phone={phone}
-                                                        locationRegion={locationRegion} />
+                                                        locationRegion={locationRegion}
+                                                        cartDetails={cartDetails} />
                                                 </div>
                                             </div>
                                         </div>

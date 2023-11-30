@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Detail from './Detail';
 import { InView } from 'react-intersection-observer';
 import 'react-loading-skeleton/dist/skeleton.css'
 import SkeletonLoad from './SkeletonLoad';
+import { UseProduct } from '../UseContext';
 
 const ProductShop = ({ productList, getALlProducts, isLoading }) => {
+    const { handleAddCart } = useContext(UseProduct);
     const [productId, setProductId] = useState("");
     const handleSelectedProduct = (id) => {
         setProductId(id);
@@ -14,7 +16,6 @@ const ProductShop = ({ productList, getALlProducts, isLoading }) => {
             getALlProducts();
         }
     }
-    console.log(productList);
     return (
         <>
             <div className="col-md-9 col-lg-9 col-sm-12 col-xs-12 smt-30" >
@@ -48,7 +49,8 @@ const ProductShop = ({ productList, getALlProducts, isLoading }) => {
                                                         </a>
                                                     </li>
                                                     <li >
-                                                        <a title="Add TO Cart" href="cart.html">
+                                                        <a title="Add TO Cart"
+                                                            onClick={() => handleAddCart(item)}>
                                                             <span className="ti-shopping-cart"></span>
                                                         </a>
                                                     </li>

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UseProduct } from "../UseContext";
-
+import 'react-toastify/dist/ReactToastify.css';
 const ProductList = () => {
     const { productList, setProductId, setCount, handleAddCart } = useContext(UseProduct);
     const handleSelectedProduct = (id) => {
@@ -31,7 +31,8 @@ const ProductList = () => {
                                             </a>
                                         </li>
                                         <li >
-                                            <a type="button" title="Add TO Cart" onClick={() => handleAddCart(item)}>
+                                            <a type="button" title="Add TO Cart"
+                                                onClick={() => handleAddCart(item)}>
                                                 <span className="ti-shopping-cart"></span>
                                             </a>
                                         </li>
@@ -61,7 +62,7 @@ const ProductList = () => {
                     </div>
                 ))
             }
-        </div>
+        </div >
     )
 }
 export default ProductList;
