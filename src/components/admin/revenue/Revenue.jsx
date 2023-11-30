@@ -1,306 +1,114 @@
-
-import { Chart } from "chart.js";
-import { Line } from "react-chartjs-2";
+import React, { PureComponent, useState } from 'react';
+import { useEffect } from 'react';
+import { Tooltip, Legend, Line, LineChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import { RevenueService } from '../../../service/admin/revenue/revenueService';
 
 const Revenue = () => {
 
-var colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
-var chLine = document.getElementById("chLine");
-var chartData = {
-  labels: ["S", "M", "T", "W", "T", "F", "S"],
-  datasets: [{
-    data: [589, 445, 483, 503, 689, 692, 634],
-    backgroundColor: 'transparent',
-    borderColor: colors[0],
-    borderWidth: 4,
-    pointBackgroundColor: colors[0]
-    }
-    ]
-};
-if (chLine) {
-  new Chart(chLine, {
-  type: 'line',
-  data: chartData,
-  options: {
-    scales: {
-      xAxes: [{
-        ticks: {
-          beginAtZero: false
-        }
-      }]
-    },
-    legend: {
-      display: false
-    },
-    responsive: true
-  }
+  const [data, setData] = useState([]);
+  const [startDate, setStartDate] = useState(new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+  const [endDate, setEndDate] = useState(new Date().toISOString().split('T')[0]);
+  const [opacity, setOpacity] = useState({
+    uv: 1,
+    pv: 1,
   });
-}
 
-/* large pie/donut chart */
-var chPie = document.getElementById("chPie");
-if (chPie) {
-  new Chart(chPie, {
-    type: 'pie',
-    data: {
-      labels: ['Desktop', 'Phone', 'Tablet', 'Unknown'],
-      datasets: [
-        {
-          backgroundColor: [colors[1],colors[0],colors[2],colors[5]],
-          borderWidth: 0,
-          data: [50, 40, 15, 5]
-        }
-      ]
-    },
-    plugins: [{
-      beforeDraw: function(chart) {
-        var width = chart.chart.width,
-            height = chart.chart.height,
-            ctx = chart.chart.ctx;
-        ctx.restore();
-        var fontSize = (height / 70).toFixed(2);
-        ctx.font = fontSize + "em sans-serif";
-        ctx.textBaseline = "middle";
-        var text = chart.config.data.datasets[0].data[0] + "%",
-            textX = Math.round((width - ctx.measureText(text).width) / 2),
-            textY = height / 2;
-        ctx.fillText(text, textX, textY);
-        ctx.save();
-      }
-    }],
-    options: {layout:{padding:0}, legend:{display:false}, cutoutPercentage: 80}
-  });
-}
+  console.log(startDate);
 
-/* bar chart */
-var chBar = document.getElementById("chBar");
-if (chBar) {
-  new Chart(chBar, {
-  type: 'bar',
-  data: {
-    labels: ["S", "M", "T", "W", "T", "F", "S"],
-    datasets: [{
-      data: [589, 445, 483, 503, 689, 692, 634],
-      backgroundColor: colors[0]
-    },
-    {
-      data: [639, 465, 493, 478, 589, 632, 674],
-      backgroundColor: colors[1]
-    }]
-  },
-  options: {
-    legend: {
-      display: false
-    },
-    scales: {
-      xAxes: [{
-        barPercentage: 0.4,
-        categoryPercentage: 0.5
-      }]
+
+  useEffect(() => {
+    revenue();
+  }, [startDate, endDate])
+
+  async function revenue() {
+    try {
+      const response = await RevenueService.totalRevenue(startDate, endDate,);
+      console.log("response", response.data);
+      setData(response.data);
+    } catch (error) {
+      console.log(error, "chi rua bay");
     }
   }
-  });
-}
 
-/* 3 donut charts */
-var donutOptions = {
-  cutoutPercentage: 85, 
-  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
-};
+  const changeStartDate = (e) => {
+    setStartDate(e.target.value);
+  }
 
-// donut 1
-var chDonutData1 = {
-    labels: ['Bootstrap', 'Popper', 'Other'],
-    datasets: [
-      {
-        backgroundColor: colors.slice(0,3),
-        borderWidth: 0,
-        data: [74, 11, 40]
-      }
-    ]
-};
+  const changeEndDate = (e) => {
+    console.log("endDate", e.target.value);
+    setEndDate(e.target.value);
+  }
+  console.log(data);
 
-var chDonut1 = document.getElementById("chDonut1");
-if (chDonut1) {
-  new Chart(chDonut1, {
-      type: 'pie',
-      data: chDonutData1,
-      options: donutOptions
-  });
-}
+  // const handleMouseEnter = (dataKey) => {
+  //   setOpacity((prevOpacity) => ({
+  //     ...prevOpacity,
+  //     [dataKey]: 0.5,
+  //   }));
+  // };
 
-// donut 2
-var chDonutData2 = {
-    labels: ['Wips', 'Pops', 'Dags'],
-    datasets: [
-      {
-        backgroundColor: colors.slice(0,3),
-        borderWidth: 0,
-        data: [40, 45, 30]
-      }
-    ]
-};
-var chDonut2 = document.getElementById("chDonut2");
-if (chDonut2) {
-  new Chart(chDonut2, {
-      type: 'pie',
-      data: chDonutData2,
-      options: donutOptions
-  });
-}
+  // const handleMouseLeave = (dataKey) => {
+  //   setOpacity((prevOpacity) => ({
+  //     ...prevOpacity,
+  //     [dataKey]: 1,
+  //   }));
+  // };
 
-// donut 3
-var chDonutData3 = {
-    labels: ['Angular', 'React', 'Other'],
-    datasets: [
-      {
-        backgroundColor: colors.slice(0,3),
-        borderWidth: 0,
-        data: [21, 45, 55, 33]
-      }
-    ]
-};
-var chDonut3 = document.getElementById("chDonut3");
-if (chDonut3) {
-  new Chart(chDonut3, {
-      type: 'pie',
-      data: chDonutData3,
-      options: donutOptions
-  });
-}
-
-/* 3 line charts */
-var lineOptions = {
-    legend:{display:false},
-    tooltips:{interest:false,bodyFontSize:11,titleFontSize:11},
-    scales:{
-        xAxes:[
-            {
-                ticks:{
-                    display:false
-                },
-                gridLines: {
-                    display:false,
-                    drawBorder:false
-                }
-            }
-        ],
-        yAxes:[{display:false}]
-    },
-    layout: {
-        padding: {
-            left: 6,
-            right: 6,
-            top: 4,
-            bottom: 6
-        }
-    }
-};
-
-var chLine1 = document.getElementById("chLine1");
-if (chLine1) {
-  new Chart(chLine1, {
-      type: 'line',
-      data: {
-          labels: ['Jan','Feb','Mar','Apr','May'],
-          datasets: [
-            {
-              backgroundColor:'#ffffff',
-              borderColor:'#ffffff',
-              data: [10, 11, 4, 11, 4],
-              fill: false
-            }
-          ]
-      },
-      options: lineOptions
-  });
-}
-var chLine2 = document.getElementById("chLine2");
-if (chLine2) {
-  new Chart(chLine2, {
-      type: 'line',
-      data: {
-          labels: ['A','B','C','D','E'],
-          datasets: [
-            {
-              backgroundColor:'#ffffff',
-              borderColor:'#ffffff',
-              data: [4, 5, 7, 13, 12],
-              fill: false
-            }
-          ]
-      },
-      options: lineOptions
-  });
-}
-
-var chLine3 = document.getElementById("chLine3");
-if (chLine3) {
-  new Chart(chLine3, {
-      type: 'line',
-      data: {
-          labels: ['Pos','Neg','Nue','Other','Unknown'],
-          datasets: [
-            {
-              backgroundColor:'#ffffff',
-              borderColor:'#ffffff',
-              data: [13, 15, 10, 9, 14],
-              fill: false
-            }
-          ]
-      },
-      options: lineOptions
-  });
-}
   return (
-    <div className="container">
-    <div className="row my-3">
-      <div className="col">
-        <h4>Bootstrap 5 Chart.js</h4>
+    <div >
+      <div className="card-header ">
+        <div className="d-flex justify-content-between align-items-center">
+          <h4>Doanh Thu</h4>
+          <div className="mt-2 d-flex" id="input-date">
+            <div className="mr-2 form-label my-auto">
+              Từ ngày
+            </div>
+            <div className="ml-2 mr-2">
+              <input type="date" min="2020-01-01" max=""
+                className="form-control report-date"
+                id='dateStartReport' onChange={(e) => changeStartDate(e)}
+              />
+            </div>
+            <div className="mr-2 form-label my-auto">
+              đến ngày
+            </div>
+            <div className="mr-2">
+              <input type="date" min="2020-01-01" max=""
+                className="form-control report-date"
+                id='dateEndReport'
+                onChange={(e) => changeEndDate(e)}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ width: '100%', paddingTop: "2%" }}>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart
+            width={400}
+            height={300}
+            data={data}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="orderDate" />
+            <YAxis />
+            <Tooltip />
+            {/* <Legend onMouseEnter={(e) => handleMouseEnter(e.dataKey)}
+              onMouseLeave={(e) => handleMouseLeave(e.dataKey)} /> */}
+            <Line type="monotone" dataKey="totalPrice" strokeOpacity="totalPrice"
+              stroke="#a80424" activeDot={{ r: 8 }} />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
-    <div className="row my-2">
-      <div className="col-md-6 py-1">
-        <div className="card">
-          <div className="card-body">
-            <canvas id="chLine" />
-          </div>
-        </div>
-      </div>
-      <div className="col-md-6 py-1">
-        <div className="card">
-          <div className="card-body">
-            <canvas id="chBar" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div className="row py-2">
-      <div className="col-md-4 py-1">
-        <div className="card">
-          <div className="card-body">
-            <canvas id="chDonut1" />
-          </div>
-        </div>
-      </div>
-      <div className="col-md-4 py-1">
-        <div className="card">
-          <div className="card-body">
-            <canvas id="chDonut2" />
-          </div>
-        </div>
-      </div>
-      <div className="col-md-4 py-1">
-        <div className="card">
-          <div className="card-body">
-            <canvas id="chDonut3" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  )
+  );
 };
 
 export default Revenue;

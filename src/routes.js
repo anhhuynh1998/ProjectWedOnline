@@ -6,6 +6,13 @@ import Revenue from './components/admin/revenue/Revenue';
 
 const dashboardRoutes = [
   {
+    path: "/revenue",
+    name: "Doanh Thu",
+    icon: "fa-regular fa-file-lines",
+    component: Revenue,
+    layout: "/admin",
+  },
+  {
     path: "/product",
     name: "Sản Phẩm",
     icon: "fa-brands fa-houzz",
@@ -18,14 +25,8 @@ const dashboardRoutes = [
     icon: "fa-solid fa-user",
     component: ListUserInfo,
     layout: "/admin",
-  },
-  {
-    path: "/revenue",
-    name: "Doanh Thu",
-    icon: "fa-regular fa-file-lines",
-    component: Revenue,
-    layout: "/admin",
-  },
+  }
+
 ];
 
 export default dashboardRoutes;

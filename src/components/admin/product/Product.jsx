@@ -39,7 +39,6 @@ const Product = () => {
       }
       finAllProductList()
     } catch (error) {
-
     }
   }, [])
   // useEffect(() => {
