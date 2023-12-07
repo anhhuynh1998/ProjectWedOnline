@@ -28,3 +28,96 @@
     flex-direction: column;
     gap: 3rem;
 }
+
+    /* Phần RevenueStastics và Sales  */
+  /* danh sách sản phẩm */
+  #iconRevenue{
+    position: absolute;
+    top: 2px;
+    left: 1px;
+    padding: 15px;
+    font-size: 55px;
+    color: #a51ccb;
+    }
+#iconRevenue1{
+    color: #a51ccb;
+}    
+  #NumberUsers1{
+    font-weight: 400;
+    color: #f6c23e;
+}
+/* số lượng users  */
+#NumberUsers{
+    position: absolute;
+    top: 2px;
+    left: 1px;
+    padding: 15px;
+    font-size: 55px;
+    color: #f6c23e;
+}
+/* sản phẩm đã bán  */
+#ProductsSold{
+        position: absolute;
+        top: 2px;
+        left: 1px;
+        padding: 15px;
+        font-size: 55px;
+    color: #4cc449;
+}
+#ProductsSold1{
+    color: #4cc449;
+}
+#arrow{
+    position: absolute;
+    top: 24px;
+    left: 19px;
+    font-size: 29px;
+    width: 180%;
+    color: #4cc449;
+}
+/* doanh thu theo quy */
+#RevenueQuarter{
+    position: absolute;
+    top: 2px;
+    left: 1px;
+    padding: 15px;
+    font-size: 55px;
+    color: #dc3940;
+}
+#arrowRevenue1{
+    color: #dc3940;
+}
+#arrowRevenue{
+    position: absolute;
+    top: 24px;
+    left: 19px;
+    font-size: 29px;
+    width: 180%;
+    color: #dc3940;
+}
+/* doanh thu */
+.card-header {
+    border-radius: 10px;
+}
+#RevenueByYear{
+    border-radius: 10px;
+}
+/* biểu đồ  */
+.revenue{
+    width: 100%;
+    padding-top: 2%;
+    padding-bottom: 4%;
+    
+}
+#cardBorder{
+    border-radius: 12px;
+} 
+#revenueh5{
+    right: 22px;
+    position: absolute;
+    top: 11px;
+    /* left: 1px; */
+    padding: 16px;
+    font-size: 45px;
+}
+ 

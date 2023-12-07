@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 import React, { useEffect, useState } from 'react'
 import { ProductService } from '../../../service/admin/product/productService'
 import Spinner from '../layouts/Spinner';
@@ -31,16 +32,17 @@ const Product = () => {
   useEffect(() => {
     try {
       setLoading(true)
-      async function finAllProductList() {
+      async function findAllProductList() {
         let response = await ProductService.getAllProduct()
         setProducts(response.data)
         console.log(response);
         setLoading(false)
       }
-      finAllProductList()
+      findAllProductList()
     } catch (error) {
     }
   }, [])
+  
   // useEffect(() => {
   //   try {
   //     setLoading(true)

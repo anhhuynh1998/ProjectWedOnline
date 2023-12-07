@@ -3,7 +3,8 @@ import axios from "axios";
 const PRODUCT_API = 'http://localhost:8080/api/products';
 const API_SIZE = 'http://localhost:8080/api/sizes';
 const API_CATEGORIES = 'http://localhost:8080/api/categories'
-const   API_UPLOAD_CLOUDINARY = 'http://localhost:8080/api/files/images'
+const API_UPLOAD_CLOUDINARY = 'http://localhost:8080/api/files/images'
+
 export class ProductService {
     static getAllProduct() {
         return axios.get(PRODUCT_API)
@@ -41,5 +42,8 @@ export class ProductService {
     }
     static getProductsById(productId) {
         return axios.get(`http://localhost:8080/api/products/${productId}`)
+    }
+    static countProduct() {
+        return axios.get(`${PRODUCT_API}/count`)
     }
 }
