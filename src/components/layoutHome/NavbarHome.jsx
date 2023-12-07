@@ -1,20 +1,20 @@
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import CategoryService from "../../service/homeService/categoryService"
+import { useContext } from "react";
 import { UseProduct } from "./UseContext";
 
 const NavbarHome = () => {
 
     const [gender, setGender] = useState([]);
-    const { cartItemCount } = useContext(UseProduct);
-
+    const { logoutIcon } = useContext(UseProduct);
     useEffect(() => {
         async function getCategory() {
             let reponse = await CategoryService.getCategory();
             setGender(reponse.data)
         }
         getCategory()
-    }, [])
+    }, []);
 
     return (
         <>
@@ -72,13 +72,17 @@ const NavbarHome = () => {
                                 </ul>
                             </nav>
                         </div>
-                        <div className="col-md-2 col-sm-4 col-xs-3">
+                        <div className="col-md-2 col-lg-2 col-sm-4 col-xs-3">
                             <ul className="menu-extra">
+                                {
+                                    logoutIcon ? <li>
+                                        <span type="button" className=" fa-solid fa-right-from-bracket" />
+                                    </li>
+                                        : <li >
+                                            <span className="fa-solid fa-right-to-bracket col-md-2" data-toggle="modal" data-target="#exampleLogin" />
+                                        </li>
+                                }
 
-                                <li style={{ paddingRight: "0px" }}>
-                                    <span className="ti-user col-md-2" data-toggle="modal"
-                                        data-target="#exampleLogin" />
-                                </li>
 
                                 <div>
                                     <NavLink to={`/cart`}>
@@ -86,7 +90,7 @@ const NavbarHome = () => {
                                             <span className="ti-shopping-cart col-md-2 me-1" />
                                         </li>
                                     </NavLink>
-                                    <span className="cart__count text-white">{cartItemCount}</span>
+                                    <span className="cart__count text-white"></span>
                                 </div>
                                 <li className="toggle__menu hidden-xs hidden-sm">
                                     <span className="ti-menu" />

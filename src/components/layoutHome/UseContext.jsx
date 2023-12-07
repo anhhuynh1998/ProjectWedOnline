@@ -2,7 +2,7 @@
 import { createContext, useEffect, useState } from "react";
 import ProductService from "../../service/homeService/productService";
 import CartService from "../../service/homeService/cartService";
-import { ToastAdToCartError, ToastAdToCartSuccess } from "../../toastify/Toast";
+import { ToastError, ToastSuccess } from "../../toastify/Toast";
 import { useLocation } from "react-router-dom";
 
 const UseProduct = createContext();
@@ -10,10 +10,11 @@ const UseProduct = createContext();
 const UseContext = ({ children }) => {
     const [productList, setProductList] = useState([]);
     const [productId, setProductId] = useState('');
-    const [cartItemCount, setCartItemCount] = useState(0);
     const [cartDetailList, setCartDetailList] = useState([]);
     const [count, setCount] = useState(0);
+    const [logoutIcon, setLogoutIcon] = useState(localStorage.getItem("jwt"));
     const location = useLocation();
+
     useEffect(() => {
         async function getALl() {
             let response = await ProductService.getAll();
@@ -24,18 +25,24 @@ const UseContext = ({ children }) => {
 
     const handleAddCart = async (data) => {
         if (localStorage.getItem("jwt")) {
-            let response = await CartService.addToCart(data);
-            setCartDetailList(response.data);
-        } else {
+            let respo = await CartService.findAllByUser()
+            if (respo.data.listCartDetail?.find(e => e.product.id === data.id)) {
+                ToastError('Sản Phẩm Đã Trong Giỏ Hàng');
+            } else {
+                let response = await CartService.addToCart(data)
+                setCartDetailList(response.data);
+                ToastSuccess('Thêm Vào Giỏ Hàng Thành Công');
+            }
+        }
+        else {
             const products = JSON.parse(localStorage.getItem('productDetail')) || [];
             if (products.some(e => e === data.id)) {
-                ToastAdToCartError();
+                ToastError('Sản Phẩm Đã Trong Giỏ Hàng');
             }
             else {
                 products.push(data.id);
                 localStorage.setItem("productDetail", JSON.stringify(products));
-                setCartItemCount(products.length);
-                ToastAdToCartSuccess();
+                ToastSuccess('Thêm Vào Giỏ Hàng Thành Công');
             }
         }
     }
@@ -44,10 +51,10 @@ const UseContext = ({ children }) => {
         <UseProduct.Provider value={{
             productList, setProductList,
             productId, setProductId,
-            cartItemCount, setCartItemCount,
             cartDetailList, setCartDetailList,
             count, setCount,
-            handleAddCart
+            handleAddCart,
+            logoutIcon, setLogoutIcon,
         }}>
             {children}
         </UseProduct.Provider>

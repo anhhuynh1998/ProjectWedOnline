@@ -3,7 +3,7 @@ import { Flip, Zoom, toast } from "react-toastify";
 export const ToastSuccess = (message) => {
     toast.success(message, {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -17,7 +17,7 @@ export const ToastSuccess = (message) => {
 export const ToastError = (message) => {
     toast.error(message, {
         position: "top-right",
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -28,16 +28,25 @@ export const ToastError = (message) => {
     });
 }
 
-export const ToastAdToCartSuccess = () => {
-    ToastSuccess('Thêm Vào Giỏ Hàng Thành Công');
+export const ToastWarning = (message) => {
+    toast.warn(message, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
 }
 
-export const ToastAdToCartError = () => {
-    ToastError('Sản Phẩm Đã Tồn Tại');
-}
 
-export const ToastCheckOutSuccess = () => {
-    ToastSuccess('Đặt Hàng Thành Công');
-}
+
+
+
+
+
+
 
 

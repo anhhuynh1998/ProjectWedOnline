@@ -4,7 +4,7 @@ import HomeProductPrice from "./HomeProductPrice";
 import InforProduct from "./InforProduct";
 
 const HomePage = () => {
-    // const [loading, setLoading] = useState("");
+
     return (
         <div>
             <div>

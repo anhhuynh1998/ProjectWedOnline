@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useContext, useState } from 'react';
 import Detail from './Detail';
 import { InView } from 'react-intersection-observer';
@@ -49,7 +50,7 @@ const ProductShop = ({ productList, getALlProducts, isLoading }) => {
                                                         </a>
                                                     </li>
                                                     <li >
-                                                        <a title="Add TO Cart"
+                                                        <a type='button' title="Add TO Cart"
                                                             onClick={() => handleAddCart(item)}>
                                                             <span className="ti-shopping-cart"></span>
                                                         </a>

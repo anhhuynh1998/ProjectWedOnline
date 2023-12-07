@@ -8,14 +8,10 @@ import Footer from "../../components/layoutHome/Footer";
 import HomePage from "../../components/layoutHome/home/HomePage";
 import UserInfomation from "../../components/layoutHome/userHome/UserInfomation";
 import Checkout from "../../components/layoutHome/Checkout";
-import { ToastContainer } from "react-toastify";
-
 
 const HomeScreen = () => {
-
   return (
     <UseContext>
-      <ToastContainer />
       <div className="wrapper fixed__footer">
         <header id="header" className="htc-header">
           <NavbarHome />
@@ -26,7 +22,6 @@ const HomeScreen = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/sidebar" element={<ShopSideBar />} />
           <Route path="/userInfomation" element={<UserInfomation />} />
-
           <Route path="/login" element={<Login />} />
         </Routes>
         <div className="htc__foooter__area">

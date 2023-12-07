@@ -4,7 +4,9 @@ const CART_API = `http://localhost:8080/api/home/carts`;
 
 class CartService {
     static showCartDetailsNotLogin(data) {
-        return axios.post(`${CART_API}/showCartDetailsNotLogin`, data)
+        if (data) {
+            return axios.post(`${CART_API}/showCartDetailsNotLogin`, { productIdList: data })
+        }
     }
     static findAllByUser() {
         return axios.get(CART_API);
