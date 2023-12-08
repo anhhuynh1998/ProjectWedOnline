@@ -251,7 +251,7 @@ const ImageUpload = ({
                     multiple
                 />
             </Slider>
-            <span className="text-danger">{errors?.files?.message}</span>
+            {/* <span className="text-danger">{errors?.files?.message}</span> */}
             {errorMessage && (
                 <span style={{ color: 'red' }}>{errorMessage}</span>
             )}

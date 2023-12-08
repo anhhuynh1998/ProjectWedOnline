@@ -11,6 +11,10 @@ import '../src/cssAdmin/styles.css'
 import "./assets/scss/light-bootstrap-dashboard-react.scss?v=2.0.0"
 import "./assets/css/animate.min.css"
 import './assets/css/demo.css'
+import "./cssAdmin/product.css"
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import 'react-loading-skeleton/dist/skeleton.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>

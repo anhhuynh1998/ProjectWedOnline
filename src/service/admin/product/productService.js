@@ -8,9 +8,11 @@ export class ProductService {
     static getAllProduct() {
         return axios.get(PRODUCT_API)
     }
-    // static getAllProduct(search, pageable) {
-    //     return axios.get(`http://localhost:8080/api/products?search=${search || ''}&&pageable=${pageable || 0}`)
-    // }
+    static getAllProduct(search, pageable, size) {
+        return axios.get(PRODUCT_API + `?search=${search || ''}&page=${pageable || 0}&size=${size}`);
+    }
+
+
     static getAllCategories() {
         return axios.get(API_CATEGORIES).then(response => response.data)
     }
@@ -33,11 +35,11 @@ export class ProductService {
     static createProducts(data) {
         return axios.post('http://localhost:8080/api/products', data)
     }
-    static updateProducts(data, id) {
-        return axios.patch(`http://localhost:8080/api/products/update/${id}`, data)
+    static updateProducts(data, productId) {
+        return axios.put(`http://localhost:8080/api/products/${productId}`, data)
     }
-    static deleteProducts(id) {
-        return axios.delete(`http://localhost:8080/api/products/${id}`)
+    static deleteProducts(productId) {
+        return axios.delete(`http://localhost:8080/api/products/${productId}`)
     }
     static getProductsById(productId) {
         return axios.get(`http://localhost:8080/api/products/${productId}`)

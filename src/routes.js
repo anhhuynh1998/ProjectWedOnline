@@ -5,7 +5,7 @@ import ListUserInfo from "./components/user/ListUserInfo";
 const dashboardRoutes = [
   {
     path: "/product",
-    name: "Products",
+    name: "Danh Sách Sản Phẩm",
     icon: "fa-solid fa-list",
     component: Product,
     layout: "/admin",

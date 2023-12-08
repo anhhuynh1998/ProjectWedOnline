@@ -1,12 +1,16 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { ProductService } from '../../../service/admin/product/productService';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup'
 import { yupResolver } from "@hookform/resolvers/yup"
-const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
+import SkeletonSelectOption from './skeleton/SkeletonSelectOption';
+import ImageUploadUpdate from './upload/ImageUploadUpdate';
+import { ToastContainer } from 'react-toastify';
+import SkeletonSave from './skeleton/SkeletonSave';
+import CategorySelectOptionsUpdate from './categorySelectOption/CategorySelectOptionsUpdate';
 
+const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProducts }) => {
     const registerSchema = yup.object({
         name: yup.string()
             .required("Vui Lòng Nhập Tên"),
@@ -18,199 +22,191 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
             .required("Vui Lòng Nhập Mô tả")
     })
 
-    // const { productId } = useParams()
-    const [products, setProducts] = useState([])
+
     const [enumValues, setEnumValues] = useState([]);
-    const backToHome = useNavigate()
-    const fileInputRef = useRef(null);
+    const [avatarId, setAvatarId] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [avatarURLs, setAvatarURLs] = useState([]);
-    const [updateProduct, setUpdateProduct] = useState([])
-
-
+    const [updateProduct, setUpdateProduct] = useState({})
     const [categories, setCategories] = useState([])
-    const [subCategories, setSubCategories] = useState([])
     const [nestedCategories, setNestedCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubCategories, setSelectedSubCategories] = useState(null);
     const [selectedNestedCategories, setSelectedNestedCategories] = useState(null);
+    const [isLoadingSize, setIsLoadingSize] = useState(true);
+    const [uploadedFile, setUploadedFile] = useState([]);
+    const [uploadedFiles, setUploadedFiles] = useState([]);
+    const [isLoadingSubCategories, setIsLoadingSubCategories] = useState(false);
+    const [isLoadingNestedCategories, setIsLoadingNestedCategories] = useState(false);
+    const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingInput, setIsLoadingInput] = useState(false)
+    const [oldProduct, setOldProduct] = useState({});
+    const [resetImg, setResetImg] = useState(false)
 
 
     useEffect(() => {
+        setIsLoadingInput(true)
         try {
             const findProductById = async () => {
                 let productById = await ProductService.getProductsById(productId)
-                console.log(productById);
+                setOldProduct(productById.data);
                 setUpdateProduct(productById.data)
+                console.log(productById.data);
                 setSelectedCategory(productById.data.categoryGranParentId)
                 setSelectedSubCategories(productById.data.categoryParentId)
-                setSelectedNestedCategories(productById.data.categoryId)
+                setSelectedNestedCategories(productById.data.category)
+                setSelectedFiles(productById.data.files)
 
 
+
+                setIsLoadingInput(false)
             }
             findProductById()
         } catch (error) {
 
         }
     }, [productId])
-    useEffect(() => {
-        console.log(selectedCategory);
-    }, [selectedCategory])
 
 
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const categoriesData = await ProductService.getAllCategories();
-                setCategories(categoriesData);
-                console.log(categoriesData);
-            } catch (error) {
-                console.error('Error fetching categories:', error);
-            }
-        };
-
-        fetchCategories();
-    }, []);
+    const handleCategoryChange = (selectedCategory) => {
+        setSelectedCategory(selectedCategory);
+    };
 
 
-    useEffect(() => {
-        const fetchSubcategories = async () => {
-            try {
-                if (selectedCategory) {
-                    const subcategoriesData = await ProductService.getAllSubCategories(selectedCategory);
-                    setSubCategories(subcategoriesData);
-                    console.log(subcategoriesData);
-                }
-            } catch (error) {
-                console.error('Error fetching subcategories:', error);
-            }
-        };
-
-        fetchSubcategories();
-    }, [selectedCategory]);
-
-
-    useEffect(() => {
-        const fetchNestedCategories = async () => {
-            try {
-                if (selectedSubCategories) {
-                    const nestedCategoriesData = await ProductService.getAllNestedCategories(selectedSubCategories);
-                    setNestedCategories(nestedCategoriesData);
-                    console.log(nestedCategoriesData);
-                }
-            } catch (error) {
-                console.error('Error fetching subcategories:', error);
-            }
-        };
-
-        fetchNestedCategories();
-    }, [selectedSubCategories]);
-
-
-
-
-    useEffect(() => {
+    const fetchDataEnumSize = async () => {
         try {
-            const findAllSize = async () => {
-                let sizeResponse = await ProductService.getAllSizeEnum()
-                setEnumValues(sizeResponse.data)
-                console.log(sizeResponse);
-            }
-            findAllSize()
+            let sizeData = await ProductService.getAllSizeEnum();
+            setEnumValues(sizeData.data);
+            setIsLoadingSize(false);
         } catch (error) {
-
-        }
-    }, []);
-
-    const handleFileChange = (event) => {
-        const newFiles = Array.from(event.target.files);
-        setSelectedFiles([...selectedFiles, ...newFiles]);
-    };
-
-    const handleCanvasClick = () => {
-        fileInputRef.current.click();
-    };
-    const handleRemoveImage = (index) => {
-        const newSelectedFiles = [...selectedFiles];
-        newSelectedFiles.splice(index, 1);
-        setSelectedFiles(newSelectedFiles);
-
-        const newAvatarURLs = [...avatarURLs];
-        newAvatarURLs.splice(index, 1);
-        setAvatarURLs(newAvatarURLs);
-    };
-
-    const handleCategoryChange = (e) => {
-        setSelectedCategory(e.target.value);
-        setSelectedSubCategories(null);
-        setSelectedNestedCategories(null);
-    };
-
-    const handleSubCategoryChange = (e) => {
-        setSelectedSubCategories(e.target.value);
-        setSelectedNestedCategories(null);
-    };
-
-    const uploadAvatar = async (files) => {
-        const formData = new FormData();
-        files.forEach((file) => {
-            formData.append("files", file)
-        });
-
-        try {
-            const response = await fetch("http://localhost:8080/api/files/images", {
-                method: "POST",
-                body: formData,
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                // setAvatarURLs([...avatarURLs, ...data.avatarURLs]);
-                // setAvatarId(data.id);
-                return data;
-            } else {
-                console.error("Failed to upload avatar");
-            }
-        } catch (error) {
-            console.error("Error uploading avatar:", error);
+            console.error('Error fetching size data:', error);
         }
     };
 
+    const fetchCategories = async () => {
+        try {
+            const categoriesData = await ProductService.getAllCategories();
+            setCategories(categoriesData);
+            setIsLoadingCategories(false);
+            console.log(categoriesData);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            setIsLoadingCategories(false);
+        }
+    };
 
 
     const handleSubmitUpdateProductForm = async (data) => {
+
         try {
-            const imgFiles = await uploadAvatar(selectedFiles);
+            setIsLoading(true);
+            const imgUrl = [
+                ...selectedFiles,
+                ...uploadedFiles
+            ]
+
+            data.files = imgUrl;
+
             const dataList = {
-                ...data, files: [
-                    ...imgFiles
-                ],
-                ...nestedCategories
-            }
-            const response = await ProductService.updateProducts(productId, dataList);
-            setUpdateProduct(dataList)
-            if (response && response.data) {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Sửa Thành Công !',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                backToHome("/admin/product");
-                console.log(response.data);
-            } else {
-                console.error('Failed to create product. Response:', response);
-            }
+                ...data,
+                ...imgUrl,
+
+                files: data.files.map(e => {
+                    return {
+                        id: e.id
+                    }
+                }),
+                ...nestedCategories,
+                category: {
+                    id: data.category
+                }
+            };
+            const response = await ProductService.updateProducts(dataList, productId);
+
+            setProducts(prevProducts => {
+                const updatedProducts = prevProducts.map(product =>
+                    product.id === productId ? response.data : product
+                );
+                return updatedProducts;
+            });
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'SửaThành Công !',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            console.log("response===============");
+            console.log(response);
+
+            handleCloseModal()
+            setIsLoading(false);
         } catch (error) {
-            console.error('Error creating product:', error);
+            console.error('Error update product:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Có lỗi xảy ra khi sửa sản phẩm!',
+            });
+            handleCloseModal()
         }
     };
+
+
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(registerSchema),
         values: updateProduct
     })
+    useEffect(() => {
+        if (isOpenModal) {
+            setIsLoadingSize(true);
+            setIsLoadingCategories(true);
+
+            setTimeout(fetchDataEnumSize, 200);
+
+            setTimeout(fetchCategories, 200);
+        }
+    }, [isOpenModal]);
+
+    useEffect(() => {
+        if (!isOpenModal) {
+            resetAllState()
+        }
+    }, [isOpenModal, reset]);
+    const resetAllState = () => {
+        reset();
+        setAvatarId([]);
+        setSelectedFiles([]);
+        setAvatarURLs([]);
+        setSelectedCategory(null);
+        setSelectedSubCategories(null);
+        setSelectedNestedCategories(null);
+        setUploadedFile([]);
+        setIsLoading(false);
+        setIsLoadingSize(false)
+        setIsLoadingCategories(false);
+        setIsLoadingNestedCategories(false);
+        setIsLoadingSubCategories(false);
+    };
+    const handleCloseModal = () => {
+        resetAllState();
+        handleClose();
+    };
+
+    const handleResetModal = () => {
+        reset(
+            setSelectedCategory(oldProduct.categoryGranParentId),
+            setSelectedSubCategories(oldProduct.categoryParentId),
+            setSelectedNestedCategories(oldProduct.category),
+            setSelectedFiles(oldProduct.files),
+            setAvatarURLs(oldProduct.files.url),
+            setUploadedFiles(oldProduct.files)
+        )
+        setResetImg((prev) => !prev)
+    };
+    console.log(oldProduct);
     return (
         <React.Fragment>
 
@@ -222,7 +218,7 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                     <div className="modal-dialog modal-xl">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h4 className="text-success">Update Product</h4>
+                                <h4 className="text-success">Sửa Sản Phẩm</h4>
                                 <button
                                     type="button"
                                     className="btn-close"
@@ -230,31 +226,33 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                                     onClick={handleClose}
                                 />
                             </div>
-                            <form onSubmit={handleSubmit(handleSubmitUpdateProductForm)}>
-                                <div className="modal-body"
-                                    style={{
-                                        width: "100%"
-                                    }}
-                                >
+                            <form onSubmit={handleSubmit(handleSubmitUpdateProductForm)} className='form-create'>
+                                <div className="modal-body form-create-body" style={{
+                                    lineHeight: "100%"
+                                }}>
 
 
                                     <div className="container">
                                         <div className="row mt-3 mb-2">
-                                            <div className="col-lg-12">
-                                                <div className="col-lg-4 mb-2">
+                                            <div className="col-12">
+                                                <div className="col-4 mb-2">
                                                     <label className="fw-bold" htmlFor="">
                                                         Tên Sản Phẩm
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        name="name"
-                                                        {...register("name")}
+                                                    {isLoadingInput ? (
+                                                        <SkeletonSelectOption />
+                                                    ) : (
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            name="name"
+                                                            {...register("name")}
 
-                                                    />
+                                                        />
+                                                    )}
                                                     <span className="text-danger">{errors?.name?.message}</span>
                                                 </div>
-                                                <div className="col-lg-4 mb-2">
+                                                <div className="col-4 mb-2">
                                                     <label className="fw-bold" htmlFor="">
                                                         Giá
                                                     </label>
@@ -268,7 +266,7 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                                                     <span className="text-danger">{errors?.price?.message}</span>
                                                 </div>
 
-                                                <div className="col-lg-4 mb-2">
+                                                <div className="col-4 mb-2">
                                                     <label className="fw-bold" htmlFor="">
                                                         Tình Trạng
                                                     </label>
@@ -282,175 +280,96 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId }) => {
                                                     <span className="text-danger">{errors?.status?.message}</span>
                                                 </div>
                                             </div>
-                                            <div className="col-lg-12">
-                                                <div className="col-lg-4 mb-2">
-                                                    <label className="fw-bold" htmlFor="">
-                                                        Types Gender
-                                                    </label>
-                                                    <select
-                                                        className="form-control"
-                                                        value={selectedCategory}
-                                                        onChange={(e) => selectedCategory(e.target.value)}
-                                                        name='categoryGranParentId'
-                                                    >
-                                                        <option value="">Chọn một danh mục</option>
-                                                        {categories?.map(category => (
-                                                            <option key={category.id} value={category.id}>
-                                                                {category.categoryParent ? `${category.categoryParent.name} - ` : ''}
-                                                                {category.name}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-                                                <div className="col-lg-4 mb-2">
-                                                    <label className="fw-bold" htmlFor="">
-                                                        Types
-                                                    </label>
-                                                    <select
-                                                        className="form-control"
-                                                        value={selectedSubCategories}
-                                                        onChange={handleCategoryChange}
-                                                        name='categoryParentId'
-                                                    >
-                                                        <option value="" >Select a subcategory</option>
-                                                        {subCategories.map(subcategory => (
-                                                            <option key={subcategory.id} value={subcategory.id}>
+                                            <div className="col-12">
+                                                <CategorySelectOptionsUpdate
+                                                    register={register}
+                                                    selectedCategory={selectedCategory}
+                                                    selectedSubCategories={selectedSubCategories}
+                                                    selectedNestedCategories={selectedNestedCategories}
+                                                    setSelectedCategory={setSelectedCategory}
+                                                    setSelectedNestedCategories={setSelectedNestedCategories}
+                                                    setSelectedSubCategories={setSelectedSubCategories}
+                                                    setNestedCategories={setNestedCategories}
+                                                    nestedCategories={nestedCategories}
+                                                    categories={categories}
+                                                    setCategories={setCategories}
+                                                    onCategoryChange={handleCategoryChange}
+                                                    isLoadingCategories={isLoadingCategories}
+                                                    isLoadingNestedCategories={isLoadingNestedCategories}
+                                                    isLoadingSubCategories={isLoadingSubCategories}
+                                                    setIsLoadingCategories={setIsLoadingCategories}
+                                                    setIsLoadingNestedCategories={setIsLoadingNestedCategories}
+                                                    setIsLoadingSubCategories={setIsLoadingSubCategories}
 
-                                                                {subcategory.name}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-                                                <div className="col-lg-4 mb-2">
-                                                    <label className="fw-bold" htmlFor="">
-                                                        Types
-                                                    </label>
-                                                    <select
-                                                        name='categoryId'
-                                                        className="form-control"
-                                                        {...register("category")}
-                                                        value={selectedNestedCategories}
-                                                        onChange={handleSubCategoryChange}
-
-                                                    >
-                                                        {nestedCategories.map(nested => (
-                                                            <option key={nested.id} value={nested.id}>
-                                                                {nested.name}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </div>
+                                                />
                                             </div>
 
 
-                                            <div className="col-lg-12">
-                                                <div className="col-lg-4 mb-2">
+                                            <div className="col-12">
+                                                <div className="col-4 mb-2">
                                                     <label htmlFor="enumSelect">Chọn Size:</label>
-                                                    <select
-                                                        className="form-control"
-                                                        id="enumSelect"
-                                                        name='size'
-                                                        {...register("size")}
-                                                    >
-                                                        <option value="">Chọn Size</option>
-                                                        {enumValues.map((value, index) => (
-                                                            <option key={index} value={value}>
-                                                                {value}
-                                                            </option>
-                                                        ))}
-                                                    </select>
+                                                    {isLoadingSize ? (
+                                                        <SkeletonSelectOption />
+                                                    ) : (
+                                                        <select
+                                                            className="form-control"
+                                                            id="enumSelect"
+                                                            name='size'
+                                                            {...register("size")}
+                                                        >
+                                                            <option value="" >Chọn một danh mục</option>
+                                                            {enumValues.map((value, index) => (
+                                                                <option key={index} value={value}>
+                                                                    {value}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    )}
+                                                    <span className="text-danger">{errors?.size?.message}</span>
                                                 </div>
                                             </div>
-                                            <div className="col-lg-12">
-                                                <div className="col-lg-12">
+                                            <div className="col-12">
+                                                <div className="col-12">
                                                     <label className="fw-bold" htmlFor="">
                                                         Mô tả
                                                     </label>
-                                                    <input
-                                                        className="form-control"
-                                                        type="text"
-                                                        name='description'
-                                                        {...register("description")}
-                                                    />
+                                                    <textarea id="" cols="30" rows="5" className="form-control" name='description'
+                                                        {...register("description")}></textarea>
                                                     <span className="text-danger">{errors?.description?.message}</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-lg-12 " >
+                                        <div className="col-12">
+
                                             <label className="fw-bold" htmlFor="">
                                                 Sản Phẩm
                                             </label>
-                                            <div style={{
-                                                border: "solid 1px",
-                                                height: "300px"
-                                            }}>
-                                                <div className="wrapper" style={{ display: 'flex', flexWrap: 'wrap', height: '100%', minHeight: '100%' }}>
-                                                    {selectedFiles.map((file, index) => (
-                                                        <div key={index} className="image-preview" style={{
-                                                            position: 'relative'
-                                                        }}>
-                                                            <img src={URL.createObjectURL(file)} alt={file.name} style={{
-                                                                width: "300px",
-                                                                height: "270px",
-                                                                margin: "5px"
-                                                            }} />
-                                                            <button
-                                                                className="btn-close"
-                                                                onClick={() => handleRemoveImage(index)}
-                                                                type="button"
-                                                                style={{
-                                                                    position: 'absolute',
-                                                                    top: '5px',
-                                                                    right: '5px',
-                                                                    backgroundColor: 'white',
-                                                                    border: 'none',
-                                                                    cursor: 'pointer'
-                                                                }}
-                                                            >
-                                                                X
-                                                            </button>
-                                                        </div>
-                                                    ))}
-                                                    <label
-                                                        htmlFor="imageFileCreate"
-                                                        className="image"
-                                                        onClick={handleCanvasClick}
-                                                        style={{
-                                                            position: "absolute",
-                                                            height: "100%",
-                                                            display: "flex",
-                                                            width: "100%",
-                                                            alignItems: "center",
-                                                            justifyContent: "center"
-                                                        }}
-                                                    >
-                                                        <div className="content">
-                                                            <div className="icon">
-                                                                <i className="fas fa-cloud-upload-alt" />
-                                                            </div>
-                                                            <div className="text center">
-                                                                {selectedFiles.length > 0 ? 'Thêm ảnh' : 'Chưa chọn file!'}
-                                                            </div>
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                                <input
-                                                    type="file"
-                                                    id="imageFileCreate"
-                                                    accept="image/jpeg, image/png"
-                                                    hidden
-                                                    ref={fileInputRef}
-                                                    onChange={handleFileChange}
-                                                    multiple // Cho phép chọn nhiều tệp
-                                                />
-                                            </div>
+                                            <ImageUploadUpdate
+                                                setAvatarId={setAvatarId}
+                                                selectedFiles={selectedFiles}
+                                                setSelectedFiles={setSelectedFiles}
+                                                uploadedFiles={uploadedFiles}
+                                                setUploadedFiles={setUploadedFiles}
+                                                avatarURLs={avatarURLs}
+                                                setAvatarURLs={setAvatarURLs}
+                                                avatarId={avatarId}
+                                                reset={resetImg}
+                                            // errors={errors}
+                                            />
+                                            <ToastContainer />
                                         </div>
                                     </div>
 
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => handleClose()}>Close</button>
-                                        <button type="submit" className="btn btn-primary">  Save </button>
-                                        <button type="button" className="btn btn-sm btn-dark" onClick={() => reset()} >Cancel</button>
+                                    <div className="modal-footer" style={{ marginTop: "30px" }}>
+                                        <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal" onClick={() => handleCloseModal()}>Close</button>
+                                        {isLoading ? (
+                                            <SkeletonSave />
+                                        ) : (
+                                            <button type="submit" className="btn btn-outline-primary" disabled={isLoading}>
+                                                Save
+                                            </button>
+                                        )}
+                                        <button type="button" className="btn btn-outline-dark" onClick={handleResetModal}>Reset</button>
                                     </div>
                                 </div>
                             </form>

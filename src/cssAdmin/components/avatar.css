@@ -13,15 +13,19 @@
     cursor: pointer;
     padding: 2px;
 }
+
 .wrapper.active {
     border: none;
 }
-.wrapper.active:hover > .clear-image-preview i {
+
+.wrapper.active:hover>.clear-image-preview i {
     display: block;
 }
+
 .wrapper .clear-image-preview i:hover {
     color: #E74C3C;
 }
+
 .wrapper .image-preview {
     position: absolute;
     height: 50%;
@@ -30,23 +34,28 @@
     align-items: center;
     justify-content: center;
 }
+
 .wrapper .content {
-    text-align: center;
+    text-align: left;
 }
+
 .wrapper img {
     height: 100%;
     width: 100%;
     object-fit: cover;
 }
+
 .wrapper .icon {
     font-size: 100px;
     color: #9658FE;
 }
+
 .wrapper .text {
     font-size: 20px;
     font-weight: 500;
     color: #5B5B7B;
 }
+
 .clear-image-preview i {
     position: absolute;
     font-size: 20px;
@@ -56,6 +65,7 @@
     cursor: pointer;
     display: none;
 }
+
 .wrapper .file-name {
     position: absolute;
     bottom: 0;
@@ -65,11 +75,13 @@
     color: #fff;
     text-align: center;
     display: none;
-    background: linear-gradient(135deg,#3A8FFE 0%,#9658FE 100%);
+    background: linear-gradient(135deg, #3A8FFE 0%, #9658FE 100%);
 }
+
 .wrapper.active:hover .file-name {
     display: block;
 }
+
 .container-fluid #custom-btn {
     margin-top: 30px;
     display: block;
@@ -84,13 +96,15 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     cursor: pointer;
-    background: linear-gradient(135deg,#3A8FFE 0%,#9658FE 100%);
+    background: linear-gradient(135deg, #3A8FFE 0%, #9658FE 100%);
 }
+
 canvas {
     width: 100%;
     height: 100%;
     position: relative;
 }
+
 .modal-body section {
     display: flex;
     justify-content: center;
