@@ -121,3 +121,8 @@
     font-size: 45px;
 }
  
+.valid-text {
+    text-align: left;
+    font-size: 18px !important;
+    margin-left: 3%;
+}

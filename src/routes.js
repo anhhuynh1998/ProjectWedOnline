@@ -1,8 +1,7 @@
 import CreateProduct from "./components/admin/product/CreateProduct";
 import Product from "./components/admin/product/Product";
 import ListUserInfo from "./components/user/ListUserInfo";
-import Revenue from './components/admin/revenue/Revenue';
-
+import Revenue from "./components/admin/revenue/Revenue";
 
 const dashboardRoutes = [
   {
@@ -21,12 +20,11 @@ const dashboardRoutes = [
   },
   {
     path: "/userinfo",
-    name: "Người Dùng",
-    icon: "fa-solid fa-user",
+    name: "Danh Sách Khách Hàng",
+    icon: "fa-solid fa-list",
     component: ListUserInfo,
     layout: "/admin",
-  }
-
+  },
 ];
 
 export default dashboardRoutes;

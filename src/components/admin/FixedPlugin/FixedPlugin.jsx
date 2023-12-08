@@ -12,12 +12,11 @@ const FixedPlugin = ({
   color,
   setColor,
   image,
-  setImage
+  setImage,
 }) => {
   return (
     <div className="fixed-plugin">
       <Dropdown>
-        
         <Dropdown.Menu>
           <li className="adjustments-line d-flex align-items-center justify-content-between">
             <p>Background Image</p>
@@ -181,6 +180,6 @@ const FixedPlugin = ({
       </Dropdown>
     </div>
   );
-}
+};
 
 export default FixedPlugin;

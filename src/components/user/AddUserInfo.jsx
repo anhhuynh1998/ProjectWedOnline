@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-// import Swal from "sweetalert2";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,31 +8,41 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import AvatarUploader from "./AvatarUploader";
 
 const createUserinfo = yup.object({
-  username: yup.string().required("userName can't be empty").min(5).max(30),
+  username: yup.string().required("Tên người dùng bắt buộc").min(5).max(30),
   password: yup
     .string()
-    .required("password can't be empty")
+    .required("Mật khẩu bắt buộc phải nhập")
     .min(6)
     .max(20)
-    .typeError("Invalid Age"),
-  fullName: yup.string().required("FullName can't be empty"),
-  email: yup.string().required("Email can't be empty").min(5).max(30),
-  phone: yup.string().required("Phone can't be empty").min(9).max(20),
-  gender: yup.string().required("Gender can't be empty"),
-  province: yup.string().required("Province can't be empty"),
-  district: yup.string().required("District can't be empty"),
-  ward: yup.string().required("Ward can't be empty"),
-  address: yup.string().required("Address can't be empty"),
+    .typeError("Mật khẩu không được để trống"),
+  fullName: yup.string().required("Tên không được để trống"),
+  email: yup.string().required("Email không được để trống").min(5).max(30),
+  phone: yup
+    .string()
+    .required("Số điện thoại không được để trống")
+    .min(9)
+    .max(20),
+  gender: yup.string().required("Giới tính không được để trống "),
+  province: yup.string().required("Tĩnh không được để trống"),
+  district: yup.string().required("Huyện không được để trống"),
+  ward: yup.string().required("Phường không được để trống"),
+  address: yup.string().required("Địa chỉ không được để trống"),
 });
 const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
     reset,
   } = useForm({
     resolver: yupResolver(createUserinfo),
   });
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [noneContent, setNoneContent] = useState(false);
+  const [avatarURL, setAvatarURL] = useState("");
   const [avatarId, setAvatarId] = useState("");
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
@@ -74,10 +83,9 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
       );
 
       if (response.ok) {
-        console.log(response);
         const data = await response.json();
         setListUserInfo([...listUserInfo, data]);
-        // swal("Good job!", "Thêm mới thành công !!!", "success");
+
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -85,8 +93,16 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
           showConfirmButton: false,
           timer: 1500,
         });
+
+        onClose();
+        reset();
+        setAvatarId("");
+        setAvatarURL("");
+        setSelectedFile(null);
+        setSelectedImage(null);
+        setNoneContent(false);
       } else {
-        throw new Error("Failed to create userInfo");
+        throw new Error("Không tạo được thông tin người dùng");
       }
     } catch (error) {
       console.error(error);
@@ -123,6 +139,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
       provinceId: provinceId,
       provinceName: provinceName,
     }));
+    setError("province", null);
 
     getAllDistrictsByProvinceId(provinceId);
     setIsDistrictDisabled(false);
@@ -154,6 +171,8 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
       districtId: districtId,
       districtName: districtName,
     }));
+
+    setError("district", null);
 
     getAllWardsByDistrictId(districtId);
     setIsWardDisabled(false);
@@ -192,6 +211,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
     const wardId = event.target.value;
     const wardName = event.target.options[event.target.selectedIndex].text;
 
+    setError("ward", null);
     setLocationRegion((prevState) => ({
       ...prevState,
       wardId: wardId,
@@ -207,64 +227,75 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
         role="dialog"
       >
         <div
-          className="modal-dialog modal-dialog-centered modal-xl"
+          className="modal-dialog modal-dialog-centered modal-form"
           role="document"
         >
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title text-primary">Create User</h5>
+              <h5 className="modal-title text-primary">Tạo người dùng</h5>
               <button
                 type="button"
                 className="btn-close"
                 onClick={() => {
                   onClose();
                   reset();
+                  setAvatarId("");
+                  setAvatarURL("");
+                  setSelectedFile(null);
+                  setSelectedImage(null);
+                  setNoneContent(false);
                 }}
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body modalbodyform">
               <form onSubmit={handleSubmit(handleCreate)}>
                 <div className="row mb-3">
                   <div className="col-12">
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="username" className="form-label col-3">
-                          UserName
+                        <label
+                          htmlFor="username"
+                          className="form-label col-3 text-start"
+                        >
+                          Tài Khoản
                         </label>
                         <div className="col-9">
                           <input
                             type="text"
                             id="username"
                             className={`form-control ${
-                              errors?.userName ? "is-invalid" : ""
+                              errors?.username ? "is-invalid" : ""
                             }`}
                             {...register("username")}
                             placeholder="Vui lòng nhập username"
                           />
                           {errors?.username && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.username.message}
                             </span>
                           )}
                         </div>
                       </div>
                       <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="password" className="form-label col-3">
-                          Password
+                        <label
+                          htmlFor="password"
+                          className="form-label col-3 text-start"
+                        >
+                          Mật Khẩu
                         </label>
                         <div className="col-9">
                           <input
                             type="text"
                             id="password"
                             className={`form-control ${
-                              errors?.phone ? "is-invalid" : ""
+                              errors?.password ? "is-invalid" : ""
                             }`}
                             {...register("password")}
                             placeholder="Vui lòng nhập password"
                           />
                           {errors?.password && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.password.message}
                             </span>
                           )}
@@ -273,8 +304,11 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                     </div>
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="fullName" className="form-label col-3">
-                          Full Name
+                        <label
+                          htmlFor="fullName"
+                          className="form-label col-3 text-start"
+                        >
+                          Họ Tên
                         </label>
                         <div className="col-9">
                           <input
@@ -287,14 +321,17 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                             placeholder="Vui lòng nhập tên"
                           />
                           {errors?.fullName && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.fullName.message}
                             </span>
                           )}
                         </div>
                       </div>
                       <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="email" className="form-label col-3">
+                        <label
+                          htmlFor="email"
+                          className="form-label col-3 text-start"
+                        >
                           Email
                         </label>
                         <div className="col-9">
@@ -308,7 +345,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                             placeholder="Vui lòng nhập email"
                           />
                           {errors?.email && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.email.message}
                             </span>
                           )}
@@ -317,8 +354,11 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                     </div>
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="phone" className="form-label col-3">
-                          Phone
+                        <label
+                          htmlFor="phone"
+                          className="form-label col-3 text-start"
+                        >
+                          Số điện Thoại
                         </label>
                         <div className="col-9">
                           <input
@@ -331,15 +371,18 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                             placeholder="Vui lòng nhập số điện thoại"
                           />
                           {errors?.phone && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.phone.message}
                             </span>
                           )}
                         </div>
                       </div>
                       <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="gender" className="form-label col-3">
-                          Gender
+                        <label
+                          htmlFor="gender"
+                          className="form-label col-3 text-start"
+                        >
+                          Giới tính
                         </label>
                         <div className="col-9">
                           <select
@@ -351,11 +394,11 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                             {...register("gender")}
                           >
                             <option value="">Vui lòng chọn giới tính</option>
-                            <option value="male">male</option>
-                            <option value="female">female</option>
+                            <option value="male">Nam </option>
+                            <option value="female">Nữ</option>
                           </select>
                           {errors?.gender && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.gender.message}
                             </span>
                           )}
@@ -364,15 +407,18 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                     </div>
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="province" className="form-label col-3">
-                          Province
+                        <label
+                          htmlFor="province"
+                          className="form-label col-3 text-start"
+                        >
+                          Thành Phố
                         </label>
                         <div className="col-9">
                           <select
                             name="province"
                             id="province"
                             className={`form-select ${
-                              errors?.province ? "is-invalid" : ""
+                              errors?.province?.message ? "is-invalid" : ""
                             }`}
                             {...register("province")}
                             onChange={handleProvinceChange}
@@ -388,22 +434,25 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                               ))}
                           </select>
                           {errors?.province && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.province.message}
                             </span>
                           )}
                         </div>
                       </div>
                       <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="district" className="form-label col-3">
-                          District
+                        <label
+                          htmlFor="district"
+                          className="form-label col-3 text-start"
+                        >
+                          Quận/Huyện
                         </label>
                         <div className="col-9">
                           <select
                             name="district"
                             id="district"
                             className={`form-select ${
-                              errors?.district ? "is-invalid" : ""
+                              errors?.district?.message ? "is-invalid" : ""
                             }`}
                             {...register("district")}
                             onChange={handleDistrictChange}
@@ -418,7 +467,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                               ))}
                           </select>
                           {errors?.district && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.district.message}
                             </span>
                           )}
@@ -427,15 +476,18 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                     </div>
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3">
-                        <label htmlFor="ward" className="form-label col-3">
-                          Ward
+                        <label
+                          htmlFor="ward"
+                          className="form-label col-3 text-start"
+                        >
+                          Phường/Xã
                         </label>
                         <div className="col-9">
                           <select
                             name="ward"
                             id="ward"
                             className={`form-select ${
-                              errors?.ward ? "is-invalid" : ""
+                              errors?.ward?.message ? "is-invalid" : ""
                             }`}
                             {...register("ward")}
                             onChange={handleWardChange}
@@ -450,16 +502,18 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                               ))}
                           </select>
                           {errors?.ward && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.ward.message}
                             </span>
                           )}
                         </div>
                       </div>
-
                       <div className="form-group col-lg-6 mb-3">
-                        <label htmlFor="address" className="form-label col-3">
-                          Address
+                        <label
+                          htmlFor="address"
+                          className="form-label col-3 text-start"
+                        >
+                          Địa chỉ
                         </label>
                         <div className="col-9">
                           <input
@@ -472,7 +526,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                             placeholder="Vui lòng nhập địa chỉ"
                           />
                           {errors?.address && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.address.message}
                             </span>
                           )}
@@ -481,15 +535,25 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                     </div>
                   </div>
                 </div>
-                <AvatarUploader setAvatarId={setAvatarId} />
 
+                <AvatarUploader
+                  setAvatarId={setAvatarId}
+                  setSelectedFile={setSelectedFile}
+                  setSelectedImage={setSelectedImage}
+                  setAvatarURL={setAvatarURL}
+                  selectedFile={selectedFile}
+                  selectedImage={selectedImage}
+                  avatarURL={avatarURL}
+                  setNoneContent={setNoneContent}
+                  noneContent={noneContent}
+                />
                 <div className="modal-footer d-flex">
                   <button
                     type="submit"
                     className="btn btn-primary"
                     style={{ padding: "6px 12px", margin: "4px 4px 0 5px" }}
                   >
-                    Create
+                    Tạo tài Khoản
                   </button>
                   <button
                     type="button"
@@ -499,9 +563,14 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                       onClose();
                       setIsDistrictDisabled(true);
                       setIsWardDisabled(true);
+                      setAvatarId("");
+                      setAvatarURL("");
+                      setSelectedFile(null);
+                      setSelectedImage(null);
+                      setNoneContent(false);
                     }}
                   >
-                    Close
+                    Đóng
                   </button>
                 </div>
               </form>
