@@ -1,0 +1,47 @@
+#iconGoogle {
+    width: 7%
+}
+
+#cssLoginGoogle {
+    width: 100%;
+    border: solid 1px;
+}
+
+#loginButton,
+#registerButton {
+    width: 100%;
+}
+
+#headRegister {
+    margin-left: 50px;
+    font-weight: 700px
+}
+
+#submitLogin,
+#submitRegister {
+    margin-left: 9%;
+    width: 85%;
+}
+
+.icon-eye {
+    position: absolute;
+    right: 17px;
+    z-index: 99;
+    bottom: 10px
+}
+
+.icon-eyeOff {
+    position: relative
+}
+
+.checkOutButton {
+    padding-left: 80px;
+}
+
+.userinfomation {
+    margin: 0 60px;
+}
+
+.login-text {
+    margin-top: 3px;
+}

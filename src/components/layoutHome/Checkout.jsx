@@ -1,33 +1,40 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 // import CartTotal from "./CartTotal"
 import LocationRegionService from "../../service/homeService/locationRegionService";
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form";
 import CartService from "../../service/homeService/cartService";
-import { ToastSuccess } from "../../toastify/Toast";
-import { useNavigate } from "react-router-dom";
+import { ToastSuccess, ToastWarning } from "../../toastify/Toast";
+import formatPrice from "./formatPrice/FormatPrice";
+import "../layoutHome/cssHome/cssHome.css"
+import { UseProduct } from "./UseContext";
 
 const CheckOut = ({ cartDetails, total }) => {
+    const { backHome } = useContext(UseProduct);
     const totalPrice = cartDetails.total || total;
     const [totals, setTotals] = useState(totalPrice);
     const [shippingFee, setShipping] = useState(0);
     const [provinces, setProvinces] = useState([]);
     const [districts, setDistricts] = useState([]);
     const [wards, setWards] = useState([]);
-    const backHome = useNavigate();
+    const formatShippingFee = formatPrice(shippingFee);
+    const formatTotals = formatPrice(totals);
+    const formatTotalPrice = formatPrice(totalPrice);
+    const [provinceSelected, setProvinceSelected] = useState(true);
+    const [districtSelected, setDistrictSelected] = useState(true);
+    const [wardSelected, setWardSelected] = useState(true);
 
     const checkOutSchema = yup.object({
         name: yup.string().required("Tên Người Nhận Không Được Để Trống")
             .min(5, "Tên Người Nhận Phải Từ 5 Đến 30 Kí Tự").max(30, "Tên Người Nhận Phải Từ 5 Đến 30 Kí Tự"),
-        phone: yup.string().matches(/^(0|\+84)\d{9}$/, 'Số điện thoại không hợp lệ'),
+        phone: yup.string().matches(/^(0|\+84)\d{9}$/, 'Số Điện Thoại Không Hợp Lệ'),
         address: yup.string().required("Vui Lòng Nhập Địa Chỉ")
             .max(30, "Địa Chỉ Phải Ít Hơn 40 Kí Tự "),
         province: yup.string().required("Vui Lòng Chọn Thành Phố"),
         district: yup.string().required("Vui Lòng Chọn Quận/Huyện"),
         ward: yup.string().required("Vui Lòng Chọn Phường/Xã"),
-
     })
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -72,7 +79,8 @@ const CheckOut = ({ cartDetails, total }) => {
             ...locationRegion,
             provinceId,
             provinceName
-        })
+        });
+        setProvinceSelected(false);
     }
     const onChangDistrict = (e) => {
         const districtId = e.target.value;
@@ -83,7 +91,8 @@ const CheckOut = ({ cartDetails, total }) => {
             ...locationRegion,
             districtId,
             districtName
-        })
+        });
+        setDistrictSelected(false);
         if (districtId != 346) {
             setShipping(30000)
             setTotals(totalPrice + 30000)
@@ -102,30 +111,39 @@ const CheckOut = ({ cartDetails, total }) => {
             wardId,
             wardName,
 
-        })
+        });
+        setWardSelected(false);
     }
-
     const checkOut = async (value) => {
         const data = {
             ...value,
             shippingFee,
             totalPrice,
-            locationRegion
+            locationRegion: {
+                ...locationRegion,
+                address: value.address
+            }
         }
         console.log(data);
         if (localStorage.getItem("jwt")) {
-            await CartService.checkOut(data);
-            ToastSuccess('Đặt Hàng Thành Công');
-            setTimeout(() => {
-                backHome("/home")
-            }, 3000)
+            if (cartDetails.length > 0) {
+                await CartService.checkOut(data);
+                ToastSuccess('Đặt Hàng Thành Công');
+                backHome("/home");
+            }
+            else {
+                ToastWarning("Vui Lòng Chọn Sản Phẩm");
+            }
         } else {
-            await CartService.checkOutNotLogin(data);
-            localStorage.removeItem("productDetail");
-            ToastSuccess('Đặt Hàng Thành Công');
-            setTimeout(() => {
-                backHome("/home")
-            }, 3000)
+            if (localStorage.getItem("productDetail")) {
+                await CartService.checkOutNotLogin(data);
+                localStorage.removeItem("productDetail");
+                ToastSuccess('Đặt Hàng Thành Công');
+                backHome("/home");
+            }
+            else {
+                ToastWarning("Vui Lòng Chọn Sản Phẩm");
+            }
         }
     }
 
@@ -146,13 +164,13 @@ const CheckOut = ({ cartDetails, total }) => {
                                                     <div className="col-lg-12 form-group d-flex mb-5 ">
                                                         <div className="col-lg-6 me-3 ">
                                                             <input type="text" placeholder="Tên Người Nhận*"
-                                                                className={`${errors?.name?.message ? "form-control me-5 is-invalid" : "form-control me-5"}`}
+                                                                className={`form-control me-5 ${errors?.name?.message ? " is-invalid" : ""}`}
                                                                 {...register('name')} />
                                                             <span className="invalid-feedback">{errors?.name?.message}</span>
                                                         </div>
                                                         <div className="col-lg-6">
                                                             <input type="text" placeholder="Số Điện Thoại*"
-                                                                className={`${errors?.phone?.message ? "form-control is-invalid " : "form-control "}`}
+                                                                className={`form-control ${errors?.phone?.message ? " is-invalid " : ""}`}
                                                                 {...register('phone')} />
                                                             <span className="invalid-feedback">{errors?.phone?.message}</span>
                                                         </div>
@@ -161,42 +179,46 @@ const CheckOut = ({ cartDetails, total }) => {
                                                 <div className="row">
                                                     <div className="col-lg-12 form-group d-flex mb-5">
                                                         <div className="col-lg-6 me-3">
-                                                            <select className="form-control me-5"
+                                                            <select
+                                                                className={`form-control me-5 ${provinceSelected && errors?.province?.message ? " is-invalid" : ""}`}
                                                                 {...register('province')}
                                                                 onChange={onchangeProvince}>
-                                                                <option>Tỉnh*</option>
+                                                                <option value="">Tỉnh*</option>
                                                                 {provinces.map((item, index) => (
                                                                     <option value={item.id} key={index} >{item.name}</option>
                                                                 ))}
                                                             </select>
+                                                            <span className="invalid-feedback">{errors?.province?.message}</span>
                                                         </div>
                                                         <div className="col-lg-6">
-                                                            <select className="form-control"
+                                                            <select className={`form-control ${districtSelected && errors?.district?.message ? " is-invalid" : ""}`}
                                                                 {...register('district')}
                                                                 onChange={onChangDistrict}>
-                                                                <option>Thành Phố*</option>
+                                                                <option value="">Thành Phố*</option>
                                                                 {districts.map((item, index) => (
                                                                     <option value={item.id} key={index} >{item.name}</option>
                                                                 ))}
                                                             </select>
+                                                            <span className="invalid-feedback">{errors?.district?.message}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-lg-12 form-group d-flex mb-5 ">
                                                         <div className="col-lg-6 me-3">
-                                                            <select className="form-control me-5"
+                                                            <select className={`form-control me-5 ${wardSelected && errors?.ward?.message ? " is-invalid" : ""}`}
                                                                 {...register('ward')}
                                                                 onChange={onChangeWard}>
-                                                                <option>Quận Huyện*</option>
+                                                                <option value="">Quận Huyện*</option>
                                                                 {wards.map((item, index) => (
                                                                     <option value={item.id} key={index} >{item.name}</option>
                                                                 ))}
                                                             </select>
+                                                            <span className="invalid-feedback">{errors?.ward?.message}</span>
                                                         </div>
                                                         <div className="col-lg-6">
                                                             <input type="text" placeholder="Địa Chỉ*"
-                                                                className={`${errors?.address?.message ? "form-control is-invalid" : "form-control"}`}
+                                                                className={`form-control ${errors?.address?.message ? "is-invalid" : ""}`}
                                                                 {...register('address')} />
                                                             <span className="invalid-feedback">{errors?.address?.message}</span>
                                                         </div>
@@ -206,32 +228,33 @@ const CheckOut = ({ cartDetails, total }) => {
                                             <div className="col-md-4 col-lg-4">
                                                 <div className="cart_totals">
                                                     <h2>TỔNG GIỎ HÀNG</h2>
-                                                    <table style={{ display: "block", width: "180px" }}>
+                                                    <table >
                                                         <tbody>
                                                             <tr className="cart-subtotal">
                                                                 <th>Tổng Phụ</th>
                                                                 <td>
-                                                                    <span className="amount">{totalPrice}</span>
+                                                                    <span className="amount">{formatTotalPrice}</span>
                                                                 </td>
                                                             </tr>
                                                             <tr className="shipping">
                                                                 <th>Phí Vận Chuyển</th>
                                                                 <td>
-                                                                    <span className="amount">{shippingFee}</span>
+                                                                    <span className="amount">{formatShippingFee}</span>
                                                                 </td>
                                                             </tr>
                                                             <tr className="order-total">
                                                                 <th>Tổng Tiền</th>
                                                                 <td>
                                                                     <strong>
-                                                                        <span className="amount">{totals}</span>
+                                                                        <span className="amount">{formatTotals}</span>
                                                                     </strong>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
-                                                        <div className="wc-proceed-to-checkout d-flex justify-content-end">
-                                                            <button className="btn btn-danger" >Xác Nhận Đặt Hàng</button>
-                                                        </div>
+
+                                                        <caption className="checkOutButton mt-3" >
+                                                            <button className="btn btn-danger">Xác Nhận Đặt Hàng</button>
+                                                        </caption>
                                                     </table>
                                                 </div>
                                             </div>

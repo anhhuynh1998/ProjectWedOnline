@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react"
 import CategoryService from '../../../service/homeService/categoryService';
 import ProductService from "../../../service/homeService/productService";
@@ -6,8 +7,6 @@ import ProductService from "../../../service/homeService/productService";
 const Category = ({ setCategoryId, setProducts, setPage }) => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    // const [selectedProduct, setSelectedProduct] = useState(null);
-
 
     useEffect(() => {
         async function getAllCategory() {

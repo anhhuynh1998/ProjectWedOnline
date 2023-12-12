@@ -14,7 +14,7 @@ const CartTotal = ({ total, setTotal, totalPrice, shippingFee, setData }) => {
     }
 
     return (
-        
+        <></>
     )
 }
 export default CartTotal;

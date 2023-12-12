@@ -11,12 +11,15 @@ import '../src/cssAdmin/styles.css'
 import "./assets/scss/light-bootstrap-dashboard-react.scss?v=2.0.0"
 import "./assets/css/animate.min.css"
 import './assets/css/demo.css'
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
   <BrowserRouter>
-    <App />
+    <GoogleOAuthProvider clientId="484686037040-bgr2c8t63rq2ringvqsf2ugh17f5a760.apps.googleusercontent.com">
+      <App />
+    </GoogleOAuthProvider>
   </BrowserRouter>
   // </React.StrictMode>,
 )

@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom"
 import CartService from "../../service/homeService/cartService";
 import formatPrice from "./formatPrice/FormatPrice";
 import CheckOut from "./Checkout";
+import Login from "./Login";
 
 const Cart = () => {
     const productIdList = JSON.parse(localStorage.getItem('productDetail')) || [];
@@ -51,6 +52,7 @@ const Cart = () => {
 
     return (
         <div >
+            <Login />
             <div className="body__overlay" />
             <div
                 className="ht__bradcaump__area"
@@ -99,9 +101,9 @@ const Cart = () => {
                                             cartDetails && cartDetails?.map((item, index) => {
                                                 const formattedPrice = formatPrice(item?.product?.price);
                                                 return (
-                                                    <tr key={index} >
-                                                        <td className="product-thumbnail ">
-                                                            <a href="#">
+                                                    <tr key={index}>
+                                                        <td className="product-thumbnail">
+                                                            <a >
                                                                 <img src={item?.product?.listFile[0]} alt="product img" />
                                                             </a>
                                                         </td>
@@ -121,9 +123,7 @@ const Cart = () => {
                                                         </td>
                                                     </tr>
                                                 )
-
                                             }
-
                                             )
                                         }
                                     </tbody>

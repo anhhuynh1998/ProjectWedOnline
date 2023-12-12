@@ -6,6 +6,7 @@ import SortPrice from "./SortPrice"
 import Tags from "./Tags"
 import ProductShop from "./ProductShop"
 import ProductService from "../../../service/homeService/productService"
+import Login from "../Login"
 
 
 const ShopSideBar = () => {
@@ -31,7 +32,6 @@ const ShopSideBar = () => {
         setIsLoading(false);
     }
 
-
     useEffect(() => {
     }, [search])
 
@@ -39,10 +39,9 @@ const ShopSideBar = () => {
         getALlProducts();
     }, [sortPrice, search, size, categoryId])
 
-
-
     return (
         <>
+            <Login />
             <div >
                 <div className="body__overlay" />
                 <div className="offset__wrapper">

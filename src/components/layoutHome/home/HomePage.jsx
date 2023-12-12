@@ -1,7 +1,6 @@
 
 import Login from "../Login";
 import HomeProductPrice from "./HomeProductPrice";
-import InforProduct from "./InforProduct";
 
 const HomePage = () => {
 
@@ -62,7 +61,6 @@ const HomePage = () => {
                 {/* List Product */}
                 <HomeProductPrice />
             </div>
-            <InforProduct />
             <Login />
         </div >
     )
