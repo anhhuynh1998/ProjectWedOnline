@@ -1,10 +1,9 @@
 
 import Login from "../Login";
 import HomeProductPrice from "./HomeProductPrice";
-import InforProduct from "./InforProduct";
 
 const HomePage = () => {
-    // const [loading, setLoading] = useState("");
+
     return (
         <div>
             <div>
@@ -46,9 +45,9 @@ const HomePage = () => {
                             <div className="row ">
                                 <div className="col-xs-12 ">
                                     <div className="bradcaump__inner text-center " style={{ paddingLeft: "530px" }}>
-                                        <h2 className="bradcaump-title" style={{ color: "white" }}>New Product Collection</h2>
+                                        <h2 className="bradcaump-title animate__animated  animate__flash" style={{ color: "white" }}>New Product Collection</h2>
 
-                                        <a className="breadcrumb-item" style={{ color: "white" }}>
+                                        <a className="breadcrumb-item animate__animated animate__flip" style={{ color: "white" }}>
                                             Show Now
                                         </a>
 
@@ -62,7 +61,6 @@ const HomePage = () => {
                 {/* List Product */}
                 <HomeProductPrice />
             </div>
-            <InforProduct />
             <Login />
         </div >
     )

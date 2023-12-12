@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar, Container, Nav, Dropdown, Button } from "react-bootstrap";
 import routes from "../../../routes";
@@ -116,7 +116,7 @@ const Header = () => {
               </Nav.Link> */}
             </Nav.Item>
           </Nav>
-          <Nav className="ml-auto" navbar>
+          {/* <Nav className="ml-auto" navbar>
             <Nav.Item>
               <Nav.Link
                 className="m-0"
@@ -181,7 +181,7 @@ const Header = () => {
                 <span className="no-icon">Log out</span>
               </Nav.Link>
             </Nav.Item>
-          </Nav>
+          </Nav> */}
         </Navbar.Collapse>
       </Container>
     </Navbar>

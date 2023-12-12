@@ -11,7 +11,9 @@ class ProductService {
         if (id) {
             return axios.get(PRODUCT_API + `/${id}`);
         }
-        return new Promise();
+    }
+    static getAllProductByFilterHome(categoryId) {
+        return axios.get(PRODUCT_API + `/filterHome?categoryId=${categoryId}`)
     }
 
     static getProductByFilter(min, max, search, size, categoryId, page) {

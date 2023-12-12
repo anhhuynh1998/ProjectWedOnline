@@ -3,7 +3,7 @@ import { Dropdown, Badge, Button, Form } from "react-bootstrap";
 
 import sideBarImage1 from "../../../assets/img/sidebar-1.jpg";
 import sideBarImage2 from "../../../assets/img/sidebar-2.jpg";
-import sideBarImage3 from "../../../assets/img/sidebar-3.jpg";
+import sideBarImage3 from "../../../assets/img/2ndadmin.jpeg";
 import sideBarImage4 from "../../../assets/img/sidebar-4.jpg";
 
 const FixedPlugin = ({
@@ -12,14 +12,11 @@ const FixedPlugin = ({
   color,
   setColor,
   image,
-  setImage
+  setImage,
 }) => {
   return (
     <div className="fixed-plugin">
       <Dropdown>
-        <Dropdown.Toggle id="dropdown-fixed-plugin" variant="" className="text-white border-0 opacity-100">
-          <i className="fas fa-cogs fa-2x mt-1"></i>
-        </Dropdown.Toggle>
         <Dropdown.Menu>
           <li className="adjustments-line d-flex align-items-center justify-content-between">
             <p>Background Image</p>
@@ -120,7 +117,7 @@ const FixedPlugin = ({
               <Button
                 block
                 className="btn-fill"
-                href="http://www.creative-tim.com/product/light-bootstrap-dashboard-react"
+                href="#"
                 rel="noopener noreferrer"
                 target="_blank"
                 variant="info"
@@ -134,7 +131,7 @@ const FixedPlugin = ({
               <Button
                 block
                 className="btn-fill"
-                href="http://www.creative-tim.com/product/light-bootstrap-dashboard-react"
+                href="#"
                 rel="noopener noreferrer"
                 target="_blank"
                 variant="default"
@@ -151,7 +148,7 @@ const FixedPlugin = ({
               <Button
                 block
                 className="btn-fill"
-                href="http://www.creative-tim.com/product/light-bootstrap-dashboard-pro-react"
+                href="#"
                 rel="noopener noreferrer"
                 target="_blank"
                 variant="primary"
@@ -183,6 +180,6 @@ const FixedPlugin = ({
       </Dropdown>
     </div>
   );
-}
+};
 
 export default FixedPlugin;

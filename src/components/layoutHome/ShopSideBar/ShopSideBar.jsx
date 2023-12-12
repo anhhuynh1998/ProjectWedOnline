@@ -6,6 +6,7 @@ import SortPrice from "./SortPrice"
 import Tags from "./Tags"
 import ProductShop from "./ProductShop"
 import ProductService from "../../../service/homeService/productService"
+import Login from "../Login"
 
 
 const ShopSideBar = () => {
@@ -19,17 +20,20 @@ const ShopSideBar = () => {
     const [categoryId, setCategoryId] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
-    console.log(sortPrice);
 
     async function getALlProducts() {
-        console.log(sortPrice.max);
+
         setIsLoading(true);
         let response = await ProductService.getProductByFilter(sortPrice.min,
             sortPrice.max, search, size, categoryId, page);
         setProducts(prevProduct => [...prevProduct, ...response.data.content]);
-        setPage(page => page + 1);
+        if (page < response.data.totalPages)
+            setPage(page => page + 1);
         setIsLoading(false);
     }
+
+    useEffect(() => {
+    }, [search])
 
     useEffect(() => {
         getALlProducts();
@@ -37,6 +41,7 @@ const ShopSideBar = () => {
 
     return (
         <>
+            <Login />
             <div >
                 <div className="body__overlay" />
                 <div className="offset__wrapper">
@@ -65,7 +70,7 @@ const ShopSideBar = () => {
                     className="ht__bradcaump__area"
                     style={{
                         background:
-                            "rgba(0, 0, 0, 0) url(images/bg/sale.jpeg) no-repeat scroll center center / cover"
+                            "rgba(0, 0, 0, 0) url(images/bg/2nd1.jpeg) no-repeat scroll center center / cover"
                     }}
                 >
                     <div className="ht__bradcaump__wrap">
@@ -73,13 +78,13 @@ const ShopSideBar = () => {
                             <div className="row">
                                 <div className="col-xs-12">
                                     <div className="bradcaump__inner text-center">
-                                        <h2 className="bradcaump-title" style={{ color: "white" }}>Shop Sidebar</h2>
+                                        <h2 className="bradcaump-title animate__animated animate__fadeInDown" style={{ color: "white" }}>Shop Sidebar</h2>
                                         <nav className="bradcaump-inner">
-                                            <a className="breadcrumb-item" href="/home" style={{ color: "white" }}>
+                                            <a className="breadcrumb-item animate__animated animate__fadeInDown" href="/home" style={{ color: "white" }}>
                                                 Home
                                             </a>
-                                            <span className="brd-separetor" style={{ color: "white" }}>/</span>
-                                            <span className="breadcrumb-item active" style={{ color: "white" }}>Shop Sidebar</span>
+                                            <span className="brd-separetor animate__animated animate__fadeInDown" style={{ color: "white" }}>/</span>
+                                            <span className="breadcrumb-item active animate__animated animate__fadeInDown" style={{ color: "white" }}>Shop Sidebar</span>
                                         </nav>
                                     </div>
                                 </div>
@@ -89,20 +94,20 @@ const ShopSideBar = () => {
                 </div>
 
                 <section className="htc__shop__sidebar bg__white ptb--20">
-                    <SearchProduct setSearch={setSearch} />
+                    <SearchProduct setSearch={setSearch} setPage={setPage} setProducts={setProducts} />
                     <div className="container">
                         <div className="row">
                             <div className="col-md-3 col-lg-3 col-sm-12 col-xs-12">
                                 <div className="htc__shop__left__sidebar">
 
                                     {/* Start Range */}
-                                    <SortPrice setSortPrice={setSortPrice} />
+                                    <SortPrice setSortPrice={setSortPrice} setProducts={setProducts} setPage={setPage} />
 
                                     {/* category */}
-                                    <Category setCategoryId={setCategoryId} />
+                                    <Category setCategoryId={setCategoryId} setProducts={setProducts} setPage={setPage} />
 
                                     {/* Start Size Cat */}
-                                    <SizeProduct setSelectedSize={setSelectedSize} />
+                                    <SizeProduct setSelectedSize={setSelectedSize} setProducts={setProducts} setPage={setPage} />
 
                                     {/* Start Tag Area */}
                                     <Tags />

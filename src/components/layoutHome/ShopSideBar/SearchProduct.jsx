@@ -1,9 +1,12 @@
+/* eslint-disable react/prop-types */
 // import { search } from "fontawesome";
 
-const SearchProduct = ({ setSearch }) => {
+const SearchProduct = ({ setSearch, setPage, setProducts }) => {
     const handleSearch = () => {
         const input = document.getElementById("example-search-input");
         const searchValue = input.value;
+        setPage(0);
+        setProducts([]);
         setSearch(searchValue);
     }
 

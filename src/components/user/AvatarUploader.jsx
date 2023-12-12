@@ -1,24 +1,37 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
-const AvatarUploader = ({ setAvatarId }) => {
+const AvatarUploader = ({
+  setAvatarId,
+  setSelectedFile,
+  setSelectedImage,
+  setAvatarURL,
+  selectedFile,
+  selectedImage,
+  avatarUrl,
+  noneContent,
+  setNoneContent,
+}) => {
   const fileInputRef = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [avatarURL, setAvatarURL] = useState("");
-
   const handleFileChange = (event) => {
+    console.log("demo");
     const file = event.target.files[0];
-    setSelectedFile(file);
-    uploadAvatar(file);
+    const allowedFormats = ["image/jpg", "image/png"];
 
-    // Đọc và hiển thị hình ảnh đã chọn
-    const reader = new FileReader();
-    reader.onload = () => {
-      setSelectedImage(reader.result);
-    };
-    reader.readAsDataURL(file);
+    if (file && allowedFormats.includes(file.type)) {
+      setSelectedFile(file);
+      uploadAvatar(file);
+      setNoneContent(true);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Vui lòng chọn file có định dạng JPG hoặc PNG");
+    }
   };
 
   const handleCanvasClick = (event) => {
@@ -41,32 +54,42 @@ const AvatarUploader = ({ setAvatarId }) => {
         setAvatarURL(data[0].url);
         setAvatarId(data[0].id);
       } else {
-        console.error("Failed to upload avatar");
+        console.error("Không tải được hình đại diện lên");
       }
     } catch (error) {
-      console.error("Error uploading avatar:", error);
+      console.error("Lỗi tải hình đại diện lên:", error);
     }
   };
-
+  console.log(avatarUrl);
   return (
     <div className="col-12 mb-3">
       <section>
         <div className="wrapper" style={{ minHeight: "100%" }}>
-          {/* Thêm thẻ img để hiển thị hình ảnh */}
-          {selectedImage && <img src={selectedImage} alt="Selected" />}
           <label
             htmlFor="imageFileCreate"
             className="image-preview"
-            onClick={(e) => handleCanvasClick(e)}
+            onClick={(e) => {
+              handleCanvasClick(e);
+            }}
           ></label>
-          <div className="content">
-            <div className="icon">
+          {(selectedImage || avatarUrl) && (
+            <img src={selectedImage || avatarUrl} alt="Selected" />
+          )}
+          <div
+            className="content"
+            style={{ display: noneContent || avatarUrl ? "none" : "block" }}
+          >
+            <div
+              className="icon"
+              style={{ textAlign: "center", display: "flex" }}
+            >
               <i className="fas fa-cloud-upload-alt" />
             </div>
             <div className="text">
-              {selectedFile ? selectedFile.name : "Chưa chọn file!"}
+              {selectedFile || avatarUrl
+                ? selectedFile?.name || "Anh cu"
+                : "Chưa chọn file!"}
             </div>
-            <div className="text">Dung lượng tối đa = 2MB</div>
           </div>
           <div className="clear-image-preview">
             <i className="fas fa-times" />
@@ -76,7 +99,7 @@ const AvatarUploader = ({ setAvatarId }) => {
         <input
           type="file"
           id="imageFileCreate"
-          accept="image/jpeg, image/png"
+          accept="image/jpg, image/png"
           hidden
           ref={fileInputRef}
           onChange={handleFileChange}

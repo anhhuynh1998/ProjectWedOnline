@@ -16,11 +16,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'react-toastify/dist/ReactToastify.css';
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
   <BrowserRouter>
-    <App />
+    <GoogleOAuthProvider clientId="484686037040-bgr2c8t63rq2ringvqsf2ugh17f5a760.apps.googleusercontent.com">
+      <App />
+    </GoogleOAuthProvider>
   </BrowserRouter>
   // </React.StrictMode>,
 )

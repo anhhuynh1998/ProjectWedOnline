@@ -9,16 +9,16 @@ import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AvatarUploader from "./AvatarUploader";
+import { ToastSuccess } from "../../toastify/Toast";
 
 const editUserinfo = yup.object({
-  fullName: yup.string().required("FullName can't be empty"),
-  email: yup.string().required("Email can't be empty").min(5).max(30),
-  phone: yup.string().required("Phone can't be empty").min(9).max(20),
-  gender: yup.string().required("Gender can't be empty"),
-  province: yup.string().required("Province can't be empty"),
-  district: yup.string().required("District can't be empty"),
-  ward: yup.string().required("Ward can't be empty"),
-  address: yup.string().required("Address can't be empty"),
+  fullName: yup.string().required("tên không được để trống"),
+  email: yup.string().required("email không được để trống").min(5).max(30),
+  phone: yup
+    .string()
+    .required("số điện thoại không được để trống")
+    .min(9)
+    .max(20),
 });
 const UpdateFormModal = ({
   isOpen,
@@ -30,11 +30,14 @@ const UpdateFormModal = ({
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm({
     resolver: yupResolver(editUserinfo),
   });
+
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [noneContent, setNoneContent] = useState(false);
+  const [avatarURL, setAvatarURL] = useState("");
   const [avatarId, setAvatarId] = useState("");
   const [provinceId, setProvinceId] = useState();
   const [districtId, setDistrictId] = useState();
@@ -42,6 +45,7 @@ const UpdateFormModal = ({
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [locationRegion, setLocationRegion] = useState(
     selectedUserInfo.locationRegion
   );
@@ -150,10 +154,13 @@ const UpdateFormModal = ({
         wardId: locationRegion.wardId,
         wardName: locationRegion.wardName,
         address: values.address,
+        username: selectedUserInfo.username,
+        password: selectedUserInfo.password,
+        // avatarId: locationRegion.avatarId,
       };
 
       fetch(
-        `http://localhost:8080/api/admin/userinfo/edit/${selectedUserInfo.userId}`,
+        `http://localhost:8080/api/admin/userinfo/${selectedUserInfo.userId}`,
         {
           method: "PUT",
           headers: {
@@ -172,15 +179,9 @@ const UpdateFormModal = ({
 
           setListUserInfo(listUserInfo);
           onClose();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Cập nhật thành công",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          ToastSuccess("Cập nhật thành công");
         } else {
-          throw new Error("Failed to update UserInfo");
+          throw new Error("Không tạo được thông tin người dùng");
         }
       });
     } catch (error) {
@@ -214,12 +215,14 @@ const UpdateFormModal = ({
         role="dialog"
       >
         <div
-          className="modal-dialog modal-dialog-centered modal-xl"
+          className="modal-dialog modal-dialog-centered modal-form"
           role="document"
         >
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title text-primary">Edit User</h5>
+              <h5 className="modal-title text-primary">
+                Sửa Thông Tin Người Dùng
+              </h5>
               <button
                 type="button"
                 className="btn-close"
@@ -229,14 +232,14 @@ const UpdateFormModal = ({
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body">
+            <div className="modal-body modalbodyform">
               <form onSubmit={handleSubmit(handleUpdate)}>
                 <div className="row mb-3">
                   <div className="col-12">
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3 ">
                         <label htmlFor="fullName" className="form-label col-3">
-                          Full Name
+                          Họ Tên
                         </label>
                         <div className="col-9">
                           <input
@@ -250,7 +253,7 @@ const UpdateFormModal = ({
                             defaultValue={selectedUserInfo.fullName}
                           />
                           {errors?.fullName && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.fullName.message}
                             </span>
                           )}
@@ -272,7 +275,7 @@ const UpdateFormModal = ({
                             placeholder="Vui lòng nhập email"
                           />
                           {errors?.email && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.email.message}
                             </span>
                           )}
@@ -282,7 +285,7 @@ const UpdateFormModal = ({
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3 ">
                         <label htmlFor="phone" className="form-label col-3">
-                          Phone
+                          Số Điện Thoại
                         </label>
                         <div className="col-9">
                           <input
@@ -296,7 +299,7 @@ const UpdateFormModal = ({
                             placeholder="Vui lòng nhập số điện thoại"
                           />
                           {errors?.phone && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.phone.message}
                             </span>
                           )}
@@ -304,7 +307,7 @@ const UpdateFormModal = ({
                       </div>
                       <div className="form-group col-lg-6 mb-3 ">
                         <label htmlFor="gender" className="form-label col-3">
-                          Gender
+                          Giới Tính
                         </label>
                         <div className="col-9">
                           <select
@@ -316,11 +319,11 @@ const UpdateFormModal = ({
                             }`}
                             {...register("gender")}
                           >
-                            <option value="male">male</option>
-                            <option value="female">female</option>
+                            <option value="male">Nam</option>
+                            <option value="female">Nữ</option>
                           </select>
                           {errors?.gender && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.gender.message}
                             </span>
                           )}
@@ -330,7 +333,7 @@ const UpdateFormModal = ({
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3 ">
                         <label htmlFor="province" className="form-label col-3">
-                          Province
+                          Thành Phố
                         </label>
                         <div className="col-9">
                           <select
@@ -351,7 +354,7 @@ const UpdateFormModal = ({
                               ))}
                           </select>
                           {errors?.province && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.province.message}
                             </span>
                           )}
@@ -359,7 +362,7 @@ const UpdateFormModal = ({
                       </div>
                       <div className="form-group col-lg-6 mb-3 ">
                         <label htmlFor="district" className="form-label col-3">
-                          District
+                          Quận/Huyện
                         </label>
                         <div className="col-9">
                           <select
@@ -380,7 +383,7 @@ const UpdateFormModal = ({
                               ))}
                           </select>
                           {errors?.district && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.district.message}
                             </span>
                           )}
@@ -390,7 +393,7 @@ const UpdateFormModal = ({
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3">
                         <label htmlFor="ward" className="form-label col-3">
-                          Ward
+                          Phường/Xã
                         </label>
                         <div className="col-9">
                           <select
@@ -411,7 +414,7 @@ const UpdateFormModal = ({
                               ))}
                           </select>
                           {errors?.ward && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.ward.message}
                             </span>
                           )}
@@ -420,7 +423,7 @@ const UpdateFormModal = ({
 
                       <div className="form-group col-lg-6 mb-3">
                         <label htmlFor="address" className="form-label col-3">
-                          Address
+                          Địa Chỉ
                         </label>
                         <div className="col-9">
                           <input
@@ -434,7 +437,7 @@ const UpdateFormModal = ({
                             placeholder="Vui lòng nhập địa chỉ"
                           />
                           {errors?.address && (
-                            <span className="invalid-feedback">
+                            <span className="invalid-feedback valid-text">
                               {errors.address.message}
                             </span>
                           )}
@@ -443,14 +446,26 @@ const UpdateFormModal = ({
                     </div>
                   </div>
                 </div>
-                <AvatarUploader setAvatarId={setAvatarId} />
+                <AvatarUploader
+                  setAvatarId={setAvatarId}
+                  setAvatarURL={setAvatarURL}
+                  avatarId={selectedUserInfo.avatarId}
+                  avatarUrl={selectedUserInfo.avatarUrl}
+                  setNoneContent={setNoneContent}
+                  setSelectedFile={setSelectedFile}
+                  selectedFile={selectedFile}
+                  setSelectedImage={setSelectedImage}
+                  selectedImage={selectedImage}
+                  avatarURL={avatarURL}
+                  noneContent={noneContent}
+                />
                 <div className="modal-footer d-flex">
                   <button
                     type="submit"
                     className="btn btn-primary"
                     style={{ padding: "6px 12px", margin: "4px 4px 0 5px" }}
                   >
-                    Edit
+                    Chỉnh Sửa
                   </button>
                   <button
                     type="button"
@@ -459,7 +474,7 @@ const UpdateFormModal = ({
                       onClose();
                     }}
                   >
-                    Close
+                    Đóng
                   </button>
                 </div>
               </form>

@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 import React, { useEffect, useState } from 'react'
 import { ProductService } from '../../../service/admin/product/productService'
 import Spinner from '../layouts/Spinner';

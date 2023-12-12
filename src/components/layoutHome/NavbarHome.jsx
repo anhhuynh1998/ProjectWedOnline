@@ -1,46 +1,60 @@
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import CategoryService from "../../service/homeService/categoryService"
+import { useContext } from "react";
 import { UseProduct } from "./UseContext";
+import { ToastSuccess } from "../../toastify/Toast";
+import "../layoutHome/cssHome/cssHome.css"
 
 const NavbarHome = () => {
-
-    const [gender, setGender] = useState([]);
-    const { cartItemCount } = useContext(UseProduct);
+    const [categories, setCategories] = useState([]);
+    const { logoutIcon, setLogoutIcon, setTimeout, setCategoryId } = useContext(UseProduct);
 
     useEffect(() => {
         async function getCategory() {
             let reponse = await CategoryService.getCategory();
-            setGender(reponse.data)
+            setCategories(reponse.data)
         }
-        getCategory()
-    }, [])
+        getCategory();
+    }, []);
+
+    const logout = () => {
+        localStorage.removeItem("jwt");
+        ToastSuccess("Đăng Xuất Thành Công");
+        setLogoutIcon((prev) => !prev)
+        setTimeout();
+    }
+
+    const handleCategoryId = (id) => {
+        setCategoryId(id);
+    }
+    const handleGoHome = () => {
+        setCategoryId("");
+    }
 
     return (
         <>
-            <div
-                id="sticky-header-with-topbar"
-                className="mainmenu__area sticky__header">
-                <div className="container">
+            <div id="sticky-header-with-topbar" className="mainmenu__area sticky__header">
+                <div style={{ margin: "0px 70px" }}>
                     <div className="row">
-                        <div className="col-md-2 col-lg-2 col-sm-3 col-xs-3">
+                        <div className="col-md-2 col-lg-3 col-sm-3 col-xs-3">
                             <div className="logo">
-                                <a href="/home">
+                                <NavLink to={"/home"}>
                                     <img src="images/logo/uniqlo.png" alt="logo" />
-                                </a>
+                                </NavLink>
                             </div>
                         </div>
 
-                        <div className="col-md-8 col-lg-8 col-sm-6 col-xs-6" >
+                        <div className="col-md-8 col-lg-6 col-sm-6 col-xs-6" >
                             <nav className="mainmenu__nav hidden-xs hidden-sm">
                                 <ul className="main__menu" >
                                     <li className="drop" >
-                                        <a href="/home">Trang Chủ</a>
+                                        <NavLink to={"/home"} onClick={handleGoHome}>Trang Chủ</NavLink>
                                     </li>
                                     {
-                                        gender.map((male, index) => (
+                                        categories.map((male, index) => (
                                             <li className="drop" key={index}>
-                                                <a href="about.html">{male.name}</a>
+                                                <a href="">{male.name}</a>
                                                 <ul className="dropdown mega_dropdown">
                                                     {
                                                         male.categoryChildren.map((category, categoryIndex) => (
@@ -50,7 +64,7 @@ const NavbarHome = () => {
                                                                     {
                                                                         category.categoryChildren.map((item) =>
                                                                             <li key={index + item.id}>
-                                                                                <a href="shop.html" >{item.name}</a>
+                                                                                <a type="button" onClick={() => handleCategoryId(item.id)} >{item.name}</a>
                                                                             </li>
                                                                         )
                                                                     }
@@ -64,40 +78,38 @@ const NavbarHome = () => {
                                     }
 
                                     <li>
-                                        <a href="/sidebar" style={{ textDecoration: "none" }}>Shop Sidebar</a>
+                                        <NavLink to={"/sidebar"} style={{ textDecoration: "none" }}>Shop Sidebar</NavLink>
                                     </li>
-                                    <li>
-                                        <a href="contact.html" style={{ textDecoration: "none" }}>Liên Hệ</a>
-                                    </li>
+
                                 </ul>
                             </nav>
                         </div>
-                        <div className="col-md-2 col-sm-4 col-xs-3">
-                            <ul className="menu-extra">
-
-                                <li style={{ paddingRight: "0px" }}>
-                                    <span className="ti-user col-md-2" data-toggle="modal"
-                                        data-target="#exampleLogin" />
-                                </li>
-
-                                <div>
+                        <div className="col-md-2 col-lg-3 col-sm-4 col-xs-3">
+                            <ul className="menu-extra mt-4  ">
+                                {
+                                    logoutIcon ? (<>
+                                        <li onClick={logout}><a type="button" className="drop text-white login-text">Đăng Xuất</a></li>
+                                        <NavLink to={'/userInfomation'}>
+                                            <li><span>
+                                                <i className="fa-regular fa-user"></i>
+                                            </span></li>
+                                        </NavLink>
+                                    </>)
+                                        : <li><a type="button" className="drop text-white login-text"
+                                            data-toggle="modal" data-target="#exampleLogin">Đăng Nhập</a></li>
+                                }
+                                <li>
                                     <NavLink to={`/cart`}>
-                                        <li className="cart__menu ">
-                                            <span className="ti-shopping-cart col-md-2 me-1" />
-                                        </li>
+                                        <span className="ti-shopping-cart col-md-2 me-1" />
                                     </NavLink>
-                                    <span className="cart__count text-white">{cartItemCount}</span>
-                                </div>
-                                <li className="toggle__menu hidden-xs hidden-sm">
-                                    <span className="ti-menu" />
                                 </li>
-
+                                <span className="cart__count text-white"></span>
                             </ul>
                         </div>
                     </div>
                     <div className="mobile-menu-area" />
-                </div>
-            </div>
+                </div >
+            </div >
         </>
     )
 }
