@@ -47,7 +47,6 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
             const categoriesData = await ProductService.getAllCategories();
             setCategories(categoriesData);
             setIsLoadingCategories(false);
-            console.log(categoriesData);
         } catch (error) {
             console.error('Error fetching categories:', error);
             setIsLoadingCategories(false);
@@ -157,7 +156,7 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                 <div className="modal-dialog modal-xl">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h4 className="text-success">Tạo Sản Ph</h4>
+                            <h4 className="text-success">Tạo Sản Phẩm</h4>
                             <button
                                 type="button"
                                 className="btn-close"
@@ -170,9 +169,7 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                             />
                         </div>
                         <form onSubmit={handleSubmit(handleSubmitForm)} className='form-create'>
-                            <div className="modal-body no-scrollbar form-create-body" style={{
-                                lineHeight: "100%"
-                            }}>
+                            <div className="modal-body no-scrollbar form-create-body" >
                                 <div className="container-fluid">
                                     <div className="row mt-3 mb-2">
                                         <div className="col-12">
@@ -299,13 +296,13 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                                     </div>
                                 </div>
                                 <div className="modal-footer" style={{ marginTop: "30px" }}>
-                                    <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal" onClick={() => handleCloseModal()}>Close</button>
+                                    <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal" onClick={() => handleCloseModal()}>Đóng</button>
 
                                     <button type="submit" className="btn btn-outline-primary">
-                                        Save
+                                        Lưu
                                     </button>
 
-                                    <button type="button" className="btn btn-outline-dark" onClick={handleResetModal}>Reset</button>
+                                    <button type="button" className="btn btn-outline-dark" onClick={handleResetModal}>Trở lại ban đầu</button>
                                 </div>
                             </div>
                         </form>

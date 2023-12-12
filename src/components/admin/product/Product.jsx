@@ -17,6 +17,9 @@ const Product = () => {
   const [size, setSize] = useState(5);
   const [pageable, setPageable] = useState(0);
   const [selectedPage, setSelectedPage] = useState(page);
+  const [searchTimeout, setSearchTimeout] = useState(null);
+  const [isFirstPage, setIsFirstPage] = useState()
+  const [isLastPage, setIsLastPage] = useState()
 
 
   const openModal = () => {
@@ -56,13 +59,16 @@ const Product = () => {
     }
   };
 
+  const sizeOptions = [5, 10, 15, 25, 50, 100];
+
   const handleSizePageChange = (e) => {
     const newSize = parseInt(e.target.value, 10);
-    if (!isNaN(newSize) && newSize > 0) {
+    if (!isNaN(newSize) && newSize > 0 && newSize !== size) {
       setSize(newSize);
       setPage(0);
     }
   };
+
 
 
 
@@ -72,18 +78,46 @@ const Product = () => {
   };
 
 
+  function truncateStr(str, maxCharacter) {
+    if (str.length > maxCharacter) {
+      let truncatedStr = str.substring(0, maxCharacter);
+      let lastSpace = truncatedStr.lastIndexOf(' ');
+      return truncatedStr.substring(0, lastSpace) + " ...";
+    } else {
+      return str;
+    }
+  }
+
 
   useEffect(() => {
     try {
       setLoading(true);
+      let isMounted = true;
+
       async function finAllProductList(search, page, size, pageable) {
-        let response = await ProductService.getAllProduct(search, page, size, pageable);
-        setProducts(response.data.content);
-        setPageable(response.data.totalPages);
-        console.log(response.data.content);
-        setLoading(false);
+        try {
+          const response = await ProductService.getAllProduct(search, page, size, pageable);
+          if (isMounted) {
+            setProducts(response.data.content);
+            setPageable(response.data.totalPages);
+
+            setLoading(false);
+            // console.log(response.data);
+            setIsFirstPage(page === 0);
+            setIsLastPage(page === response.data.totalPages - 1)
+          }
+        } catch (error) {
+          console.error("Lỗi khi lấy dữ liệu:", error);
+          setLoading(false);
+        }
       }
+
       finAllProductList(search, page, size, pageable);
+
+
+      return () => {
+        isMounted = false;
+      };
     } catch (error) {
       console.error("Lỗi khi lấy dữ liệu:", error);
     }
@@ -91,21 +125,31 @@ const Product = () => {
 
 
 
-  const handleInput = (e) => {
+
+
+  const handleInputSearch = (e) => {
     e.preventDefault();
-    setSearch(e.target.value);
+    const value = e.target.value;
+    setSearch(value);
   };
+
+
   const handlePreviousPage = () => {
     handlePageChange(page - 1);
+    console.log("page - 1=======");
+    console.log(page - 1);
   };
 
 
   const handleNextPage = async () => {
     const nextPage = page + 1;
-    if (nextPage < pageable) {
+
+    const pageNumber = 0;
+    if (nextPage < pageable && nextPage > pageNumber) {
       try {
-        const res = await ProductService.getAllProduct(search, nextPage, size);
+        const res = await ProductService.getAllProduct(search, nextPage, size, pageable);
         setProducts(res.data.content);
+        setPageable(res.data.pageable.pageNumber);
         setPage(nextPage);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu:", error);
@@ -116,10 +160,12 @@ const Product = () => {
 
 
 
-  const deleteCustomerById = (productId) => {
-    try {
 
-      Swal.fire({
+
+
+  const deleteCustomerById = async (productId) => {
+    try {
+      await Swal.fire({
         title: 'Bạn muốn xóa sản phẩm này ?',
         showCancelButton: true,
         confirmButtonText: 'Xóa',
@@ -127,13 +173,14 @@ const Product = () => {
         if (result.isConfirmed) {
           Swal.fire('Xóa!', '', 'success')
           await ProductService.deleteProducts(productId)
-          setCustomer((product) => product.filter((product) => product.id !== productId))
+          setProducts((product) => product.filter((product) => product.id !== productId))
         }
-      })
+      });
     } catch (error) {
-
+      // Xử lý lỗi nếu có
     }
   }
+
 
 
   return (
@@ -147,28 +194,34 @@ const Product = () => {
           </button>
           {<CreateProduct isOpenModal={isOpenModal} handleClose={closeModal} products={products} setProducts={setProducts} />}
 
-          <form className="d-flex p-2 m-2" role="search">
+          <form className="d-flex p-2 m-2" id='search' role="search" >
+            <i className="fa-solid fa-magnifying-glass" id='search-icon' style={{ position: 'absolute', top: '50%', left: '10%', transform: 'translateY(-50%)', zIndex: '1' }} />
             <input
-              className="form-control me-2"
+              className="form-control me-2 pl-5"
               type="search"
               placeholder="Tìm Kiếm..."
               aria-label="Search"
               value={search}
-              onChange={(e) => handleInput(e)}
+              onChange={(e) => handleInputSearch(e)}
             />
-            <i className="fa-solid fa-magnifying-glass" />
           </form>
+
 
         </div>
         <div>
           <label className="mb-2">
-            Số sản phẩm trên mỗi trang :
-            <input
-              type="number"
+            Số sản phẩm trên mỗi trang:
+            <select
               value={size}
               onChange={handleSizePageChange}
-              style={{ width: "100px", height: "30px" }}
-            />
+              class="form-select"
+            >
+              {sizeOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </label>
 
         </div>
@@ -180,12 +233,12 @@ const Product = () => {
         {
           loading ? <Spinner /> : (
             <div>
-              <table className="table table-hover table-style" >
+              <table className="table table-hover " >
                 <thead>
                   <tr>
                     <th scope="col-2">#</th>
-                    <th scope="col-2">Mô Tả</th>
                     <th scope="col-2">Tên Sản Phẩm</th>
+                    <th scope="col-2">Mô Tả</th>
                     <th scope="col-2">Giá</th>
                     <th scope="col-2">Kích Cỡ</th>
                     <th scope="col-2">Tình Trạng</th>
@@ -197,8 +250,8 @@ const Product = () => {
                   {products && products?.length && products?.map((product) => (
                     <tr key={product.id}>
                       <td>{product.id}</td>
-                      <td>{product.description}</td>
                       <td>{product.name}</td>
+                      <td title={product.description}>{truncateStr(product.description, 30)}</td>
                       <td>{product.price}</td>
                       <td>{product.size}</td>
                       <td>{product.status}</td>
@@ -217,7 +270,7 @@ const Product = () => {
                         )}
                       </td>
 
-                      <td>
+                      {/* <td>
                         <button
                           className="btn btn-outline-primary btn-width"
                           onClick={openDetail}
@@ -227,7 +280,7 @@ const Product = () => {
                         {isDetailOpen && (
                           <DetailProduct productId={product.id} handleClose={closeDetail} />
                         )}
-                      </td>
+                      </td> */}
                       <td>
                         <button className='btn btn-outline-danger btn-width'
 
@@ -255,35 +308,42 @@ const Product = () => {
       </section >
 
       <section>
-        <div className="d-flex justify-content-center mt-3">
+        <div className="d-flex justify-content-between mt-3">
           <button
             className="btn btn-outline-primary me-2"
             onClick={handlePreviousPage}
-            disabled={page === 0}
+            disabled={isFirstPage}
+            style={{ display: isFirstPage ? 'none' : "block" }}
           >
-            Previous
+            Trang Trước
           </button>
 
 
+          <div className="mt-2">
+            <h5>
+              {page * size + 1} - {Math.min((page + 1) * size, (pageable * size))} của {pageable * size}
+            </h5>
+          </div>
 
 
           <button
             className="btn btn-outline-primary ms-2"
             onClick={handleNextPage}
-            disabled={page === pageable - 1}
+            disabled={isLastPage}
+            style={{ display: isLastPage ? 'none' : 'block' }}
           >
-            Next
+            Trang Sau
           </button>
         </div>
 
-        <div>
+
+        <div className='div-layout'>
           <label > Chọn Trang bạn muốn đến : </label>
           <select
             value={selectedPage}
             onChange={handleSelectedPageChange}
-            style={{
-              width: "5%"
-            }}
+            class="form-select"
+            style={{ width: "8%" }}
           >
             {Array.from({ length: pageable }, (_, index) => index + 1).map((pageNumber) => (
               <option key={pageNumber} value={pageNumber}>
@@ -296,10 +356,11 @@ const Product = () => {
             onClick={handlePageChangeSelect}
             disabled={selectedPage === pageable}
           >
-            Go
+            Tới
           </button>
 
         </div>
+
       </section>
 
 

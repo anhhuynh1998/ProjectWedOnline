@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Slider from "react-slick";
 import { toast } from 'react-toastify';
-import SpinnerUploadImage from '../../layouts/SpinnerUploadImage';
 
 const ImageUploadUpdate = ({
     avatarId,
@@ -18,6 +17,12 @@ const ImageUploadUpdate = ({
 
     const [imgUrl, setImgUrl] = useState([]);
 
+    const [avatarIdState, setAvatarIdState] = useState(avatarId);
+
+    useEffect(() => {
+        setAvatarIdState(avatarId);
+    }, [avatarId]);
+
     const settings = {
         dots: true,
         infinite: false,
@@ -30,7 +35,6 @@ const ImageUploadUpdate = ({
     useEffect(() => setImgUrl([]), [reset])
 
     const fileInputRef = useRef(null);
-    const [imageLoading, setImageLoading] = useState();
     const [errorMessage, setErrorMessage] = useState('');
 
 
@@ -47,19 +51,16 @@ const ImageUploadUpdate = ({
 
         for (const [index, file] of newFiles.entries()) {
             const uploadedFile = await uploadAvatar([file]);
-            console.log('ImageUploadUpdate uploadedFile ===============');
-
-
             if (uploadedFile) {
                 setAvatarURLs(prevAvatarURLs => [...prevAvatarURLs, uploadedFile.avatarURL]);
-
             }
+            console.log(uploadedFile);
         }
+
         setErrorMessage('');
     };
 
     const isFileValid = (file) => {
-        // Kiểm tra định dạng của file
         const allowedFormats = ["image/png", "image/jpeg", "image/jpg"];
         if (!allowedFormats.includes(file.type)) {
             return false;
@@ -68,6 +69,7 @@ const ImageUploadUpdate = ({
     };
 
     const handleRemoveImage = (index) => {
+
 
         if (index >= 0 && index < selectedFiles.length) {
             const newSelectedFiles = [...selectedFiles];
@@ -84,16 +86,55 @@ const ImageUploadUpdate = ({
         }
     };
 
+
+    const handleRemoveImageForImgUrl = (index) => {
+        const newImgUrls = [...imgUrl];
+        newImgUrls.splice(index, 1);
+        setImgUrl(newImgUrls);
+
+        setAvatarURLs(prevAvatarURLs => {
+            const newAvatarURLs = [...prevAvatarURLs];
+            newAvatarURLs.splice(index, 1);
+            return newAvatarURLs;
+        });
+
+        setAvatarIdState(prevAvatarIds => {
+            const newAvatarIds = [...prevAvatarIds];
+            newAvatarIds.splice(index, 1);
+            return newAvatarIds;
+        });
+        setUploadedFiles(prevImageIds => {
+            const newImageIds = [...prevImageIds]
+            newImageIds.splice(index, 1)
+            return newImageIds;
+        })
+
+        console.log("imgUrl after:", newImgUrls);
+        console.log("avatarURLs after:", avatarURLs);
+        console.log("avatarId after:", avatarId);
+    };
+
+    useEffect(() => {
+        console.log("imgUrl in useEffect:", imgUrl);
+        console.log("avatarURLs in useEffect:", avatarURLs);
+        console.log("avatarId in useEffect:", avatarId);
+        console.log("avatarIdState in useEffect:", avatarIdState);
+
+    }, [imgUrl, avatarURLs, avatarId, avatarIdState]);
+
+
+
+
     const [toastId, setToastId] = useState(null);
 
     const uploadAvatar = async (files) => {
         const uploadPromises = files.map(async (file, i) => {
             const formData = new FormData();
             formData.append("files", file);
-            const uploadingToast = toast.info(`Uploading image ${i + 1} / ${files.length} . . .`, {
+            const uploadingToast = toast.info(`Đang tải ảnh lên ${i + 1} / ${files.length} . . .`, {
                 position: "top-right",
                 autoClose: 2200,
-                hideProgressBar: true,
+                hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
@@ -103,8 +144,10 @@ const ImageUploadUpdate = ({
 
             setToastId(uploadingToast);
 
+
+
             try {
-                const response = await fetch("http://localhost:8080/api/files/images", {
+                const response = await fetch("http://localhost:8080/api/admin/files/images", {
                     method: "POST",
                     body: formData,
                 });
@@ -112,7 +155,8 @@ const ImageUploadUpdate = ({
                 if (response.ok) {
                     const data = await response.json();
                     setUploadedFiles((prev) => [...prev, { id: data[0].id }])
-                    setAvatarId(prevAvatarId => [...prevAvatarId, data[0].id]);
+                    // setAvatarId(prevAvatarId => [...prevAvatarId, data[0].id]);
+                    setAvatarIdState(prev => [...prev, data[0].id])
                     setImgUrl(prev => [...prev, data[0]])
                     toast.update(uploadingToast, {
                         render: `Ảnh đã được tải lên thành công !`,
@@ -137,9 +181,6 @@ const ImageUploadUpdate = ({
                 });
             }
         });
-
-        console.log("uploadAvatar uploadedFiles ===========================");
-        console.log(uploadedFiles);
 
         await Promise.all(uploadPromises);
     };
@@ -205,7 +246,7 @@ const ImageUploadUpdate = ({
 
                             <button
                                 className="btn-closeImage"
-                                onClick={() => handleRemoveImage(index)}
+                                onClick={() => handleRemoveImageForImgUrl(index)}
                                 type="button"
                                 style={{
                                     borderRadius: "1px",
@@ -237,22 +278,24 @@ const ImageUploadUpdate = ({
                         justifyContent: "center"
                     }}
                 >
-                    {selectedFiles > 0 ? (
-                        <div className="content-img">
-                            <div className="icon">
+                    {(imgUrl && !imgUrl?.length > 0) ? (
+
+                        <div className="content-imgCreate" style={{ textAlign: 'center', marginTop: "18%", marginLeft: "50%" }}>
+                            <div className="icon" >
                                 <i className="fa-solid fa-cloud-arrow-up"></i>
                             </div>
-                            <div className="text center">
-                                Thêm ảnh update
+                            <div className="content-imgCreate">
+                                {imgUrl && imgUrl.length > 0 ? 'Chưa chọn files !!' : ' Thêm ảnh !!'}
                             </div>
                         </div>
+
                     ) : (
-                        <div className="content-img">
+                        <div className="content-imgCreate" style={{ textAlign: 'left', marginTop: "18%" }}>
                             <div className="icon">
                                 <i className="fa-solid fa-cloud-arrow-up"></i>
                             </div>
-                            <div className="text center">
-                                Chưa chọn file!
+                            <div className="content-imgCreate">
+                                {imgUrl && !imgUrl?.length > 0 ? '  Chưa chọn Files!' : ' Thêm Ảnh !'}
                             </div>
                         </div>
                     )}

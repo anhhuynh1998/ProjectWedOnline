@@ -57,9 +57,6 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                 setSelectedSubCategories(productById.data.categoryParentId)
                 setSelectedNestedCategories(productById.data.category)
                 setSelectedFiles(productById.data.files)
-
-
-
                 setIsLoadingInput(false)
             }
             findProductById()
@@ -89,7 +86,6 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
             const categoriesData = await ProductService.getAllCategories();
             setCategories(categoriesData);
             setIsLoadingCategories(false);
-            console.log(categoriesData);
         } catch (error) {
             console.error('Error fetching categories:', error);
             setIsLoadingCategories(false);
@@ -137,8 +133,6 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                 showConfirmButton: false,
                 timer: 1500
             })
-            console.log("response===============");
-            console.log(response);
 
             handleCloseModal()
             setIsLoading(false);
@@ -206,7 +200,6 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
         )
         setResetImg((prev) => !prev)
     };
-    console.log(oldProduct);
     return (
         <React.Fragment>
 
@@ -227,9 +220,7 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                                 />
                             </div>
                             <form onSubmit={handleSubmit(handleSubmitUpdateProductForm)} className='form-create'>
-                                <div className="modal-body form-create-body" style={{
-                                    lineHeight: "100%"
-                                }}>
+                                <div className="modal-body form-update-body">
 
 
                                     <div className="container">
@@ -341,7 +332,7 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                                         </div>
                                         <div className="col-12">
 
-                                            <label className="fw-bold" htmlFor="">
+                                            <label className="" htmlFor="">
                                                 Sản Phẩm
                                             </label>
                                             <ImageUploadUpdate
@@ -354,22 +345,21 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                                                 setAvatarURLs={setAvatarURLs}
                                                 avatarId={avatarId}
                                                 reset={resetImg}
-                                            // errors={errors}
                                             />
                                             <ToastContainer />
                                         </div>
                                     </div>
 
                                     <div className="modal-footer" style={{ marginTop: "30px" }}>
-                                        <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal" onClick={() => handleCloseModal()}>Close</button>
+                                        <button type="button" className="btn btn-outline-danger" data-bs-dismiss="modal" onClick={() => handleCloseModal()}>Đóng</button>
                                         {isLoading ? (
                                             <SkeletonSave />
                                         ) : (
                                             <button type="submit" className="btn btn-outline-primary" disabled={isLoading}>
-                                                Save
+                                                Lưu
                                             </button>
                                         )}
-                                        <button type="button" className="btn btn-outline-dark" onClick={handleResetModal}>Reset</button>
+                                        <button type="button" className="btn btn-outline-dark" onClick={handleResetModal}>Trở về ban đầu</button>
                                     </div>
                                 </div>
                             </form>
