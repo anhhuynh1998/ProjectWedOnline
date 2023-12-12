@@ -25,19 +25,14 @@ const ShopSideBar = () => {
         setIsLoading(true);
         let response = await ProductService.getProductByFilter(sortPrice.min,
             sortPrice.max, search, size, categoryId, page);
-        console.log("response", response);
         setProducts(prevProduct => [...prevProduct, ...response.data.content]);
-
         if (page < response.data.totalPages)
             setPage(page => page + 1);
         setIsLoading(false);
     }
-    console.log("kiemmmm", products);
 
 
     useEffect(() => {
-        console.log("ss0", search);
-        console.log("ghhg", products);
     }, [search])
 
     useEffect(() => {
@@ -76,7 +71,7 @@ const ShopSideBar = () => {
                     className="ht__bradcaump__area"
                     style={{
                         background:
-                            "rgba(0, 0, 0, 0) url(images/bg/sale.jpeg) no-repeat scroll center center / cover"
+                            "rgba(0, 0, 0, 0) url(images/bg/2nd1.jpeg) no-repeat scroll center center / cover"
                     }}
                 >
                     <div className="ht__bradcaump__wrap">
@@ -84,13 +79,13 @@ const ShopSideBar = () => {
                             <div className="row">
                                 <div className="col-xs-12">
                                     <div className="bradcaump__inner text-center">
-                                        <h2 className="bradcaump-title" style={{ color: "white" }}>Shop Sidebar</h2>
+                                        <h2 className="bradcaump-title animate__animated animate__fadeInDown" style={{ color: "white" }}>Shop Sidebar</h2>
                                         <nav className="bradcaump-inner">
-                                            <a className="breadcrumb-item" href="/home" style={{ color: "white" }}>
+                                            <a className="breadcrumb-item animate__animated animate__fadeInDown" href="/home" style={{ color: "white" }}>
                                                 Home
                                             </a>
-                                            <span className="brd-separetor" style={{ color: "white" }}>/</span>
-                                            <span className="breadcrumb-item active" style={{ color: "white" }}>Shop Sidebar</span>
+                                            <span className="brd-separetor animate__animated animate__fadeInDown" style={{ color: "white" }}>/</span>
+                                            <span className="breadcrumb-item active animate__animated animate__fadeInDown" style={{ color: "white" }}>Shop Sidebar</span>
                                         </nav>
                                     </div>
                                 </div>

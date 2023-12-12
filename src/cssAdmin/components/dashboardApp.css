@@ -69,7 +69,7 @@
 }
 #arrow{
     position: absolute;
-    top: 24px;
+    top: 20px;
     left: 19px;
     font-size: 29px;
     width: 180%;
@@ -120,9 +120,24 @@
     padding: 16px;
     font-size: 45px;
 }
+<<<<<<< Updated upstream
  
 .valid-text {
     text-align: left;
     font-size: 18px !important;
     margin-left: 3%;
 }
+=======
+.quarterly{
+    padding-left: 3%;
+}
+/* title doanh thu theo quý */
+#quarter-title{
+    height: 10%;
+    border-radius: 8px;
+}
+#lead{
+    padding-top: 1%;
+}
+ 
+>>>>>>> Stashed changes

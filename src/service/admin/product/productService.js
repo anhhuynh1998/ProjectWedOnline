@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const PRODUCT_API = 'http://localhost:8080/api/products';
-const API_SIZE = 'http://localhost:8080/api/sizes';
-const API_CATEGORIES = 'http://localhost:8080/api/categories'
-const API_UPLOAD_CLOUDINARY = 'http://localhost:8080/api/files/images'
+const PRODUCT_API = 'http://localhost:8080/api/admin/products';
+const API_SIZE = 'http://localhost:8080/api/admin/sizes';
+const API_CATEGORIES = 'http://localhost:8080/api/admin/categories'
+const API_UPLOAD_CLOUDINARY = 'http://localhost:8080/api/admin/files/images'
 
 export class ProductService {
     static getAllProduct() {

@@ -15,11 +15,11 @@ const ProductList = () => {
                     const formattedPrice = formatPrice(item.price);
                     return (
                         <div className="col-md-3 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12" key={index}>
-                            <div className="product foo"   >
-                                <div className="product__inner">
+                            <div className="product foo "   >
+                                <div className="product__inner ">
                                     <div className="pro__thumb">
                                         <a >
-                                            <img src={item.imageUrl} alt="product images" />
+                                            <img src={item.imageUrl} alt="product images" className="rounded-3" />
                                         </a>
                                     </div>
                                     <div className="product__hover__info">

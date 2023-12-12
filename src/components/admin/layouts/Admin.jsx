@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, Route, Routes } from "react-router-dom";
 import routes from "../../../routes";
-import sidebarImage from "../../../assets/img/sidebar-3.jpg";
+import sidebarImage from "../../../assets/img/2ndadmin.jpeg";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../Navbars/AdminNavbar";
 import Footer from "../Footer/Footer";

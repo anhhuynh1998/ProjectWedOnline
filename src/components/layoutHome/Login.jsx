@@ -161,7 +161,7 @@ const Login = () => {
                                                 <Icon onClick={handleToggle} className="absolute mr-10" icon={icon} size={20} />
                                             </span> */}
                                         </div>
-                                        <p ><small>Bằng cách tạo tài khoản, Quý Khách đã đồng ý với Điều khoản &
+                                        <p className='text-dark'><small>Bằng cách tạo tài khoản, Quý Khách đã đồng ý với Điều khoản &
                                             Điều kiện và Chính sách Bảo mật của chúng tôi.</small></p>
 
                                         <div className='d-grid gap-2 d-md-flex '>

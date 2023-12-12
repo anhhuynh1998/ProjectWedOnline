@@ -56,7 +56,7 @@ const Cart = () => {
                 className="ht__bradcaump__area"
                 style={{
                     background:
-                        "rgba(0, 0, 0, 0) url(images/bg/aoquan.jpeg) no-repeat scroll center center / cover"
+                        "rgba(0, 0, 0, 0) url(images/bg/cart1.jpeg) no-repeat scroll center center / cover"
                 }}
             >
                 <div className="ht__bradcaump__wrap">
@@ -64,13 +64,13 @@ const Cart = () => {
                         <div className="row">
                             <div className="col-xs-12">
                                 <div className="bradcaump__inner text-center">
-                                    <h2 className="bradcaump-title text-white" >Cart</h2>
+                                    <h2 className="bradcaump-title text-white animate__animated animate__bounceInDown" >Cart</h2>
                                     <nav className="bradcaump-inner" >
-                                        <NavLink className="breadcrumb-item text-white" to={'/home'} >
+                                        <NavLink className="breadcrumb-item text-white animate__animated animate__flash" to={'/home'} >
                                             Home
                                         </NavLink>
-                                        <span className="brd-separetor text-white" >/</span>
-                                        <span className="breadcrumb-item active text-white" >Cart</span>
+                                        <span className="brd-separetor text-white animate__animated animate__flash" >/</span>
+                                        <span className="breadcrumb-item active text-white animate__animated animate__flash" >Cart</span>
                                     </nav>
                                 </div>
                             </div>
@@ -99,8 +99,8 @@ const Cart = () => {
                                             cartDetails && cartDetails?.map((item, index) => {
                                                 const formattedPrice = formatPrice(item?.product?.price);
                                                 return (
-                                                    <tr key={index}>
-                                                        <td className="product-thumbnail">
+                                                    <tr key={index} >
+                                                        <td className="product-thumbnail ">
                                                             <a href="#">
                                                                 <img src={item?.product?.listFile[0]} alt="product img" />
                                                             </a>

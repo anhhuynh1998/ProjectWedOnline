@@ -4,7 +4,7 @@ const Footer = () => {
        
         style={{
             background:
-                "rgba(0, 0, 0, 0) url(images/bg/6.jpg) no-repeat scroll center center / cover",
+                "rgba(0, 0, 0, 0) url(images/bg/footer1fix.jpg) no-repeat scroll center center / cover",
 
         }}
     >
@@ -20,7 +20,7 @@ const Footer = () => {
                                 </a>
                             </div>
                             <div className="footer__details">
-                                <p>
+                                <p >
                                     Giảm 10% hoá đơn nếu bạn đăng kí thành viên của cửa hàng. 😍
                                 </p>
                             </div>
@@ -105,31 +105,31 @@ const Footer = () => {
                     <div className="col-md-3 col-lg-2 col-sm-6 smt-30 xmt-30">
                         <div className="ft__widget">
                             <h2 className="ft__title">Theo Dõi Ngay</h2>
-                            <ul className="social__icon">
-                                <li>
-                                    <a href="https://twitter.com/devitemsllc" target="_blank" rel="noreferrer">
-                                        <i className="zmdi zmdi-twitter" />
+                            <ul className="social__icon " >
+                                <li >
+                                    <a href="#" target="_blank" rel="noreferrer" >
+                                        <i className="zmdi zmdi-twitter bg-light " />
                                     </a>
                                 </li>
                                 <li>
                                     <a
-                                        href="https://www.instagram.com/devitems/"
+                                        href="#"
                                         target="_blank" rel="noreferrer"
                                     >
-                                        <i className="zmdi zmdi-instagram" />
+                                        <i className="zmdi zmdi-instagram bg-light" />
                                     </a>
                                 </li>
                                 <li>
                                     <a
-                                        href="https://www.facebook.com/devitems/?ref=bookmarks"
+                                        href="#"
                                         target="_blank" rel="noreferrer"
                                     >
-                                        <i className="zmdi zmdi-facebook" />
+                                        <i className="zmdi zmdi-facebook bg-light " />
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="https://plus.google.com/" target="_blank" rel="noreferrer">
-                                        <i className="zmdi zmdi-google-plus" />
+                                    <a href="#" target="_blank" rel="noreferrer">
+                                        <i className="zmdi zmdi-google-plus bg-light" />
                                     </a>
                                 </li>
                             </ul>

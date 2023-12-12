@@ -9,7 +9,6 @@ const SizeProduct = ({ setSelectedSize, setProducts, setPage }) => {
   useEffect(() => {
     async function getAll() {
       let response = await ProductService.getAll();
-      console.log("ooooooooooo", response.data.content);
 
       // Lấy tất cả các giá trị size từ API
       const sizes = response.data.content.flatMap((item) => item.size);

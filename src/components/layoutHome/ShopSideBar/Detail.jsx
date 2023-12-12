@@ -5,8 +5,6 @@ const Detail = ({ productId }) => {
     const [product, setProduct] = useState({});
     const [listFile, setListFile] = useState([]);
 
-    console.log(productId);
-
     useEffect(() => {
         async function getAll() {
             let response = await ProductService.getById(productId);

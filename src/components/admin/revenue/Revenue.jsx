@@ -1,11 +1,12 @@
-import React, { PureComponent, useState } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { Tooltip, Line, LineChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { RevenueService } from '../../../service/admin/revenue/revenueService';
 import moment from 'moment'
 import RevenueStatistics from './RevenueStatistics';
-import Sales from './Sales';
+// import Sales from './PercentTheDay';
 import RevenueByMonth from './RevenueByMonth';
+import {QuarterlyRevenue} from './QuarterlyRevenue';
 
 const Revenue = () => {
   const [data, setData] = useState([]);
@@ -60,8 +61,13 @@ const Revenue = () => {
 
   return (
     <div >
-      <RevenueStatistics />
-      <Sales />
+      <div className='d-flex'>
+        <RevenueStatistics />
+        <QuarterlyRevenue />
+      </div>
+
+
+      {/* <Sales /> */}
       <div className="card-header ">
         <div className="d-flex justify-content-between align-items-center">
           <h4>Doanh Thu</h4>
@@ -88,8 +94,8 @@ const Revenue = () => {
           </div>
         </div>
       </div>
-
       <div className='revenue'  >
+
         <ResponsiveContainer width="100%" height={300}>
           <LineChart
             width={400}

@@ -5,7 +5,6 @@ import { RevenueService } from '../../../service/admin/revenue/revenueService';
 import moment from 'moment'
 
 const RevenueByMonth = () => {
-
     const [data, setData] = useState([]);
     const [start, setStart] = useState('2023-01');
     const [end, setEnd] = useState('2023-12');
@@ -34,7 +33,6 @@ const RevenueByMonth = () => {
     async function revenue() {
         try {
             const newData = [];
-
             for (const month of monthList) {
                 const response = await RevenueService.totalRevenue(month.start, month.end);
                 const monthlyTotalPrice = response.data.reduce((total, item) => total + item.totalPrice, 0);
@@ -44,7 +42,6 @@ const RevenueByMonth = () => {
                     totalPrice: monthlyTotalPrice,
                 });
             }
-
             setData(newData);
         } catch (error) {
             console.log(error, "chi rua bay");
@@ -60,7 +57,6 @@ const RevenueByMonth = () => {
         console.log("endDate", e.target.value);
         setEnd(e.target.value);
     }
-
 
     return (
         <div>

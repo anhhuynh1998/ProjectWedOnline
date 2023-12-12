@@ -6,13 +6,12 @@ import ProductService from "../../../service/homeService/productService";
 const Category = ({ setCategoryId, setProducts, setPage }) => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    // const [selectedProduct, setSelectedProduct] = useState(null);
 
 
     useEffect(() => {
         async function getAllCategory() {
             let response = await CategoryService.getCategory();
-            console.log("long tin chua", response.data);
             setCategories(response.data)
         }
         getAllCategory();
