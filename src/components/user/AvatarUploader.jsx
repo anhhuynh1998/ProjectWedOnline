@@ -17,7 +17,7 @@ const AvatarUploader = ({
   const handleFileChange = (event) => {
     console.log("demo");
     const file = event.target.files[0];
-    const allowedFormats = ["image/jpeg", "image/png"];
+    const allowedFormats = ["image/jpg", "image/png"];
 
     if (file && allowedFormats.includes(file.type)) {
       setSelectedFile(file);
@@ -99,7 +99,7 @@ const AvatarUploader = ({
         <input
           type="file"
           id="imageFileCreate"
-          accept="image/jpeg, image/png"
+          accept="image/jpg, image/png"
           hidden
           ref={fileInputRef}
           onChange={handleFileChange}

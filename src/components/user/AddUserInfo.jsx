@@ -6,28 +6,16 @@ import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AvatarUploader from "./AvatarUploader";
+import { ToastSuccess } from "../../toastify/Toast";
 
 const createUserinfo = yup.object({
-  username: yup.string().required("Tên người dùng bắt buộc").min(5).max(30),
-  password: yup
-    .string()
-    .required("Mật khẩu bắt buộc phải nhập")
-    .min(6)
-    .max(20)
-    .typeError("Mật khẩu không được để trống"),
-  fullName: yup.string().required("Tên không được để trống"),
-  email: yup.string().required("Email không được để trống").min(5).max(30),
-  phone: yup
-    .string()
-    .required("Số điện thoại không được để trống")
-    .min(9)
-    .max(20),
-  gender: yup.string().required("Giới tính không được để trống "),
-  province: yup.string().required("Tĩnh không được để trống"),
-  district: yup.string().required("Huyện không được để trống"),
-  ward: yup.string().required("Phường không được để trống"),
-  address: yup.string().required("Địa chỉ không được để trống"),
+  password: yup.lazy((value) =>
+    value !== ""
+      ? yup.number().typeError("Vui lòng nhập mật khẩu").min(1)
+      : yup.string()
+  ),
 });
+
 const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
   const {
     register,
@@ -54,6 +42,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
     districtName: "",
     wardId: 0,
     wardName: "",
+    address: "",
   });
   const [isDistrictDisabled, setIsDistrictDisabled] = useState(true);
   const [isWardDisabled, setIsWardDisabled] = useState(true);
@@ -71,28 +60,19 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
         wardName: locationRegion.wardName,
         address: values.address,
       };
-      const response = await fetch(
-        "http://localhost:8080/api/admin/userinfo/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("http://localhost:8080/api/admin/userinfo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
       if (response.ok) {
         const data = await response.json();
         setListUserInfo([...listUserInfo, data]);
 
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "thêm mới thành công !.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        ToastSuccess("Thêm mới thành công");
 
         onClose();
         reset();
@@ -102,7 +82,15 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
         setSelectedImage(null);
         setNoneContent(false);
       } else {
-        throw new Error("Không tạo được thông tin người dùng");
+        if (response.status === 400) {
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "SĐT đã tồn tại!.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        } else throw new Error("Không tạo được thông tin người dùng");
       }
     } catch (error) {
       console.error(error);
@@ -210,7 +198,6 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
   const handleWardChange = (event) => {
     const wardId = event.target.value;
     const wardName = event.target.options[event.target.selectedIndex].text;
-
     setError("ward", null);
     setLocationRegion((prevState) => ({
       ...prevState,

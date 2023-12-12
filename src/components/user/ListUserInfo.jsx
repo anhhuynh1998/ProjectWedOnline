@@ -3,6 +3,7 @@ import serviceUserInfo from "../service/serviceUserInfo";
 import Swal from "sweetalert2";
 import AddUserInfo from "./AddUserInfo";
 import UpdateFormModal from "./EditUserInfo";
+import { ToastSuccess } from "../../toastify/Toast";
 
 const ListUserInfo = () => {
   const [listUserInfo, setListUserInfo] = useState([]);
@@ -71,6 +72,7 @@ const ListUserInfo = () => {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Xóa",
+        cancelButtonText: "Hủy bỏ",
       });
 
       if (!result.isConfirmed) return;
@@ -80,13 +82,7 @@ const ListUserInfo = () => {
         prevListUserInfo.filter((item) => item.id !== userinfoRemove.id)
       );
 
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Xóa thành công",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      ToastSuccess("Xóa thành công");
     } catch (error) {
       console.log(error);
     }
@@ -143,36 +139,20 @@ const ListUserInfo = () => {
                 />
               </form>
             </div>
-
-            <label className="mb-4">
-              <span className="numberpage"></span>
-              Số hàng trên mỗi trang :
-              <select
-                className="selectpicker"
-                data-live-search="true"
-                value={size}
-                onChange={handleSizePageChange}
-                style={{ width: "60px" }}
-              >
-                <option title="Trang 1">1</option>
-                <option title="Trang 2">5</option>
-                <option title="Trang 3">10</option>
-              </select>
-            </label>
           </div>
         </div>
         <table className="table table-hover">
           <thead>
             <tr className="col-12">
-              <th scope="col">ID</th>
+              <th scope="col-2">ID</th>
               <th scope="col-2">Họ tên</th>
-              <th scope="col-3">Email</th>
-              <th scope="col-3">Số điện thoại</th>
-              <th scope="col-3">Giới tính</th>
-              <th scope="col-3">Thành Phố</th>
-              <th scope="col-3">Quận/Huyện</th>
-              <th scope="col-3">Phường/Xã</th>
-              <th scope="col-3">Địa chỉ</th>
+              <th scope="col-2">Email</th>
+              <th scope="col-2">Số điện thoại</th>
+              <th scope="col-2">Giới tính</th>
+              <th scope="col-2">Thành Phố</th>
+              <th scope="col-2">Quận/Huyện</th>
+              <th scope="col-2">Phường/Xã</th>
+              <th scope="col-2">Địa chỉ</th>
               <th scope="col">Hoạt Động</th>
             </tr>
           </thead>
@@ -217,22 +197,43 @@ const ListUserInfo = () => {
           />
         )}
       </div>
-      <div className="d-flex justify-content-center mt-3">
-        <button
-          className="btn btn-outline-success me-4"
-          onClick={handlePreviousPage}
-          disabled={page === 0}
-        >
-          Previous
-        </button>
-        <h5> Page {page + 1} </h5>
-        <button
-          className="btn btn-outline-success ms-4"
-          onClick={handleNextPage}
-          disabled={page === pageable - 1}
-        >
-          Next
-        </button>
+      <div
+        className="d-flex justify-content-center mt-3"
+        style={{ height: "35px", lineHeight: "30px" }}
+      >
+        <div className="d-flex">
+          <button
+            className="btn btn-outline-success me-4"
+            onClick={handlePreviousPage}
+            disabled={page === 0}
+          >
+            Trang Trước
+          </button>
+          <h5 style={{ margin: 0, lineHeight: "35px" }}>{page + 1} </h5>
+          <button
+            className="btn btn-outline-success ms-4"
+            onClick={handleNextPage}
+            disabled={page === pageable - 1}
+          >
+            Trang Sau
+          </button>
+        </div>
+        <div className="d-flex">
+          <label className="mb-4">
+            <span className="numberpage">Số hàng trên mỗi trang :</span>
+            <select
+              className="selectpicker"
+              data-live-search="true"
+              value={size}
+              onChange={handleSizePageChange}
+              style={{ width: "60px" }}
+            >
+              <option title="Trang 1">1</option>
+              <option title="Trang 2">5</option>
+              <option title="Trang 3">10</option>
+            </select>
+          </label>
+        </div>
       </div>
     </div>
   );

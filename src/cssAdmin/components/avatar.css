@@ -39,7 +39,7 @@
     justify-content: center;
 }
 .wrapper .content {
-    text-align: center;
+    text-align: left;
 }
 .wrapper img {
     height: 100%;
@@ -109,37 +109,37 @@ label {
     margin-bottom: 10px;
   }
   
-  /* CSS cho select */
+  
   .selectpicker {
     width: 60px;
     height: 30px;
-    padding: 5px; /* Tăng khoảng cách bên trong select */   
-    border-radius: 8px; /* Góc bo của select */   
-    color: #06bb7c; /* Màu chữ của select */
-    font-size: 16px; /* Kích thước chữ của select */
+    padding: 5px;
+    border-radius: 8px;
+    color: #04a86f;
+    font-size: 16px;
     cursor: pointer;
-    /* background:chartreuse; */
+
   }
   
-  /* CSS cho option */
+
   .selectpicker option {
     padding: 10px;
   }
     
-  /* CSS khi select được chọn */
   .selectpicker:focus {
     border-color: rgba(5, 166, 72, 0.872);
     box-shadow: 0 0 0 0.2rem rgba(14, 221, 52, 0.952)
     
   }
   span.page-number {
-    font-size: 14px; /* Kích thước chữ số trang */
-    color: #0d72d7; /* Màu sắc của chữ số trang */
-    font-weight: bolder; /* Độ đậm của chữ số trang */
-    margin: 0 10px; /* Khoảng cách giữa chữ số trang và các phần tử khác */
+    font-size: 14px; 
+    color: #0d72d7; 
+    font-weight: bolder;
+    margin: 0 10px; 
   }
   form.d-flex {
     position: relative;
+    
   }
   
   form.d-flex i {
@@ -148,28 +148,60 @@ label {
     left: 15px;
     transform: translateY(-50%);
     color: #2e7cf0;
-    /* margin: 4px;  */
+  
   }
   
   form.d-flex input {
-    padding-left: 50px; /* Khoảng cách từ trái của input để không che phủ biểu tượng tìm kiếm */
-    border-radius:5px; /* Góc bo tròn cho input */
-    border: 1px solid #5b605c; /* Đường viền của input */
+    padding-left: 50px; 
+    border-radius:5px; 
+    border: 1px solid #5b605c; 
   }
   
-  /* Màu sắc nền khi input được focus */
+
   form.d-flex input:focus {
-    outline: none; /* Loại bỏ đường viền khi focus */
-    border-color: #007bff; /* Màu sắc của đường viền khi focus */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Đổ bóng khi focus */
+    outline: none; 
+    border-color: #007bff; 
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
  .numberpage {
-    color: #13d113 !important; /* Đổi màu chữ số thành màu đỏ (#ff0000) hoặc màu khác tùy chọn */
-    margin-right: 10px; /* Tạo khoảng cách giữa chữ số và nội dung khác */
-    font-weight: bold; /* Đặt độ đậm cho chữ số */
-    /* Các thuộc tính CSS khác nếu cần */
+    color: #000000!important;
+    margin-right: 10px;
+    font-weight: bold; 
+   
   }
-  .d-flex-right {
-    margin: 15%;
-    
+  label.mb-4 {
+    align-items: center;
+    height: 100%;
+  }
+   
+  
+  label .numberpage {
+    color: red; 
+    font-weight: bold;
+    margin-left: 30px; 
+    font-size: 18px;
+    line-height: 35px;
+  }
+  
+  select.selectpicker {
+    width: 20%;
+    text-align: center;
+  }
+  .swal2-popup {
+    font-size: 0.7rem; 
+  }
+  
+
+  .swal2-close {
+    font-size: 0.6rem;
+  }
+  
+  
+  .swal2-title {
+    font-size: 1rem; 
+  }
+  
+ 
+  .swal2-content {
+    font-size: 0.7rem; 
   }

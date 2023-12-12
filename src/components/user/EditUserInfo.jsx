@@ -9,6 +9,7 @@ import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AvatarUploader from "./AvatarUploader";
+import { ToastSuccess } from "../../toastify/Toast";
 
 const editUserinfo = yup.object({
   fullName: yup.string().required("tên không được để trống"),
@@ -18,11 +19,6 @@ const editUserinfo = yup.object({
     .required("số điện thoại không được để trống")
     .min(9)
     .max(20),
-  gender: yup.string().required(" giới tính không được để trống "),
-  province: yup.string().required("tĩnh không được để trống"),
-  district: yup.string().required("huyện không được để trống"),
-  ward: yup.string().required("phường không được để trống"),
-  address: yup.string().required("địa chỉ không được để trống"),
 });
 const UpdateFormModal = ({
   isOpen,
@@ -160,10 +156,11 @@ const UpdateFormModal = ({
         address: values.address,
         username: selectedUserInfo.username,
         password: selectedUserInfo.password,
+        // avatarId: locationRegion.avatarId,
       };
 
       fetch(
-        `http://localhost:8080/api/admin/userinfo/edit/${selectedUserInfo.userId}`,
+        `http://localhost:8080/api/admin/userinfo/${selectedUserInfo.userId}`,
         {
           method: "PUT",
           headers: {
@@ -182,13 +179,7 @@ const UpdateFormModal = ({
 
           setListUserInfo(listUserInfo);
           onClose();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Cập nhật thành công",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          ToastSuccess("Cập nhật thành công");
         } else {
           throw new Error("Không tạo được thông tin người dùng");
         }
@@ -230,7 +221,7 @@ const UpdateFormModal = ({
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title text-primary">
-                Sữa Thông Tin Người Dùng
+                Sửa Thông Tin Người Dùng
               </h5>
               <button
                 type="button"
@@ -474,7 +465,7 @@ const UpdateFormModal = ({
                     className="btn btn-primary"
                     style={{ padding: "6px 12px", margin: "4px 4px 0 5px" }}
                   >
-                    Chĩnh Sữa
+                    Chỉnh Sửa
                   </button>
                   <button
                     type="button"

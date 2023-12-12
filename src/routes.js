@@ -1,4 +1,4 @@
-import CreateProduct from "./components/admin/product/CreateProduct";
+// import CreateProduct from "./components/admin/product/CreateProduct";
 import Product from "./components/admin/product/Product";
 import ListUserInfo from "./components/user/ListUserInfo";
 import Revenue from "./components/admin/revenue/Revenue";
