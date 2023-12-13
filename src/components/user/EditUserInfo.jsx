@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
-import Swal from "sweetalert2";
+
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -13,7 +13,6 @@ import { ToastSuccess } from "../../toastify/Toast";
 
 const editUserinfo = yup.object({
   fullName: yup.string().required("tên không được để trống"),
-  email: yup.string().required("email không được để trống").min(5).max(30),
   phone: yup
     .string()
     .required("số điện thoại không được để trống")
@@ -30,6 +29,7 @@ const UpdateFormModal = ({
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(editUserinfo),
@@ -47,7 +47,7 @@ const UpdateFormModal = ({
   const [wards, setWards] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [locationRegion, setLocationRegion] = useState(
-    selectedUserInfo.locationRegion
+    selectedUserInfo?.locationRegion || {}
   );
 
   const getAllProvinces = async () => {
@@ -113,16 +113,6 @@ const UpdateFormModal = ({
       });
   };
 
-  const handleProvinceChange = (event) => {
-    setProvinceId(event.target.value);
-    const provinceName = event.target.options[event.target.selectedIndex].text;
-    setLocationRegion((prevState) => ({
-      ...prevState,
-      provinceId: event.target.value,
-      provinceName: provinceName,
-    }));
-  };
-
   const handleDistrictChange = (event) => {
     setDistrictId(event.target.value);
     const districtName = event.target.options[event.target.selectedIndex].text;
@@ -147,16 +137,15 @@ const UpdateFormModal = ({
     try {
       const data = {
         ...values,
-        provinceId: locationRegion.provinceId,
-        provinceName: locationRegion.provinceName,
+        avatarId: avatarId,
+        provinceName: provinces.find((e) => e.id == values.provinceId)?.name,
         districtId: locationRegion.districtId,
         districtName: locationRegion.districtName,
         wardId: locationRegion.wardId,
         wardName: locationRegion.wardName,
         address: values.address,
-        username: selectedUserInfo.username,
-        password: selectedUserInfo.password,
-        // avatarId: locationRegion.avatarId,
+        // username: selectedUserInfo.username,
+        // password: selectedUserInfo.password,
       };
 
       fetch(
@@ -190,9 +179,14 @@ const UpdateFormModal = ({
   };
 
   useEffect(() => {
-    setProvinceId(selectedUserInfo.provinceId);
-    setDistrictId(selectedUserInfo.districtId);
-    setWardId(selectedUserInfo.wardId);
+    if (selectedUserInfo.provinceId) {
+      setProvinceId(selectedUserInfo.provinceId);
+      setDistrictId(selectedUserInfo.districtId);
+      setWardId(selectedUserInfo.wardId);
+    }
+    if (selectedUserInfo) {
+      setValue("fullName", selectedUserInfo.fullName);
+    }
   }, [selectedUserInfo]);
 
   useEffect(() => {
@@ -200,11 +194,11 @@ const UpdateFormModal = ({
   }, []);
 
   useEffect(() => {
-    getAllDistrictsByProvinceId(provinceId);
+    selectedUserInfo.provinceId && getAllDistrictsByProvinceId(provinceId);
   }, [provinceId]);
 
   useEffect(() => {
-    getAllWardsByDistrictId(districtId);
+    selectedUserInfo.districtId && getAllWardsByDistrictId(districtId);
   }, [districtId]);
 
   return (
@@ -337,15 +331,19 @@ const UpdateFormModal = ({
                         </label>
                         <div className="col-9">
                           <select
-                            name="province"
+                            name="provinceId"
                             id="province"
-                            value={provinceId}
                             className={`form-select ${
                               errors?.province ? "is-invalid" : ""
                             }`}
-                            {...register("province")}
-                            onChange={handleProvinceChange}
+                            {...register("provinceId")}
+                            onChange={(e) =>
+                              getAllDistrictsByProvinceId(e.target.value)
+                            }
                           >
+                            <option value="">
+                              Vui lòng chọn tỉnh/thành phố
+                            </option>
                             {provinces &&
                               provinces.map((province) => (
                                 <option key={province.id} value={province.id}>
@@ -366,15 +364,17 @@ const UpdateFormModal = ({
                         </label>
                         <div className="col-9">
                           <select
-                            name="district"
+                            name="districtId"
                             id="district"
-                            value={districtId}
                             className={`form-select ${
                               errors?.district ? "is-invalid" : ""
                             }`}
-                            {...register("district")}
-                            onChange={handleDistrictChange}
+                            {...register("districtId")}
+                            onChange={(e) =>
+                              getAllWardsByDistrictId(e.target.value)
+                            }
                           >
+                            <option value="">Vui lòng chọn quận/huyện</option>
                             {districts &&
                               districts.map((district) => (
                                 <option key={district.id} value={district.id}>
@@ -406,6 +406,7 @@ const UpdateFormModal = ({
                             {...register("ward")}
                             onChange={handleWardChange}
                           >
+                            <option value="">Vui lòng chọn phường/xã</option>
                             {wards &&
                               wards.map((ward) => (
                                 <option key={ward.id} value={ward.id}>
@@ -449,8 +450,8 @@ const UpdateFormModal = ({
                 <AvatarUploader
                   setAvatarId={setAvatarId}
                   setAvatarURL={setAvatarURL}
-                  avatarId={selectedUserInfo.avatarId}
-                  avatarUrl={selectedUserInfo.avatarUrl}
+                  avatarId={selectedUserInfo?.avatarId}
+                  avatarUrl={selectedUserInfo?.avatarUrl}
                   setNoneContent={setNoneContent}
                   setSelectedFile={setSelectedFile}
                   selectedFile={selectedFile}

@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import Swal from "sweetalert2";
+
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AvatarUploader from "./AvatarUploader";
-import { ToastSuccess } from "../../toastify/Toast";
+import { ToastError, ToastSuccess } from "../../toastify/Toast";
 
 const createUserinfo = yup.object({
   password: yup.lazy((value) =>
@@ -83,13 +83,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
         setNoneContent(false);
       } else {
         if (response.status === 400) {
-          Swal.fire({
-            position: "top-end",
-            icon: "error",
-            title: "SĐT đã tồn tại!.",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          ToastError("Số Điện Thoại đã tồn tại");
         } else throw new Error("Không tạo được thông tin người dùng");
       }
     } catch (error) {
