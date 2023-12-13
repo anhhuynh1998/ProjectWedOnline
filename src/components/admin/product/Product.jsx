@@ -206,8 +206,6 @@ const Product = () => {
               onChange={(e) => handleInputSearch(e)}
             />
           </form>
-
-
         </div>
         <div>
           <label className="mb-2">
@@ -215,7 +213,7 @@ const Product = () => {
             <select
               value={size}
               onChange={handleSizePageChange}
-              class="form-select"
+              className="form-select"
             >
               {sizeOptions.map((option) => (
                 <option key={option} value={option}>
@@ -224,11 +222,7 @@ const Product = () => {
               ))}
             </select>
           </label>
-
         </div>
-
-
-
       </section>
       <section className="mt-2">
         {
@@ -337,13 +331,15 @@ const Product = () => {
           </button>
         </div>
 
+      </section>
 
+      <section >
         <div className='div-layout'>
-          <label > Chọn Trang bạn muốn đến : </label>
+          <label>Chọn Trang bạn muốn đến:</label>
           <select
             value={selectedPage}
             onChange={handleSelectedPageChange}
-            class="form-select"
+            className="form-select"
             style={{ width: "8%" }}
           >
             {Array.from({ length: pageable }, (_, index) => index + 1).map((pageNumber) => (
@@ -355,14 +351,15 @@ const Product = () => {
           <button
             className="btn btn-outline-primary ms-2"
             onClick={handlePageChangeSelect}
-            disabled={selectedPage === pageable}
+            disabled={selectedPage > pageable}
           >
             Tới
           </button>
-
         </div>
 
+
       </section>
+
 
 
     </div >

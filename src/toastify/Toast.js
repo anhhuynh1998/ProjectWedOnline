@@ -41,6 +41,18 @@ export const ToastWarning = (message) => {
     });
 }
 
+export const ToastInfo = (message) => {
+    toast.info(message, {
+        position: "top-right",
+        autoClose: 2200,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    })
+}
 
 
 

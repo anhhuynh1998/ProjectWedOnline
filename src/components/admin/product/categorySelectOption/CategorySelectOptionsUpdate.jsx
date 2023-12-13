@@ -11,7 +11,6 @@ const CategorySelectOptionsUpdate = ({
     isLoadingNestedCategories, setIsLoadingNestedCategories,
     isLoadingCategories,
 
-
 }) => {
 
     const [subCategories, setSubCategories] = useState([])
@@ -30,7 +29,7 @@ const CategorySelectOptionsUpdate = ({
 
     useEffect(() => {
 
-        setIsLoadingSubCategories(true);
+        // setIsLoadingSubCategories(true);
 
         const fetchSubcategories = async () => {
             try {
@@ -38,10 +37,10 @@ const CategorySelectOptionsUpdate = ({
                 if (selectedCategory) {
                     const subcategoriesData = await ProductService.getAllSubCategories(selectedCategory);
                     setSubCategories(subcategoriesData);
-                    setIsLoadingSubCategories(false)
+                    // setIsLoadingSubCategories(false)
                 }
             } catch (error) {
-                setIsLoadingSubCategories(false);
+                // setIsLoadingSubCategories(false);
             }
         };
 
@@ -102,7 +101,7 @@ const CategorySelectOptionsUpdate = ({
                 ) : (
                     <select
                         className="form-control"
-                        value={selectedSubCategories || ''}
+                        // value={selectedSubCategories || ''}
                         onChange={handleChangeSelectedSubCategories}
                         disabled={!selectedCategory}
                         name='categoryParentId'
@@ -125,7 +124,6 @@ const CategorySelectOptionsUpdate = ({
                     <select
                         name='category'
                         className="form-control"
-
                         disabled={!selectedSubCategories}
                         {...register('category')}
 
