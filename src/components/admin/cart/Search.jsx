@@ -24,7 +24,10 @@ const Search = ({ setSearch, search, setListCart }) => {
     console.log(searchValue, "miiiiiiiii");
     setSearch(searchValue);
     // searchNameAndPhone(search);
-
+    clearTimeout(timeOut);
+    const timeOut = setTimeout(() =>{
+      // searchNameAndPhone(searchValue);
+    }, 1500)
   }
 
   return (
@@ -43,7 +46,6 @@ const Search = ({ setSearch, search, setListCart }) => {
             className="
                               border rounded-pill ms-n5  btn btn-outline-danger"
             type="button"
-            
           >
             <i className="fa fa-search" />
           </button>
