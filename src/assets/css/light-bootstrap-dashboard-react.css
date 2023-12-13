@@ -205,6 +205,8 @@ h1 .subtitle {
 .text-danger,
 .text-danger:hover {
   color: #FF4A55 !important;
+
+
 }
 
 /*     General overwrite     */
@@ -1798,7 +1800,7 @@ fieldset[disabled] .form-control {
   padding-bottom: 5px;
   border-top: none !important;
   border-bottom: none;
-  text-align: left !important;
+  text-align: center;
 }
 
 .table .td-actions .btn {
