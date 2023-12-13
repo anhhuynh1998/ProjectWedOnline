@@ -2,6 +2,7 @@
 import Product from "./components/admin/product/Product";
 import ListUserInfo from "./components/user/ListUserInfo";
 import Revenue from "./components/admin/revenue/Revenue";
+import Cart from "./components/admin/cart/cart";
 
 const dashboardRoutes = [
   {
@@ -13,16 +14,23 @@ const dashboardRoutes = [
   },
   {
     path: "/product",
-    name: "Sản Phẩm",
-    icon: "fa-brands fa-houzz",
+    name: "Danh Sách Sản Phẩm",
+    icon: "fa-solid fa-list",
     component: Product,
     layout: "/admin",
   },
   {
     path: "/userinfo",
-    name: "Danh Sách Khách Hàng",
+    name: "Khách Hàng",
     icon: "fa-solid fa-list",
     component: ListUserInfo,
+    layout: "/admin",
+  },
+  {
+    path: "/cart",
+    name: "Giỏ Hàng",
+    icon: "fa-solid fa-cart-shopping",
+    component: Cart,
     layout: "/admin",
   },
 ];

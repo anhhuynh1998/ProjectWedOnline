@@ -62,7 +62,6 @@ const Category = ({ setCategoryId, setProducts, setPage }) => {
                                                         <button type="button" className="btn btn-outline-secondary rounded-3"
                                                             onClick={() => getProducts(subItem)}>
                                                             {subItem.name}</button>
-
                                                     </li>
                                                 ))}
                                             </ul>

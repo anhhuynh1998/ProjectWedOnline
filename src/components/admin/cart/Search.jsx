@@ -8,7 +8,6 @@ const Search = ({ setSearch, search, setListCart }) => {
       // eslint-disable-next-line no-inner-declarations
       async function searchNameAndPhone(search) {
         let response = await CartService.searchNameAndPhone(search);
-        console.log(response.data.content, "tim kiem");
         setListCart(response.data.content);
       }
       searchNameAndPhone(search);
@@ -24,14 +23,10 @@ const Search = ({ setSearch, search, setListCart }) => {
     console.log(searchValue, "miiiiiiiii");
     setSearch(searchValue);
     // searchNameAndPhone(search);
-    clearTimeout(timeOut);
-    const timeOut = setTimeout(() =>{
-      // searchNameAndPhone(searchValue);
-    }, 1500)
   }
 
   return (
-    <div className="p-1 shadow-sm mb-4 border-end-0 border rounded  ">
+    <div className="p-1 shadow-sm mb-4 border-end-0 border rounded  animate__animated  animate__bounceInRight">
       <div className="input-group">
         <input
           type="search"
@@ -41,7 +36,7 @@ const Search = ({ setSearch, search, setListCart }) => {
           id='searchNameAndPhone'
           onChange={handleSearch}
         />
-        <span className="input-group-append " style={{ paddingLeft: "7px" }}>
+        {/* <span className="input-group-append " style={{ paddingLeft: "7px" }}>
           <button
             className="
                               border rounded-pill ms-n5  btn btn-outline-danger"
@@ -49,7 +44,7 @@ const Search = ({ setSearch, search, setListCart }) => {
           >
             <i className="fa fa-search" />
           </button>
-        </span>
+        </span> */}
       </div>
     </div>
 

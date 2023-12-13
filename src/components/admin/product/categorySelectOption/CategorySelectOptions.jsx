@@ -17,7 +17,6 @@ const CategorySelectOptions = ({
     const [subCategories, setSubCategories] = useState([])
 
     const handleChangeCategory = (e) => {
-        console.log('handleChangeCategory');
         const selectedCategoryValue = e.target.value;
         setSelectedCategory(selectedCategoryValue)
 
@@ -34,10 +33,10 @@ const CategorySelectOptions = ({
 
         const fetchSubcategories = async () => {
             try {
-                console.log('Selected category:', selectedCategory);
+
                 if (selectedCategory) {
                     const subcategoriesData = await ProductService.getAllSubCategories(selectedCategory);
-                    console.log('Subcategories data:', subcategoriesData);
+
                     setSubCategories(subcategoriesData);
                     setIsLoadingSubCategories(false)
                 }
@@ -57,10 +56,9 @@ const CategorySelectOptions = ({
         setIsLoadingNestedCategories(true)
         const fetchNestedCategories = async () => {
             try {
-                console.log('Selected subcategories:', selectedSubCategories);
+
                 if (selectedSubCategories) {
                     const nestedCategoriesData = await ProductService.getAllNestedCategories(selectedSubCategories);
-                    console.log('Nested categories data:', nestedCategoriesData);
                     setNestedCategories(nestedCategoriesData);
                     setIsLoadingNestedCategories(false)
                 }
@@ -71,7 +69,6 @@ const CategorySelectOptions = ({
         };
         setTimeout(fetchNestedCategories, 200);
     }, [selectedSubCategories]);
-    console.log('subCategories:', subCategories);
 
 
 
