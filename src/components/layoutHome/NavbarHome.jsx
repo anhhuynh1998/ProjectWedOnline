@@ -8,7 +8,7 @@ import "../layoutHome/cssHome/cssHome.css"
 
 const NavbarHome = () => {
     const [categories, setCategories] = useState([]);
-    const { logoutIcon, setLogoutIcon, setTimeout, setCategoryId } = useContext(UseProduct);
+    const { logoutIcon, setLogoutIcon, setTimeout, setCategoryId, count } = useContext(UseProduct);
 
     useEffect(() => {
         async function getCategory() {
@@ -78,7 +78,7 @@ const NavbarHome = () => {
                                     }
 
                                     <li>
-                                        <NavLink to={"/sidebar"} style={{ textDecoration: "none" }}>Shop Sidebar</NavLink>
+                                        <NavLink to={"/sidebar"} style={{ textDecoration: "none" }}>Mua Sắm</NavLink>
                                     </li>
 
                                 </ul>
@@ -102,8 +102,8 @@ const NavbarHome = () => {
                                     <NavLink to={`/cart`}>
                                         <span className="ti-shopping-cart col-md-2 me-1" />
                                     </NavLink>
+                                    <span className="cart__count text-white">{count}</span>
                                 </li>
-                                <span className="cart__count text-white"></span>
                             </ul>
                         </div>
                     </div>

@@ -19,7 +19,7 @@ const SearchProduct = ({ setSearch, setPage, setProducts }) => {
                         className="form-control border-end-0 border rounded-pill small fw-light py-2"
                         type="search"
                         id="example-search-input"
-                        placeholder="search"
+                        placeholder="tìm kiếm sản phẩm"
 
                     />
                     <span className="input-group-append " style={{ paddingLeft: "7px" }}>

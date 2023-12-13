@@ -118,7 +118,6 @@ const UserInfomation = () => {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 };
