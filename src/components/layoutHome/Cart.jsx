@@ -1,14 +1,17 @@
 /* eslint-disable no-inner-declarations */
 
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import CartService from "../../service/homeService/cartService";
 import formatPrice from "./formatPrice/FormatPrice";
 import CheckOut from "./Checkout";
 import Login from "./Login";
+import { UseProduct } from "./UseContext";
+import { ToastSuccess } from "../../toastify/Toast";
 
 const Cart = () => {
     const productIdList = JSON.parse(localStorage.getItem('productDetail')) || [];
+    const { setCount } = useContext(UseProduct);
     const [cartDetails, setCartDetails] = useState([]);
     const [total, setTotal] = useState(0);
 
@@ -17,6 +20,7 @@ const Cart = () => {
             async function findAllByUser() {
                 let response = await CartService.findAllByUser();
                 setCartDetails(response.data.listCartDetail);
+                setCount(response.data.listCartDetail.length)
             }
             findAllByUser();
         }
@@ -24,6 +28,7 @@ const Cart = () => {
             async function showCartDetailsNotLogin() {
                 let response = await CartService.showCartDetailsNotLogin(productIdList);
                 setCartDetails(response.data.listCartDetail);
+                setCount(response.data.listCartDetail.length);
             }
             showCartDetailsNotLogin();
         }
@@ -38,6 +43,8 @@ const Cart = () => {
         if (localStorage.getItem("jwt")) {
             let response = await CartService.removeItem(id);
             setCartDetails(response.data.listCartDetail);
+            setCount(response.data.listCartDetail.length)
+            ToastSuccess("Đã Xóa Sản Phẩm Khỏi Giỏ Hàng")
         }
         else {
             const updateProductDetails = productIdList.filter(e => e !== id)
@@ -45,8 +52,10 @@ const Cart = () => {
             setCartDetails(
                 cartDetails?.filter(e => e.product.id !== id)
             )
+            ToastSuccess("Đã Xóa Sản Phẩm Khỏi Giỏ Hàng")
             if (updateProductDetails.length === 0)
                 localStorage.removeItem("productDetail");
+            setCount(updateProductDetails.length);
         }
     }
 
@@ -66,13 +75,13 @@ const Cart = () => {
                         <div className="row">
                             <div className="col-xs-12">
                                 <div className="bradcaump__inner text-center">
-                                    <h2 className="bradcaump-title text-white animate__animated animate__bounceInDown" >Cart</h2>
+                                    <h2 className="bradcaump-title text-white animate__animated animate__bounceInDown" >Giỏ Hàng</h2>
                                     <nav className="bradcaump-inner" >
                                         <NavLink className="breadcrumb-item text-white animate__animated animate__flash" to={'/home'} >
-                                            Home
+                                            Trang Chủ
                                         </NavLink>
                                         <span className="brd-separetor text-white animate__animated animate__flash" >/</span>
-                                        <span className="breadcrumb-item active text-white animate__animated animate__flash" >Cart</span>
+                                        <span className="breadcrumb-item active text-white animate__animated animate__flash" >Giỏ Hàng</span>
                                     </nav>
                                 </div>
                             </div>
@@ -88,12 +97,12 @@ const Cart = () => {
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th className="product-thumbnail">Image</th>
-                                            <th className="product-name">Product</th>
-                                            <th className="product-price">Price</th>
-                                            <th className="product-quantity">Quantity</th>
-                                            <th className="product-subtotal">Total</th>
-                                            <th className="product-remove">Remove</th>
+                                            <th className="product-thumbnail">Hình Ảnh</th>
+                                            <th className="product-name">Tên Sản Phẩm</th>
+                                            <th className="product-price">Giá</th>
+                                            <th className="product-quantity">Số Lượng</th>
+                                            <th className="product-subtotal">Tổng</th>
+                                            <th className="product-remove">Xóa</th>
                                         </tr>
                                     </thead>
                                     <tbody>

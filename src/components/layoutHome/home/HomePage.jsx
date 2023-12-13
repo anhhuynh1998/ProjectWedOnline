@@ -1,8 +1,19 @@
 
+import { useState } from "react";
 import Login from "../Login";
 import HomeProductPrice from "./HomeProductPrice";
 
 const HomePage = () => {
+
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+        setIsHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+    };
 
     return (
         <div>
@@ -44,13 +55,13 @@ const HomePage = () => {
                         <div className="container ">
                             <div className="row ">
                                 <div className="col-xs-12 ">
-                                    <div className="bradcaump__inner text-center " style={{ paddingLeft: "530px" }}>
-                                        <h2 className="bradcaump-title animate__animated  animate__flash" style={{ color: "white" }}>New Product Collection</h2>
-
-                                        <a className="breadcrumb-item animate__animated animate__flip" style={{ color: "white" }}>
-                                            Show Now
-                                        </a>
-
+                                    <div className="bradcaump__inner text-center " style={{ paddingLeft: "530px" }}
+                                        onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                                        <h1 className={`bradcaump-title animate__animated ${isHovered ? 'animate__bounceInDown' : ''}`}
+                                            style={{ color: "white" }}>Chúc Mừng Giáng Sinh</h1>
+                                        <br />
+                                        <h1 className={`bradcaump-title animate__animated ${isHovered ? 'animate__bounceInUp' : ''}`}
+                                            style={{ color: "white" }}>Sale of 70%</h1>
                                     </div>
                                 </div>
                             </div>
@@ -66,3 +77,6 @@ const HomePage = () => {
     )
 }
 export default HomePage;
+
+// import styles from './YourComponent.module.css'; // Import your CSS file
+

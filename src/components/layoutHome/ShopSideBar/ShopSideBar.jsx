@@ -78,13 +78,13 @@ const ShopSideBar = () => {
                             <div className="row">
                                 <div className="col-xs-12">
                                     <div className="bradcaump__inner text-center">
-                                        <h2 className="bradcaump-title animate__animated animate__fadeInDown" style={{ color: "white" }}>Shop Sidebar</h2>
+                                        <h2 className="bradcaump-title animate__animated animate__fadeInDown" style={{ color: "white" }}>Mua Sắm</h2>
                                         <nav className="bradcaump-inner">
                                             <a className="breadcrumb-item animate__animated animate__fadeInDown" href="/home" style={{ color: "white" }}>
-                                                Home
+                                                Trang Chủ
                                             </a>
                                             <span className="brd-separetor animate__animated animate__fadeInDown" style={{ color: "white" }}>/</span>
-                                            <span className="breadcrumb-item active animate__animated animate__fadeInDown" style={{ color: "white" }}>Shop Sidebar</span>
+                                            <span className="breadcrumb-item active animate__animated animate__fadeInDown" style={{ color: "white" }}>Mua Sắm</span>
                                         </nav>
                                     </div>
                                 </div>

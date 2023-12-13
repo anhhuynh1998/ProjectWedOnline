@@ -9,7 +9,7 @@ const ProductList = () => {
     return (
         <div className="row" >
             <div className="product__list" style={{ display: 'flex', flexWrap: 'wrap' }}>
-                <InforProduct />
+                {<InforProduct />}
                 {
                     productList.map((item, index) => {
                         const formattedPrice = formatPrice(item.price);

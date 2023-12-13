@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 /* eslint-disable no-undef */
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
@@ -21,15 +22,31 @@ const UseContext = ({ children }) => {
     const back = useNavigate();
     const formatPriceProduct = formatPrice(product.price);
     const [categoryId, setCategoryId] = useState("");
-    console.log(categoryId);
 
     useEffect(() => {
         async function getALl() {
-            let response = await ProductService.getAllProductByFilterHome(categoryId);
+            let response = await ProductService.getAll();
             setProductList(response.data.content);
+            if (localStorage.getItem("jwt")) {
+                let respo = await CartService.findAllByUser();
+                setCount(respo.data.listCartDetail.length)
+            } else {
+                const productIdList = JSON.parse(localStorage.getItem('productDetail')) || [];
+                let response = await CartService.showCartDetailsNotLogin(productIdList);
+                setCount(response.data.listCartDetail.length)
+            }
         }
         getALl();
-    }, [location, categoryId])
+    }, [location])
+
+    useEffect(() => {
+        async function getAllFilterHome(categoryId) {
+            let respo = await ProductService.getAllProductByFilterHome(categoryId);
+            if (respo && respo.data)
+                setProductList(respo.data.content);
+        }
+        getAllFilterHome(categoryId);
+    }, [categoryId])
 
     useEffect(() => {
         async function getById() {
@@ -51,6 +68,7 @@ const UseContext = ({ children }) => {
                 let response = await CartService.addToCart(data)
                 setCartDetailList(response.data);
                 ToastSuccess('Thêm Vào Giỏ Hàng Thành Công');
+                setCount(prev => prev + 1)
             }
         }
         else {
@@ -61,9 +79,11 @@ const UseContext = ({ children }) => {
                 products.push(data.id);
                 localStorage.setItem("productDetail", JSON.stringify(products));
                 ToastSuccess('Thêm Vào Giỏ Hàng Thành Công');
+                setCount(products.length);
             }
         }
     }
+
     const handleSelectedProduct = (id) => {
         setCount(0);
         setProductId(id);
@@ -82,9 +102,8 @@ const UseContext = ({ children }) => {
             count, setCount, formatPriceProduct,
             handleAddCart, handleSelectedProduct,
             logoutIcon, setLogoutIcon, backHome,
-            product,
-            listFile,
-            setCategoryId
+            product, listFile,
+            setCategoryId,
         }}>
             {children}
         </UseProduct.Provider>

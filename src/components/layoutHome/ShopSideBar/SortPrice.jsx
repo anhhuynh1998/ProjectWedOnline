@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 
 const SortPrice = ({ setSortPrice, setProducts, setPage }) => {
 
@@ -33,12 +34,12 @@ const SortPrice = ({ setSortPrice, setProducts, setPage }) => {
     return (
         <>
             <div className="htc-grid-range">
-                <h4 className="section-title-4">FILTER BY PRICE</h4>
+                <h4 className="section-title-4">Tìm Sản Phẩm Theo Giá</h4>
                 <div className="form-row align-items-center">
                     <select className="custom-select mr-sm-2"
                         id="inlineFormCustomSelect"
                         onChange={handleSortChange}>
-                        <option selected disabled>Chọn Giá...</option>
+                        <option selected disabled >Chọn Giá...</option>
                         <option value="1">0-500k</option>
                         <option value="2">500k-1000k</option>
                         <option value="3">1000k</option>
