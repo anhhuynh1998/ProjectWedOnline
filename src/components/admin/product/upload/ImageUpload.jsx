@@ -39,17 +39,12 @@ const ImageUpload = ({
 
     const handleFileChange = async (event) => {
         const newFiles = Array.from(event.target.files);
-
-        // Kiểm tra định dạng của các tệp tin được chọn
         const invalidFiles = newFiles.filter(file => !isFileValid(file));
 
         if (invalidFiles.length > 0) {
-            // Hiển thị thông báo về việc chọn tệp tin không hợp lệ
             setErrorMessage('Chọn các tệp tin không hợp lệ. Chỉ chấp nhận các định dạng .png, .jpg, .jpeg');
             return;
         }
-
-        // Tiếp tục xử lý các tệp tin hợp lệ
         for (const [index, file] of newFiles.entries()) {
             setLoadingForImage(index, true);
 
@@ -124,7 +119,7 @@ const ImageUpload = ({
             setToastId(uploadingToast);
 
             try {
-                const response = await fetch("http://localhost:8080/api/files/images", {
+                const response = await fetch("http://localhost:8080/api/admin/files/images", {
                     method: "POST",
                     body: formData,
                 });
@@ -219,25 +214,26 @@ const ImageUpload = ({
                         justifyContent: "center"
                     }}
                 >
-                    {selectedFiles.length > 0 ? (
-                        <div className="content-img" >
+                    {(uploadedFileCreate && uploadedFileCreate.length > 0) ? (
+                        <div className="content-imgCreate" style={{ textAlign: 'left' }}>
                             <div className="icon">
                                 <i className="fa-solid fa-cloud-arrow-up"></i>
                             </div>
-                            <div className="text-center">
-                                Thêm ảnh
+                            <div className="content-imgCreate">
+                                {uploadedFileCreate && uploadedFileCreate.length > 0 ? '   Thêm Ảnh !!' : 'Chưa chọn Files!'}
                             </div>
                         </div>
                     ) : (
-                        <div className="content-img" >
+                        <div className="content-imgCreate" style={{ textAlign: 'center', marginLeft: '50%' }}>
                             <div className="icon">
                                 <i className="fa-solid fa-cloud-arrow-up"></i>
                             </div>
-                            <div className="text-center">
-                                Chưa chọn file!
+                            <div className="content-imgCreate">
+                                {uploadedFileCreate && uploadedFileCreate.length > 0 ? 'Thêm Ảnh !!' : ' Chưa chọn Files!'}
                             </div>
                         </div>
                     )}
+
                 </label>
 
                 <input
@@ -251,7 +247,7 @@ const ImageUpload = ({
                     multiple
                 />
             </Slider>
-            <span className="text-danger">{errors?.files?.message}</span>
+            {/* <span className="text-danger">{errors?.files?.message}</span> */}
             {errorMessage && (
                 <span style={{ color: 'red' }}>{errorMessage}</span>
             )}

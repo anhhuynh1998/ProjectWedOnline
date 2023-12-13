@@ -104,21 +104,58 @@
 
 }
 
-.content-img {
-    width: 200%;
+.content-imgUpdate {
+    margin-top: 20%;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     height: 100%;
-    /* Đảm bảo div content chiếm toàn bộ chiều cao của parent */
+}
+
+.content-imgCreate {
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: center;
+    height: 100%;
 }
 
 .bth-width {
     width: 50px;
 }
 
-.table-style {
-    border: 1px solid;
-    border-collapse: collapse;
+
+
+.div-layout {
+    display: flex;
+    align-items: center;
+}
+
+#search {
+    position: relative;
+    width: 30%;
+}
+
+#search-icon {
+    position: relative;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.form-update-body {
+    line-height: 130% !important;
+}
+
+.text-margin {
+    margin: 4% 4% 6% 0%;
+}
+
+.text-margin-add {
+    margin: 4% 4% 6% 2%;
 }

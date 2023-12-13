@@ -17,5 +17,5 @@ export const ProductSchema = yup.object({
     // gender: yup.string().required("Vui lòng chọn một danh mục"),
     // type: yup.string().required("Vui lòng chọn một danh mục"),
     category: yup.string().required("Vui lòng chọn một danh mục !!!"),
-    files: yup.string().required("Vui Lòng chọn ảnh !!!")
+    // files: yup.string().required("Vui Lòng chọn ảnh !!!")
 });

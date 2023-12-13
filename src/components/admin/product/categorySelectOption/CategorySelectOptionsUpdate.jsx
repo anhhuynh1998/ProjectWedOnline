@@ -37,12 +37,10 @@ const CategorySelectOptionsUpdate = ({
                 console.log('Selected category:', selectedCategory);
                 if (selectedCategory) {
                     const subcategoriesData = await ProductService.getAllSubCategories(selectedCategory);
-                    console.log('Subcategories data:', subcategoriesData);
                     setSubCategories(subcategoriesData);
                     setIsLoadingSubCategories(false)
                 }
             } catch (error) {
-                console.error('Error fetching subcategories:', error);
                 setIsLoadingSubCategories(false);
             }
         };
@@ -59,12 +57,11 @@ const CategorySelectOptionsUpdate = ({
                 console.log('Selected subcategories:', selectedSubCategories);
                 if (selectedSubCategories) {
                     const nestedCategoriesData = await ProductService.getAllNestedCategories(selectedSubCategories);
-                    console.log('Nested categories data:', nestedCategoriesData);
+
                     setNestedCategories(nestedCategoriesData);
                     setIsLoadingNestedCategories(false)
                 }
             } catch (error) {
-                console.error('Error fetching nested categories:', error);
                 setIsLoadingNestedCategories(false)
             }
         };
