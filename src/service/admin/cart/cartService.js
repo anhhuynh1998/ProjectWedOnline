@@ -12,4 +12,10 @@ export class CartService {
     static quarterlyRevenue(){
         return axios.get(`${CART_API}/quarterly`)
     }
+    static getAllCart(){
+        return axios.get(`${CART_API}/list`)
+    }
+    static searchNameAndPhone(search){
+        return axios.get(`${CART_API}/search?search=${search}`)
+    }
 }
