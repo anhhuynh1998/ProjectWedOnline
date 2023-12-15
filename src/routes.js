@@ -14,7 +14,7 @@ const dashboardRoutes = [
   },
   {
     path: "/product",
-    name: "Danh Sách Sản Phẩm",
+    name: "Sản Phẩm",
     icon: "fa-solid fa-list",
     component: Product,
     layout: "/admin",

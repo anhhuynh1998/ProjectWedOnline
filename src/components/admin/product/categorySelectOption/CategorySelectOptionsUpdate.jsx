@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import SkeletonSelectOption from '../skeleton/SkeletonSelectOption'
 import { ProductService } from '../../../../service/admin/product/productService'
+import SelectOptionCategory from '../componentResue/SelectOptionCategory'
+import SelectOptionCategoryType from '../componentResue/SelectOptionCategoryType'
 const CategorySelectOptionsUpdate = ({
     nestedCategories, setNestedCategories,
     selectedCategory, setSelectedCategory,
     selectedSubCategories, setSelectedSubCategories,
     categories,
     register,
-    isLoadingSubCategories, setIsLoadingSubCategories,
-    isLoadingNestedCategories, setIsLoadingNestedCategories,
     isLoadingCategories,
 
 }) => {
 
     const [subCategories, setSubCategories] = useState([])
+    const [isLoadingSubCategories, setIsLoadingSubCategories] = useState(false);
+    const [isLoadingNestedCategories, setIsLoadingNestedCategories] = useState(false);
 
     const handleChangeCategory = (e) => {
         console.log('handleChangeCategory');
@@ -28,114 +29,73 @@ const CategorySelectOptionsUpdate = ({
     }
 
     useEffect(() => {
-
-        // setIsLoadingSubCategories(true);
-
         const fetchSubcategories = async () => {
             try {
-                console.log('Selected category:', selectedCategory);
+                setIsLoadingSubCategories(true);
                 if (selectedCategory) {
                     const subcategoriesData = await ProductService.getAllSubCategories(selectedCategory);
                     setSubCategories(subcategoriesData);
-                    // setIsLoadingSubCategories(false)
                 }
             } catch (error) {
-                // setIsLoadingSubCategories(false);
+                console.error('Error fetching subcategories:', error);
+            } finally {
+                setIsLoadingSubCategories(false);
             }
         };
 
-
-        setTimeout(fetchSubcategories, 200);
+        if (selectedCategory) {
+            fetchSubcategories();
+        }
     }, [selectedCategory]);
 
-
     useEffect(() => {
-        setIsLoadingNestedCategories(true)
         const fetchNestedCategories = async () => {
             try {
-                console.log('Selected subcategories:', selectedSubCategories);
+                setIsLoadingNestedCategories(true);
                 if (selectedSubCategories) {
                     const nestedCategoriesData = await ProductService.getAllNestedCategories(selectedSubCategories);
-
                     setNestedCategories(nestedCategoriesData);
-                    setIsLoadingNestedCategories(false)
                 }
             } catch (error) {
-                setIsLoadingNestedCategories(false)
+                console.error('Error fetching nested categories:', error);
+            } finally {
+                setIsLoadingNestedCategories(false);
             }
         };
-        setTimeout(fetchNestedCategories, 200);
+
+        if (selectedSubCategories) {
+            fetchNestedCategories();
+        }
     }, [selectedSubCategories]);
 
     return (
         <>
-            <div className="col-4 mb-2">
-                <label className="fw-bold" htmlFor="">
-                    Đối tượng
-                </label>
-                {isLoadingCategories ? (
-                    <SkeletonSelectOption />
-                ) : (
-                    <select
-                        className="form-control"
-                        value={selectedCategory}
-                        onChange={handleChangeCategory}
-                        name='categoryGranParentId'
-                    >
-                        <option value="-1"> Chọn một danh mục </option>
-                        {categories?.map(category => (
-                            <option key={category.id} value={category.id}>
-                                {category.name}
-                            </option>
-                        ))}
-                    </select>
-                )}
-                {/* <span className="text-danger">{errors?.categoryGranParentId?.message}</span> */}
-            </div>
-            <div className="col-4 mb-2">
-                <label className="fw-bold" htmlFor="">
-                    Loại sử dụng
-                </label>
-                {isLoadingSubCategories ? (
-                    <SkeletonSelectOption />
-                ) : (
-                    <select
-                        className="form-control"
-                        // value={selectedSubCategories || ''}
-                        onChange={handleChangeSelectedSubCategories}
-                        disabled={!selectedCategory}
-                        name='categoryParentId'
-                    >
-                        <option value="" disabled={!selectedCategory} > Chọn một danh mục</option>
-                        {subCategories.map(subcategory => (
-                            <option key={subcategory.id} value={subcategory.id}>{subcategory.name}</option>
-                        ))}
-                    </select>
-                )}
-                {/* <span className="text-danger">{errors?.categoryParentId?.message}</span> */}
-            </div>
-            <div className="col-4 mb-2">
-                <label className="fw-bold" htmlFor="">
-                    Loại
-                </label>
-                {isLoadingNestedCategories ? (
-                    <SkeletonSelectOption />
-                ) : (
-                    <select
-                        name='category'
-                        className="form-control"
-                        disabled={!selectedSubCategories}
-                        {...register('category')}
+            <SelectOptionCategory
+                label="Đối tượng"
+                options={categories}
+                isLoading={isLoadingCategories}
+                value={selectedCategory}
+                onChange={handleChangeCategory}
 
-                    >
-                        <option value="" disabled={!selectedSubCategories}>Chọn một danh mục</option>
-                        {nestedCategories.map(nested => (
-                            <option key={nested.id} value={nested.id}>{nested.name}</option>
-                        ))}
-                    </select>
-                )}
-                {/* <span className="text-danger">{errors?.category?.message}</span> */}
-            </div>
+            />
+
+            <SelectOptionCategory
+                label="Loại sử dụng"
+                options={subCategories}
+                isLoading={isLoadingSubCategories}
+                value={selectedSubCategories}
+                onChange={handleChangeSelectedSubCategories}
+
+            />
+            <SelectOptionCategoryType
+                label="Loại"
+                options={nestedCategories}
+                isLoading={isLoadingNestedCategories}
+                name="category"
+                id="nestedCategoriesIdSelect"
+                register={register}
+            // errors={errors}
+            />
         </>
     )
 }

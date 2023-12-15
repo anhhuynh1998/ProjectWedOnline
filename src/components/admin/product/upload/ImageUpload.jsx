@@ -99,7 +99,6 @@ const ImageUpload = ({
         setAvatarId(newAvatarIds);
     };
 
-    const [toastId, setToastId] = useState(null);
 
     const uploadAvatar = async (files) => {
         const uploadPromises = files.map(async (file, i) => {

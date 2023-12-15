@@ -6,9 +6,7 @@ const API_CATEGORIES = 'http://localhost:8080/api/admin/categories'
 const API_UPLOAD_CLOUDINARY = 'http://localhost:8080/api/admin/files/images'
 
 export class ProductService {
-    static getAllProduct() {
-        return axios.get(PRODUCT_API)
-    }
+
     static getAllProduct(search, page, size) {
         return axios.get(PRODUCT_API + `?search=${search || ''}&page=${page || 0}&size=${size}`);
     }
