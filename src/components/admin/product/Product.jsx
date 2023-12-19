@@ -187,6 +187,24 @@ const Product = () => {
   };
 
 
+  const deleteCustomerById = async (productId) => {
+    try {
+      await Swal.fire({
+        title: 'Bạn muốn xóa sản phẩm này ?',
+        showCancelButton: true,
+        confirmButtonText: 'Xóa',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          Swal.fire('Xóa!', '', 'success')
+          await ProductService.deleteProducts(productId)
+          setProducts((product) => product.filter((product) => product.id !== productId))
+        }
+      });
+    } catch (error) {
+      // Xử lý lỗi nếu có
+    }
+  }
+
   return (
 
     <div className="container-fluid">
@@ -228,6 +246,7 @@ const Product = () => {
               onChange={handleSizePageChange}
               className="form-select"
               style={{ marginBottom: '5px' }}
+
             >
               {sizeOptions.map((option) => (
                 <option key={option} value={option}>

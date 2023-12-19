@@ -1,5 +1,4 @@
 import AddProductMan from "./AddProductMan";
-import AddProductWomen from "./AddProductWomen";
 
 
 const AddProduct = () => {
@@ -8,9 +7,9 @@ const AddProduct = () => {
             <div>
                 <AddProductMan />
             </div>
-            <div>
+            {/* <div>
                 <AddProductWomen />
-            </div>
+            </div> */}
         </>
 
     );

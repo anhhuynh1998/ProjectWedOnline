@@ -3,7 +3,7 @@ import { Flip, Zoom, toast } from "react-toastify";
 export const ToastSuccess = (message) => {
     toast.success(message, {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -17,7 +17,7 @@ export const ToastSuccess = (message) => {
 export const ToastError = (message) => {
     toast.error(message, {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 1000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -31,7 +31,7 @@ export const ToastError = (message) => {
 export const ToastWarning = (message) => {
     toast.warn(message, {
         position: "top-right",
-        autoClose: 2000,
+        autoClose: 1500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

@@ -89,7 +89,7 @@ const Login = () => {
                                 </li>
                                 <li className="nav-item " onClick={() => handleTabChange('register')}>
                                     <a className={`nav-link ${activeTab === 'register' ? 'active' : ''}`} id="register-tab" data-toggle="tab" href="#register"
-                                        role="tab" aria-controls="register" aria-selected={activeTab === 'register'}>Đăng Ký Tài Khoản</a>
+                                        role="tab" aria-controls="register" aria-selected={activeTab === 'register'}>Đăng Ký </a>
                                 </li>
                             </ul>
                         </div>
@@ -192,7 +192,9 @@ const Login = () => {
                                                 <Icon onClick={handleToggle} className="absolute mr-10" icon={icon} size={20} />
                                             </span>
                                         </div>
-                                        <div className='d-grid gap-2 d-md-flex mt-5 '>
+                                        <p className='text-dark'><small>Bằng cách tạo tài khoản, Quý Khách đã đồng ý với <code>Điều khoản &
+                                            Điều kiện và Chính sách Bảo mật  </code> của chúng tôi.</small></p>
+                                        <div className='d-grid gap-2 d-md-flex mt-1 '>
                                             <button type="button" className="btn btn-danger mt-2" id='registerButton'>Đăng Kí</button>
                                         </div>
                                     </form>

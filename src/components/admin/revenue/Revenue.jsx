@@ -7,6 +7,7 @@ import RevenueStatistics from './RevenueStatistics';
 // import Sales from './PercentTheDay';
 import RevenueByMonth from './RevenueByMonth';
 import {QuarterlyRevenue} from './QuarterlyRevenue';
+import { ToastError } from '../../../toastify/Toast';
 
 const Revenue = () => {
   const [data, setData] = useState([]);
@@ -47,7 +48,7 @@ const Revenue = () => {
       }
       setData(newData);
     } catch (error) {
-      console.log(error, "Error");
+      ToastError("Doanh thu bị lỗi");
     }
   }
   const changeStartDate = (e) => {

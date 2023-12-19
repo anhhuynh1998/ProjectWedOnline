@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { CartService } from "../../../service/admin/cart/cartService";
+import formatPrice from "../../layoutHome/formatPrice/formatPrice";
+import { ToastError } from "../../../toastify/Toast";
 
 
 
@@ -34,7 +36,7 @@ export const QuarterlyRevenue = () => {
       }
       quarterly();
     } catch (error) {
-      console.log(error, "Doanh thu quý bị lỗi");
+      ToastError("Doanh thu quý bị lỗi");
     }
   }, [])
 

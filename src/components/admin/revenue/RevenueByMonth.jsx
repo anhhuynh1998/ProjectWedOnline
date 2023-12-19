@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Tooltip, Line, LineChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { RevenueService } from '../../../service/admin/revenue/revenueService';
 import moment from 'moment'
+import { ToastError } from '../../../toastify/Toast';
 
 const RevenueByMonth = () => {
     const [data, setData] = useState([]);
@@ -44,7 +45,7 @@ const RevenueByMonth = () => {
             }
             setData(newData);
         } catch (error) {
-            console.log(error, "chi rua bay");
+            ToastError("Doanh thu tháng bị lôĩ");
         }
     }
 
