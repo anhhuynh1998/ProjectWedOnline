@@ -77,9 +77,7 @@ const Cart = () => {
                                         </a>
                                     </div>
                                 </div>
-
                             </tr>
-
                         ))
                     }
                 </tbody>

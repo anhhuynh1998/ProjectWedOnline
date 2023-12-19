@@ -36,15 +36,6 @@ const Search = ({ setSearch, search, setListCart }) => {
           id='searchNameAndPhone'
           onChange={handleSearch}
         />
-        {/* <span className="input-group-append " style={{ paddingLeft: "7px" }}>
-          <button
-            className="
-                              border rounded-pill ms-n5  btn btn-outline-danger"
-            type="button"
-          >
-            <i className="fa fa-search" />
-          </button>
-        </span> */}
       </div>
     </div>
 
