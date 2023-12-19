@@ -1,36 +1,86 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 
-const SortPrice = ({ setSortPrice, setProducts, setPage }) => {
+import { useContext, useEffect } from "react";
+import { UseProduct } from "../UseContext";
+import queryString from "query-string";
+
+export const PRICE_FILTER = [{
+    priceMin: 0,
+    priceMax: 500_000,
+},
+{
+    priceMin: 500_000,
+    priceMax: 1_000_000,
+},
+{
+    priceMin: 1_000_000,
+    priceMax: 2_000_000
+}
+]
+export function removeFalsyFields(obj) {
+    // Duyệt qua từng trường của đối tượng
+    for (const key in obj) {
+        // Kiểm tra nếu trường có giá trị falsy
+        if (!obj[key]) {
+            // Xóa trường đó khỏi đối tượng
+            delete obj[key];
+        }
+    }
+    return queryString.stringify(obj);
+}
+export function getParamURL(obj, searchParams, getParamsInURL) {
+    // Duyệt qua từng trường của đối tượng
+    for (const key in obj) {
+        // Kiểm tra nếu trường có giá trị falsy
+        // Xóa trường đó khỏi đối tượng
+        console.log(searchParams?.get(key), key)
+        getParamsInURL(searchParams?.get(key)) ?
+            (obj[key] = getParamsInURL(searchParams?.get(key)))
+            : obj[key] = "";
+
+    }
+}
+
+const SortPrice = ({ setSortPrice, getParamsInURL }) => {
+    const { filter, setFilter, searchParams } = useContext(UseProduct);
 
     const handleSortChange = (event) => {
-        const selectedValue = event.target.value;
-        console.log(selectedValue);
-        setPage(0);
-        setProducts([]);
-        if (selectedValue == 1) {
-            setSortPrice({
-                min: 0,
-                max: 500000
-            })
+        if (event.target.value === "") {
+            const cloneFilter = { ...filter };
+            delete cloneFilter.priceMax;
+            delete cloneFilter.priceMin;
+            setFilter(cloneFilter)
+            return;
         }
-        else {
-            if (selectedValue == 2) {
-                setSortPrice({
-                    min: 500000,
-                    max: 1000000
-                })
-
-            }
-            else {
-                setSortPrice({
-                    min: 1000000,
-                    max: ""
-                })
-            }
-        }
-
-        console.log("đây", selectedValue);
+        setFilter({
+            ...filter,
+            ...PRICE_FILTER[event.target.value]
+        })
     }
+    const index = PRICE_FILTER.findIndex(e => e.priceMin == searchParams.get('priceMin')
+        || e.priceMax == searchParams.get('priceMax'))
+
+    useEffect(() => {
+        const priceMinParam = getParamsInURL(searchParams?.get('priceMin'));
+        const priceMaxParam = getParamsInURL(searchParams?.get('priceMax'));
+
+        if (priceMinParam && priceMaxParam) {
+            const priceMinValue = parseFloat(priceMinParam);
+            const priceMaxValue = parseFloat(priceMaxParam);
+
+            setSortPrice({ min: priceMinValue, max: priceMaxValue });
+        }
+    }, [searchParams]);
+
+    const resetPrice = () => {
+        setFilter({
+            ...filter,
+            priceMin: "",
+            priceMax: "",
+        })
+    }
+
     return (
         <>
             <div className="htc-grid-range">
@@ -38,11 +88,10 @@ const SortPrice = ({ setSortPrice, setProducts, setPage }) => {
                 <div className="form-row align-items-center">
                     <select className="custom-select mr-sm-2"
                         id="inlineFormCustomSelect"
+                        defaultValue={index}
                         onChange={handleSortChange}>
-                        <option selected disabled >Chọn Giá...</option>
-                        <option value="1">0-500k</option>
-                        <option value="2">500k-1000k</option>
-                        <option value="3">1000k</option>
+                        <option selected value="" >Chọn Giá...</option>
+                        {PRICE_FILTER.map((e, index) => <option key={index + "price"} value={index}>{e.priceMin} {e.priceMax ? '-' : 'Trở lên'} {e.priceMax}</option>)}
                     </select>
                 </div>
             </div>

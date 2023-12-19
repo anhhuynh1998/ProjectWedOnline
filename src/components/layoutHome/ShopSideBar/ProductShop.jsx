@@ -7,11 +7,11 @@ import formatPrice from '../formatPrice/FormatPrice';
 import InforProduct from '../home/InforProduct';
 import { SkeletonLoadSideBar } from '../../skeleton/SkeletonLoad';
 
-const ProductShop = ({ productList, getALlProducts, isLoading }) => {
-    const { handleAddCart, handleSelectedProduct } = useContext(UseProduct);
+const ProductShop = ({ getALlProducts, isLoading }) => {
+    const { handleAddCart, handleSelectedProduct, products } = useContext(UseProduct);
 
     const handleLoadList = (index, e) => {
-        if (index === productList.length - 1 && e === true) {
+        if (index === products.length - 1 && e === true) {
             getALlProducts();
         }
     }
@@ -22,7 +22,7 @@ const ProductShop = ({ productList, getALlProducts, isLoading }) => {
                     <div className="product__list" style={{ display: 'flex', flexWrap: 'wrap' }}>
                         <InforProduct />
                         {
-                            productList.map((item, index) => {
+                            products.map((item, index) => {
                                 const formattedPrice = formatPrice(item.price);
                                 return (
                                     <InView as="div" className="col-md-4 single__pro col-lg-4 cat--1 col-sm-4 col-xs-12"

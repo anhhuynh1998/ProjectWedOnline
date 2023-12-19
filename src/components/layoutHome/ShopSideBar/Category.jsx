@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import CategoryService from '../../../service/homeService/categoryService';
-import ProductService from "../../../service/homeService/productService";
+import { UseProduct } from "../UseContext";
 
-
-const Category = ({ setCategoryId, setProducts, setPage }) => {
+const Category = () => {
+    const { setCategoryId, setPage, filter, setFilter } = useContext(UseProduct);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -16,18 +16,15 @@ const Category = ({ setCategoryId, setProducts, setPage }) => {
         getAllCategory();
     }, [])
 
-    const handleCategoryClick = async (category) => {
-        setSelectedCategory(category);
-        if (category) {
-            let response = await ProductService.getProductsByCategory(category.id);
-            console.log("o dayyyyyyy", response.data);
-        }
-    }
-    const getProducts = (category) => {
+    const getProducts = (cate) => {
+        setSelectedCategory(cate.id);
         setPage(0);
-        setProducts([]);
-        setCategoryId(category.id);
-
+        setCategoryId(cate.id);
+        const cateUrl = {
+            ...filter,
+            categoryId: cate.id
+        }
+        setFilter(cateUrl);
     }
 
     return (
@@ -38,11 +35,11 @@ const Category = ({ setCategoryId, setProducts, setPage }) => {
                     {categories.map((item, index) => (
                         <div key={index}
                             className={`btn-group dropright sidebar__list  btn-outline
-                         ${selectedCategory === item ? 'active' : ''}`}
-                            onClick={() => handleCategoryClick(item)}>
+                         `}
+                        >
                             <button
                                 type="button"
-                                className="btn btn-outline-secondary text-dark dropdown-toggle "
+                                className="btn btn-outline-secondary text-dark dropdown-toggle"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
                                 aria-expanded="false"
@@ -59,9 +56,11 @@ const Category = ({ setCategoryId, setProducts, setPage }) => {
                                             <ul className="submenu " style={{ paddingLeft: "15px" }}>
                                                 {category.categoryChildren.map((subItem, subIndex) => (
                                                     <li key={subIndex}>
-                                                        <button type="button" className="btn btn-outline-secondary rounded-3"
+                                                        <a type="button" className={`${selectedCategory === subItem.id ?
+                                                            'btn btn-secondary rounded-3 text-white ' : 'btn btn-outline-secondary rounded-3'}`}
                                                             onClick={() => getProducts(subItem)}>
-                                                            {subItem.name}</button>
+                                                            {subItem.name}
+                                                        </a>
                                                     </li>
                                                 ))}
                                             </ul>
@@ -73,10 +72,7 @@ const Category = ({ setCategoryId, setProducts, setPage }) => {
                     ))}
                 </div>
             </div>
-
         </>
-
     )
-
 }
 export default Category
