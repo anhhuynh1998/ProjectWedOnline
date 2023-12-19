@@ -1,5 +1,5 @@
 /* eslint-disable no-inner-declarations */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ProductService } from '../../../service/admin/product/productService'
 import Spinner from '../layouts/Spinner';
 import CreateProduct from './CreateProduct';
@@ -11,6 +11,7 @@ const Product = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false)
+  const [isOpenModalUpdate, setIsOpenModalUpdate] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -18,10 +19,9 @@ const Product = () => {
   const [size, setSize] = useState(5);
   const [pageable, setPageable] = useState(0);
   const [selectedPage, setSelectedPage] = useState(page);
-  const [searchTimeout, setSearchTimeout] = useState(null);
   const [isFirstPage, setIsFirstPage] = useState()
   const [isLastPage, setIsLastPage] = useState()
-
+  const [sortType, setSortType] = useState('id');
 
   const openModal = () => {
     setIsOpenModal(true);
@@ -31,13 +31,17 @@ const Product = () => {
   const openUpdateModal = (productId) => {
     console.log(productId);
     setSelectedProductId(productId);
-    setIsOpenModal(true);
+    setIsOpenModalUpdate(true);
   };
 
 
   const closeModal = () => {
     setSelectedProductId(null);
     setIsOpenModal(false);
+  };
+  const closeModalUpdate = () => {
+    setSelectedProductId(null);
+    setIsOpenModalUpdate(false);
   };
 
   const openDetail = () => {
@@ -70,6 +74,16 @@ const Product = () => {
     }
   };
 
+
+  const scrollToRef = useRef(null);
+
+  // Effect để cuộn tới phần tử sản phẩm mới khi danh sách sản phẩm thay đổi
+  useEffect(() => {
+    if (scrollToRef.current) {
+      // Sử dụng smooth scroll để có hiệu ứng cuộn mượt mà
+      scrollToRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+    }
+  }, [products]);
 
 
 
@@ -127,13 +141,20 @@ const Product = () => {
 
 
 
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  }
 
-  const handleInputSearch = (e) => {
-    e.preventDefault();
-    const value = e.target.value;
-    setSearch(value);
-  };
 
+  const handleSearch = () => {
+    const input = document.getElementById("example-search-input");
+    const searchValue = input.value;
+    setPage(0);
+    setProducts([]);
+    setSearch(searchValue);
+  }
 
   const handlePreviousPage = () => {
     handlePageChange(page - 1);
@@ -158,64 +179,55 @@ const Product = () => {
     }
   };
 
-
-
-
-
-
-
-  const deleteCustomerById = async (productId) => {
-    try {
-      await Swal.fire({
-        title: 'Bạn muốn xóa sản phẩm này ?',
-        showCancelButton: true,
-        confirmButtonText: 'Xóa',
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          Swal.fire('Xóa!', '', 'success')
-          await ProductService.deleteProducts(productId)
-          setProducts((product) => product.filter((product) => product.id !== productId))
-        }
-      });
-    } catch (error) {
-      // Xử lý lỗi nếu có
-    }
-  }
-
+  const formatCurrencyVND = (amount) => {
+    return new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(amount);
+  };
 
 
   return (
 
     <div className="container-fluid">
-      <section>
+      <section className="d-flex justify-content-between align-items-center">
         <div className="d-flex align-items-center">
-          <button className="btn  btn-outline-success" onClick={openModal}>
+          <button className="btn btn-outline-success" onClick={openModal}>
             <i className="fa fa-plus me-3" />
             Tạo Sản Phẩm
           </button>
           {<CreateProduct isOpenModal={isOpenModal} handleClose={closeModal} products={products} setProducts={setProducts} />}
-
-          <form className="d-flex p-2 m-2" id='search' role="search" >
-            <i className="fa-solid fa-magnifying-glass" id='search-icon' style={{ position: 'absolute', top: '50%', left: '10%', transform: 'translateY(-50%)', zIndex: '1' }} />
-            <input
-              className="form-control me-2 pl-5"
-              type="search"
-              placeholder="Tìm Kiếm..."
-              aria-label="Search"
-              value={search}
-              onChange={(e) => handleInputSearch(e)}
-            />
-          </form>
-
-
         </div>
-        <div>
-          <label className="mb-2">
+        <form className="d-flex p-2 m-2 flex-grow-1" id="search" role="search">
+          {/* <i className="fa-solid fa-magnifying-glass" id="search-icon" style={{ position: 'absolute', top: '50%', left: '10%', transform: 'translateY(-50%)', zIndex: '1' }} /> */}
+          <input
+            className="form-control me-2 pl-5 flex-grow-1"
+            type="search"
+            placeholder="Tìm Kiếm sản phẩm..."
+            aria-label="Search"
+            id="example-search-input"
+            value={search}
+            onKeyDown={handleKeyPress}
+          />
+          <span className="input-group-append " style={{ paddingLeft: "7px" }}>
+            <button
+              className="
+                             border-bottom-0 border rounded-pill ms-n5  btn btn-outline-danger"
+              type="button"
+              onClick={handleSearch}
+            >
+              <i className="fa fa-search" />
+            </button>
+          </span>
+        </form>
+        <div className="d-flex flex-column align-items-end">
+          <label style={{ marginBottom: "17px" }}>
             Số sản phẩm trên mỗi trang:
             <select
               value={size}
               onChange={handleSizePageChange}
-              class="form-select"
+              className="form-select"
+              style={{ marginBottom: '5px' }}
             >
               {sizeOptions.map((option) => (
                 <option key={option} value={option}>
@@ -224,36 +236,35 @@ const Product = () => {
               ))}
             </select>
           </label>
-
         </div>
-
-
-
       </section>
+
+
       <section className="mt-2">
         {
           loading ? <Spinner /> : (
             <div>
               <table className="table table-hover " >
                 <thead>
-                  <tr>
-                    <th scope="col-2">#</th>
-                    <th scope="col-2">Tên Sản Phẩm</th>
-                    <th scope="col-2">Mô Tả</th>
-                    <th scope="col-2">Giá</th>
-                    <th scope="col-2">Kích Cỡ</th>
-                    <th scope="col-2">Tình Trạng</th>
-                    <th scope="col-2">Loại</th>
+                  <tr >
+                    <th scope="col-2" >#</th>
+                    <th scope="col-2" >Tên Sản Phẩm</th>
+                    <th scope="col-2" >Mô Tả</th>
+                    <th scope="col-2" >Giá ký gửi(Đồng)</th>
+                    <th scope="col-2" >Giá giá bán ra(Đồng)</th>
+                    <th scope="col-2" >Kích Cỡ</th>
+                    <th scope="col-2" >Tình Trạng</th>
+                    <th scope="col-2" >Loại</th>
                     <th scope="col-2" colSpan={3}>Hành Động</th>
                   </tr>
                 </thead>
-                <tbody className='text'>
+                <tbody>
                   {products && products?.length && products?.map((product) => (
-                    <tr key={product.id}>
+                    <tr key={product.id} ref={scrollToRef}>
                       <td>{product.id}</td>
-                      <td>{product.name}</td>
-                      <td title={product.description}>{truncateStr(product.description, 30)}</td>
-                      <td>{product.price}</td>
+                      <td title={product.name}>{truncateStr(product.name, 20)}</td>
+                      <td title={product.description}>{truncateStr(product.description, 20)}</td>
+                      <td>{formatCurrencyVND(product.price)}</td>
                       <td>{product.size}</td>
                       <td>{product.status}</td>
                       <td>{product.category}</td>
@@ -261,10 +272,10 @@ const Product = () => {
                         <i role="button" className="fa fa-edit me-3 btn btn-outline-success bth-width"
                           onClick={() => openUpdateModal(product.id)}
                         />
-                        {isOpenModal && selectedProductId === product.id && (
+                        {isOpenModalUpdate && selectedProductId === product.id && (
                           <UpdateProduct
-                            isOpenModal={isOpenModal}
-                            handleClose={closeModal}
+                            isOpenModal={isOpenModalUpdate}
+                            handleClose={closeModalUpdate}
                             productId={selectedProductId}
                             products={products} setProducts={setProducts}
                           />
@@ -282,21 +293,7 @@ const Product = () => {
                           <DetailProduct productId={product.id} handleClose={closeDetail} />
                         )}
                       </td> */}
-                      <td>
-                        <button className='btn btn-outline-danger btn-width'
 
-                          onClick={() => {
-                            console.log("Product ID:", product.id);
-                            deleteCustomerById(product.id);
-                          }}
-
-                        >
-                          <i className="fa-solid fa-trash"
-                          />
-                        </button>
-
-
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -310,40 +307,43 @@ const Product = () => {
 
       <section>
         <div className="d-flex justify-content-between mt-3">
-          <button
-            className="btn btn-outline-primary me-2"
-            onClick={handlePreviousPage}
-            disabled={isFirstPage}
-            style={{ display: isFirstPage ? 'none' : "block" }}
-          >
-            Trang Trước
-          </button>
-
-
           <div className="mt-2">
             <h5>
               {page * size + 1} - {Math.min((page + 1) * size, (pageable * size))} của {pageable * size}
             </h5>
           </div>
 
+          <div className="d-flex align-items-center">
+            <button
+              className="btn btn-outline-primary me-2"
+              onClick={handlePreviousPage}
+              disabled={isFirstPage}
+              style={{ display: isFirstPage ? 'none' : "block" }}
+            >
+              <i className="fa-solid fa-angles-left"></i>
+            </button>
 
-          <button
-            className="btn btn-outline-primary ms-2"
-            onClick={handleNextPage}
-            disabled={isLastPage}
-            style={{ display: isLastPage ? 'none' : 'block' }}
-          >
-            Trang Sau
-          </button>
+            <button
+              className="btn btn-outline-primary ms-2"
+              onClick={handleNextPage}
+              disabled={isLastPage}
+              style={{ display: isLastPage ? 'none' : 'block' }}
+            >
+              <i className="fa-solid fa-angles-right"></i>
+            </button>
+          </div>
         </div>
+      </section>
 
 
+
+      <section >
         <div className='div-layout'>
-          <label > Chọn Trang bạn muốn đến : </label>
+          <label>Chọn Trang bạn muốn đến:</label>
           <select
             value={selectedPage}
             onChange={handleSelectedPageChange}
-            class="form-select"
+            className="form-select"
             style={{ width: "8%" }}
           >
             {Array.from({ length: pageable }, (_, index) => index + 1).map((pageNumber) => (
@@ -355,14 +355,15 @@ const Product = () => {
           <button
             className="btn btn-outline-primary ms-2"
             onClick={handlePageChangeSelect}
-            disabled={selectedPage === pageable}
+            disabled={selectedPage > pageable}
           >
             Tới
           </button>
-
         </div>
 
+
       </section>
+
 
 
     </div >

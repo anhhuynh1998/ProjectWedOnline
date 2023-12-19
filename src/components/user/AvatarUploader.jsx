@@ -15,7 +15,6 @@ const AvatarUploader = ({
 }) => {
   const fileInputRef = useRef(null);
   const handleFileChange = (event) => {
-    console.log("demo");
     const file = event.target.files[0];
     const allowedFormats = ["image/jpg", "image/png"];
 
@@ -43,14 +42,16 @@ const AvatarUploader = ({
     const formData = new FormData();
     formData.append("files", file);
     try {
-      const response = await fetch("http://localhost:8080/api/files/images", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "http://localhost:8080/api/admin/files/images",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setAvatarURL(data[0].url);
         setAvatarId(data[0].id);
       } else {
@@ -60,7 +61,6 @@ const AvatarUploader = ({
       console.error("Lỗi tải hình đại diện lên:", error);
     }
   };
-  console.log(avatarUrl);
   return (
     <div className="col-12 mb-3">
       <section>

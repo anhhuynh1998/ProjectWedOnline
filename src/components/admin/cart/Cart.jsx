@@ -5,7 +5,7 @@ import Search from './Search';
 const Cart = () => {
     const [listCart, setListCart] = useState({});
     const [search, setSearch] = useState("");
-    const [cartDetail, setCartDetail] = useState([]);
+    // const [cartDetail, setCartDetail] = useState([]);
 
     useEffect(() => {
         try {
@@ -15,9 +15,9 @@ const Cart = () => {
                 console.log(response, "gio hang");
                 setListCart(response.data);
 
-                for(const cartItem of response.data){
-                    const detailResponse = await 
-                }
+                // for(const cartItem of response.data){
+                //     const detailResponse = await 
+                // }
             }
             getAllCart();
         } catch (error) {
@@ -44,7 +44,7 @@ const Cart = () => {
                 <tbody >
                     {
                         listCart.length && listCart.map((item, index) => (
-                             
+
                             <tr key={index}>
                                 <th scope="row">{index + 1}</th>
                                 <td>{item.name}</td>

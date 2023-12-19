@@ -8,16 +8,16 @@ class serviceUserInfo {
     );
   }
   static addUserInfo(data) {
-    return axios.post(SERVER_API + `/api/admin/userinfo/create`, data);
+    return axios.post(SERVER_API + `/api/admin/userinfo`, data);
   }
   static editUserinfo(id) {
-    return axios.put(SERVER_API + `/api/admin/userinfo/edit/${id}`);
+    return axios.put(SERVER_API + `/api/admin/userinfo/${id}`);
   }
   static delete(id) {
     return axios.delete(SERVER_API + `/api/admin/userinfo/${id}`);
   }
   static uploadFile(image) {
-    return axios.post(SERVER_API + `/api/files/images/${image}`);
+    return axios.post(SERVER_API + `/api/admin/files/images/${image}`);
   }
   static getUserById(id) {
     return axios.get(SERVER_API + `/api/admin/userinfo/${id}`);

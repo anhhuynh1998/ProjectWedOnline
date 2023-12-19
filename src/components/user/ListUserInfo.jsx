@@ -28,7 +28,7 @@ const ListUserInfo = () => {
     setIsOpenEdit(true);
     getUserById();
   };
-  console.log(selectedUserInfo.avatarUrl);
+
   const closeModal = () => {
     setIsOpen(false);
   };

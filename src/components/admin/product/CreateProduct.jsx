@@ -10,6 +10,8 @@ import CategorySelectOptions from './categorySelectOption/CategorySelectOptions'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ProductSchema } from './sChema/ProductSchema';
+import SelectField from './componentResue/SelectField';
+import InputField from './componentResue/InputField';
 const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
 
     const [nestedCategories, setNestedCategories] = useState([])
@@ -24,13 +26,9 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
     const [isLoadingSize, setIsLoadingSize] = useState(true);
     const [categories, setCategories] = useState([])
     const [uploadedFileCreate, setUploadedFileCreate] = useState([]);
-    const [isLoadingSubCategories, setIsLoadingSubCategories] = useState(false);
-    const [isLoadingNestedCategories, setIsLoadingNestedCategories] = useState(false);
     const [isLoadingCategories, setIsLoadingCategories] = useState(false);
 
-    const handleCategoryChange = (selectedCategory) => {
-        setSelectedCategory(selectedCategory);
-    };
+
 
     const fetchDataEnumSize = async () => {
         try {
@@ -117,7 +115,8 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
             })
             console.log("response.data ===========");
             console.log(response);
-            setProducts([...products, response.data]);
+            const newProduct = response.data
+            setProducts([newProduct, ...products]);
             handleCloseModal()
             setIsLoading(false);
 
@@ -173,97 +172,54 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                                 <div className="container-fluid">
                                     <div className="row mt-3 mb-2">
                                         <div className="col-12">
-                                            <div className="col-4 mb-2">
-                                                <label className="fw-bold" htmlFor="">
-                                                    Tên Sản Phẩm
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="name"
-                                                    {...register("name")}
-                                                    placeholder='Tên sản phẩm'
-
-
-                                                />
-                                                <span className="text-danger">{errors?.name?.message}</span>
-                                            </div>
-                                            <div className="col-4 mb-2">
-                                                <label className="fw-bold" htmlFor="">
-                                                    Giá
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="price"
-                                                    {...register("price")}
-                                                    placeholder='Giá tiền'
-                                                />
-                                                <span className="text-danger">{errors?.price?.message}</span>
-                                            </div>
-
-                                            <div className="col-4 mb-2">
-                                                <label className="fw-bold" htmlFor="">
-                                                    Tình Trạng
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="status"
-                                                    {...register("status")}
-                                                    placeholder='Tình trạng'
-                                                />
-                                                <span className="text-danger">{errors?.status?.message}</span>
-                                            </div>
+                                            <InputField
+                                                label="Tên Sản Phẩm"
+                                                name="name"
+                                                errors={errors}
+                                                register={register}
+                                                placeholder="Nhập tên sản phẩm"
+                                            />
+                                            <InputField
+                                                label="Giá"
+                                                name="price"
+                                                errors={errors}
+                                                register={register}
+                                                placeholder="Nhập giá sản phẩm"
+                                            />
+                                            <InputField
+                                                label="Tình Trạng"
+                                                name="status"
+                                                errors={errors}
+                                                register={register}
+                                                placeholder="Nhập tình trạng sản phẩm"
+                                            />
                                         </div>
 
                                         <div className="col-12">
                                             <CategorySelectOptions
                                                 register={register}
                                                 selectedCategory={selectedCategory}
-                                                selectedSubCategories={selectedSubCategories}
-                                                selectedNestedCategories={selectedNestedCategories}
                                                 setSelectedCategory={setSelectedCategory}
-                                                setSelectedNestedCategories={setSelectedNestedCategories}
+                                                selectedSubCategories={selectedSubCategories}
                                                 setSelectedSubCategories={setSelectedSubCategories}
-                                                setNestedCategories={setNestedCategories}
                                                 nestedCategories={nestedCategories}
+                                                setNestedCategories={setNestedCategories}
                                                 categories={categories}
-                                                setCategories={setCategories}
-                                                onCategoryChange={handleCategoryChange}
                                                 isLoadingCategories={isLoadingCategories}
-                                                isLoadingNestedCategories={isLoadingNestedCategories}
-                                                isLoadingSubCategories={isLoadingSubCategories}
-                                                setIsLoadingCategories={setIsLoadingCategories}
-                                                setIsLoadingNestedCategories={setIsLoadingNestedCategories}
-                                                setIsLoadingSubCategories={setIsLoadingSubCategories}
                                                 errors={errors}
 
                                             />
                                         </div>
 
                                         <div className="col-12">
-                                            <div className="col-4 mb-2">
-                                                <label htmlFor="enumSelect">Chọn Size:</label>
-                                                {isLoadingSize ? (
-                                                    <SkeletonSelectOption />
-                                                ) : (
-                                                    <select
-                                                        className="form-control"
-                                                        id="enumSelect"
-                                                        name='size'
-                                                        {...register("size")}
-                                                    >
-                                                        <option value="" >Chọn một danh mục</option>
-                                                        {enumValues.map((value, index) => (
-                                                            <option key={index} value={value}>
-                                                                {value}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                )}
-                                                <span className="text-danger">{errors?.size?.message}</span>
-                                            </div>
+                                            <SelectField
+                                                label="Chọn Size"
+                                                id="enumSelect"
+                                                name="size"
+                                                options={enumValues}
+                                                isLoading={isLoadingSize}
+                                                errors={errors}
+                                                register={register} />
                                         </div>
                                         <div className="col-12">
                                             <div className="col-12">
