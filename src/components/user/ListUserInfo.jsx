@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import serviceUserInfo from "../service/serviceUserInfo";
-import Swal from "sweetalert2";
 import AddUserInfo from "./AddUserInfo";
 import UpdateFormModal from "./EditUserInfo";
-import { ToastSuccess } from "../../toastify/Toast";
 
 const ListUserInfo = () => {
   const [listUserInfo, setListUserInfo] = useState([]);
@@ -14,6 +12,8 @@ const ListUserInfo = () => {
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(5);
   const [pageable, setPageable] = useState(0);
+  const [sortField, setSortField] = useState("id");
+  const [orderByType, setOrderByType] = useState("desc");
 
   const openModal = () => {
     setIsOpen(true);
@@ -40,7 +40,13 @@ const ListUserInfo = () => {
   useEffect(() => {
     async function getData() {
       try {
-        const res = await serviceUserInfo.getAll(search, page, size);
+        const res = await serviceUserInfo.getAll(
+          search,
+          page,
+          size,
+          sortField,
+          orderByType
+        );
         setListUserInfo(res.data.content);
         setPageable(res.data.totalPages);
       } catch (error) {
@@ -48,7 +54,16 @@ const ListUserInfo = () => {
       }
     }
     getData();
-  }, [search, page, size, pageable]);
+  }, [search, page, size, pageable, sortField, orderByType]);
+
+  const handleSortChange = (field) => {
+    if (field === sortField) {
+      setOrderByType(orderByType === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setOrderByType("asc");
+    }
+  };
 
   const handlePageChange = (newPage) => {
     if (newPage >= 0 && newPage < pageable) {
@@ -62,31 +77,31 @@ const ListUserInfo = () => {
     setPage(0);
   };
 
-  const handleDelete = async (userinfoRemove) => {
-    try {
-      const result = await Swal.fire({
-        title: "Bạn có thực sự muốn xóa ",
-        text: "",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Xóa",
-        cancelButtonText: "Hủy bỏ",
-      });
+  // const handleDelete = async (userinfoRemove) => {
+  //   try {
+  //     const result = await Swal.fire({
+  //       title: "Bạn có thực sự muốn xóa ",
+  //       text: "",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Xóa",
+  //       cancelButtonText: "Hủy bỏ",
+  //     });
 
-      if (!result.isConfirmed) return;
+  //     if (!result.isConfirmed) return;
 
-      await serviceUserInfo.delete(userinfoRemove.id);
-      setListUserInfo((prevListUserInfo) =>
-        prevListUserInfo.filter((item) => item.id !== userinfoRemove.id)
-      );
+  //     await serviceUserInfo.delete(userinfoRemove.id);
+  //     setListUserInfo((prevListUserInfo) =>
+  //       prevListUserInfo.filter((item) => item.id !== userinfoRemove.id)
+  //     );
 
-      ToastSuccess("Xóa thành công");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     ToastSuccess("Xóa thành công");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -143,8 +158,16 @@ const ListUserInfo = () => {
         </div>
         <table className="table table-hover">
           <thead>
-            <tr className="col-12">
-              <th scope="col-2">ID</th>
+            <tr>
+              <button
+                className="btn btn-outline-primary"
+                onClick={() => handleSortChange("id")}
+                disabled={sortField !== "id"}
+              >
+                ID
+                {sortField === "id" && <i className="fa-solid fa-sort"></i>}
+              </button>
+
               <th scope="col-2">Họ tên</th>
               <th scope="col-2">Email</th>
               <th scope="col-2">Số điện thoại</th>
@@ -176,12 +199,12 @@ const ListUserInfo = () => {
                     >
                       <i className="fa-solid fa-user-pen"></i>
                     </button>
-                    <button
+                    {/* <button
                       className="btn btn-outline-danger p-2 m-2 delete"
                       onClick={() => handleDelete(item)}
                     >
                       <i className="fa-solid fa-trash"></i>
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}
@@ -201,24 +224,25 @@ const ListUserInfo = () => {
         className="d-flex justify-content-center mt-3"
         style={{ height: "35px", lineHeight: "30px" }}
       >
-        <div className="d-flex">
+        <div className="d-flex justify-content-between">
           <button
-            className="btn btn-outline-success me-4"
+            className="btn btn-outline-primary me-4"
             onClick={handlePreviousPage}
             disabled={page === 0}
           >
-            Trang Trước
+            <i className="fa-solid fa-angles-left"></i>
           </button>
           <h5 style={{ margin: 0, lineHeight: "35px" }}>{page + 1} </h5>
           <button
-            className="btn btn-outline-success ms-4"
+            className="btn btn-outline-primary ms-4"
             onClick={handleNextPage}
             disabled={page === pageable - 1}
           >
-            Trang Sau
+            <i className="fa-solid fa-angles-right"></i>
           </button>
         </div>
-        <div className="d-flex">
+
+        <div className="d-flex ">
           <label className="mb-4">
             <span className="numberpage">Số hàng trên mỗi trang :</span>
             <select
