@@ -1,13 +1,13 @@
 /* eslint-disable no-inner-declarations */
 
 import { useContext, useEffect, useState } from "react"
-import { NavLink } from "react-router-dom"
 import CartService from "../../service/homeService/cartService";
 import formatPrice from "./formatPrice/FormatPrice";
 import CheckOut from "./Checkout";
 import Login from "./Login";
 import { UseProduct } from "./UseContext";
 import { ToastSuccess } from "../../toastify/Toast";
+import Background from "./userHome/background";
 
 const Cart = () => {
     const productIdList = JSON.parse(localStorage.getItem('productDetail')) || [];
@@ -63,32 +63,11 @@ const Cart = () => {
         <div >
             <Login />
             <div className="body__overlay" />
-            <div
-                className="ht__bradcaump__area"
-                style={{
-                    background:
-                        "rgba(0, 0, 0, 0) url(images/bg/cart1.jpeg) no-repeat scroll center center / cover"
-                }}
-            >
-                <div className="ht__bradcaump__wrap">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-xs-12">
-                                <div className="bradcaump__inner text-center">
-                                    <h2 className="bradcaump-title text-white animate__animated animate__bounceInDown" >Giỏ Hàng</h2>
-                                    <nav className="bradcaump-inner" >
-                                        <NavLink className="breadcrumb-item text-white animate__animated animate__flash" to={'/home'} >
-                                            Trang Chủ
-                                        </NavLink>
-                                        <span className="brd-separetor text-white animate__animated animate__flash" >/</span>
-                                        <span className="breadcrumb-item active text-white animate__animated animate__flash" >Giỏ Hàng</span>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Background message={"Giỏ Hàng"}
+                img={"rgba(0, 0, 0, 0) url(images/bg/cart1.jpeg) no-repeat scroll center center / cover"}
+                animateH2={"animate__animated animate__bounceInDown"}
+                animateNav={"animate__animated animate__flash"} />
+
             <div className="cart-main-area ptb--120 bg__white">
                 <div className="container">
                     <div className="row">

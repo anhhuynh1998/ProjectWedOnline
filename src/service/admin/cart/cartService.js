@@ -2,20 +2,25 @@ import axios from "axios"
 
 const CART_API = 'http://localhost:8080/api/admin/cart'
 export class CartService {
-
     static soldProduct() {
         return axios.get(`${CART_API}/sold`)
     }
-    static percentTheDay(){
+    static percentTheDay() {
         return axios.get(`${CART_API}/percent`)
     }
-    static quarterlyRevenue(){
+    static quarterlyRevenue() {
         return axios.get(`${CART_API}/quarterly`)
     }
-    static getAllCart(){
+    static getAllCart() {
         return axios.get(`${CART_API}/list`)
     }
-    static searchNameAndPhone(search){
-        return axios.get(`${CART_API}/search?search=${search}`)
+    static searchNameAndPhone(search, status) {
+        return axios.get(`${CART_API}/search?search=${search}&statusId=${status || ""}`)
     }
+    static updateStatus(cartId, statusId) {
+        return axios.put(`${CART_API}?cartId=${cartId}&statusId=${statusId}`);
+    }
+    // static getCartByStatusId(id) {
+    //     return axios.get(`${CART_API}/status/${id}`);
+    // }
 }

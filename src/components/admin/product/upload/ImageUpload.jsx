@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import Slider from "react-slick";
 import { toast } from 'react-toastify';
 import SpinnerUploadImage from '../../layouts/SpinnerUploadImage';
+import { ToastError, ToastInfo, ToastSuccess } from '../../../../toastify/Toast';
 
 const ImageUpload = ({
     avatarId,
@@ -98,25 +99,13 @@ const ImageUpload = ({
         setAvatarId(newAvatarIds);
     };
 
-    const [toastId, setToastId] = useState(null);
 
     const uploadAvatar = async (files) => {
         const uploadPromises = files.map(async (file, i) => {
             const formData = new FormData();
             formData.append("files", file);
 
-            const uploadingToast = toast.info(`Đang tải ảnh ${i + 1} / ${files.length} . . .`, {
-                position: "top-right",
-                autoClose: 2200,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
-
-            setToastId(uploadingToast);
+            ToastInfo(`Đang tải ảnh lên ${i + 1} / ${files.length} . . .`)
 
             try {
                 const response = await fetch("http://localhost:8080/api/admin/files/images", {
@@ -128,31 +117,15 @@ const ImageUpload = ({
                     const data = await response.json();
                     setUploadedFileCreate((prev) => [...prev, data[0]]);
                     setAvatarId(prevAvatarId => [...prevAvatarId, data[0].id]);
-
-                    toast.update(uploadingToast, {
-                        render: `Ảnh đã được tải lên thành công !`,
-                        type: toast.TYPE.SUCCESS,
-                        autoClose: 2000,
-                    });
+                    ToastSuccess("Ảnh đã được tải lên thành công !")
 
                     return data[0];
                 } else {
                     console.error(`Failed to upload image '${file.name}'`);
-                    toast.update(uploadingToast, {
-                        render: `Failed to upload image '${file.name}'`,
-                        type: toast.TYPE.ERROR,
-                        autoClose: 2000,
-                    });
-                    return null;
+                    ToastError("Lỗi khi tải ảnh lên !")
                 }
             } catch (error) {
-                console.error(`Error uploading image '${file.name}':`, error);
-                toast.update(uploadingToast, {
-                    render: `Error uploading image '${file.name}'`,
-                    type: toast.TYPE.ERROR,
-                    autoClose: 2000,
-                });
-                return null;
+                ToastError("Lỗi khi tải ảnh lên !")
             }
         });
 

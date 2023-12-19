@@ -55,11 +55,12 @@ const ProductList = () => {
                                         </div>
                                     </div>
                                     <div className="product__details">
-                                        <h2> {item.name}</h2>
-                                        <ul className="product__price">
-                                            <li className="old__price">Size {item.size}</li>
-                                            <li className="new__price">Price {formattedPrice}</li>
-                                        </ul>
+                                        <h2 style={{ height: "40px" }}> {item.name}</h2>
+                                        <div className="d-flex justify-content-between mb-2">
+                                            <h2>Size {item.size}</h2>
+                                            <h2 className="me-5">Tình Trạng {item.status}</h2>
+                                        </div>
+                                        <h2 className="text-danger">Giá {formattedPrice}</h2>
                                     </div>
                                 </div>
                             </div>

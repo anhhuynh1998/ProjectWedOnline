@@ -12,12 +12,13 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import "../layoutHome/cssHome/cssHome.css"
+import UserInfoService from '../../service/homeService/userInfoService';
 
 const Login = () => {
     const [activeTab, setActiveTab] = useState('login');
     const [type, setType] = useState('password');
     const [icon, setIcon] = useState(eyeOff);
-    const { setLogoutIcon, backHome } = useContext(UseProduct);
+    const { setLogoutIcon, backHome, setLoginEmail, loginEmail, setUserInfos } = useContext(UseProduct);
     const schema = yup.object({
         username: yup.string().required("Tên Đăng Nhập Không Được Để Trống"),
         password: yup.string().required("Mật Khẩu Không Được Để Trống")
@@ -69,6 +70,7 @@ const Login = () => {
                 backHome();
                 let respon = await AuthService.loginGoogle(res.data);
                 localStorage.setItem("jwt", respon.data);
+                setLoginEmail(res.data.email)
                 setLogoutIcon((prev) => !prev)
             } catch (error) {
                 ToastError("Tài Khoản Google Không Đúng")
@@ -89,7 +91,7 @@ const Login = () => {
                                 </li>
                                 <li className="nav-item " onClick={() => handleTabChange('register')}>
                                     <a className={`nav-link ${activeTab === 'register' ? 'active' : ''}`} id="register-tab" data-toggle="tab" href="#register"
-                                        role="tab" aria-controls="register" aria-selected={activeTab === 'register'}>Đăng Ký Tài Khoản</a>
+                                        role="tab" aria-controls="register" aria-selected={activeTab === 'register'}>Đăng Ký </a>
                                 </li>
                             </ul>
                         </div>
@@ -192,7 +194,9 @@ const Login = () => {
                                                 <Icon onClick={handleToggle} className="absolute mr-10" icon={icon} size={20} />
                                             </span>
                                         </div>
-                                        <div className='d-grid gap-2 d-md-flex mt-5 '>
+                                        <p className='text-dark'><small>Bằng cách tạo tài khoản, Quý Khách đã đồng ý với <code>Điều khoản &
+                                            Điều kiện và Chính sách Bảo mật  </code> của chúng tôi.</small></p>
+                                        <div className='d-grid gap-2 d-md-flex mt-1 '>
                                             <button type="button" className="btn btn-danger mt-2" id='registerButton'>Đăng Kí</button>
                                         </div>
                                     </form>

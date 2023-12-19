@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Slider from "react-slick";
-import { toast } from 'react-toastify';
+import { ToastError, ToastInfo, ToastSuccess } from '../../../../toastify/Toast';
 
 const ImageUploadUpdate = ({
     avatarId,
@@ -108,43 +108,15 @@ const ImageUploadUpdate = ({
             newImageIds.splice(index, 1)
             return newImageIds;
         })
-
-        console.log("imgUrl after:", newImgUrls);
-        console.log("avatarURLs after:", avatarURLs);
-        console.log("avatarId after:", avatarId);
     };
 
-    useEffect(() => {
-        console.log("imgUrl in useEffect:", imgUrl);
-        console.log("avatarURLs in useEffect:", avatarURLs);
-        console.log("avatarId in useEffect:", avatarId);
-        console.log("avatarIdState in useEffect:", avatarIdState);
-
-    }, [imgUrl, avatarURLs, avatarId, avatarIdState]);
-
-
-
-
-    const [toastId, setToastId] = useState(null);
 
     const uploadAvatar = async (files) => {
         const uploadPromises = files.map(async (file, i) => {
             const formData = new FormData();
             formData.append("files", file);
-            const uploadingToast = toast.info(`Đang tải ảnh lên ${i + 1} / ${files.length} . . .`, {
-                position: "top-right",
-                autoClose: 2200,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            });
 
-            setToastId(uploadingToast);
-
-
+            ToastInfo(`Đang tải ảnh lên ${i + 1} / ${files.length} . . .`)
 
             try {
                 const response = await fetch("http://localhost:8080/api/admin/files/images", {
@@ -155,30 +127,16 @@ const ImageUploadUpdate = ({
                 if (response.ok) {
                     const data = await response.json();
                     setUploadedFiles((prev) => [...prev, { id: data[0].id }])
-                    // setAvatarId(prevAvatarId => [...prevAvatarId, data[0].id]);
                     setAvatarIdState(prev => [...prev, data[0].id])
                     setImgUrl(prev => [...prev, data[0]])
-                    toast.update(uploadingToast, {
-                        render: `Ảnh đã được tải lên thành công !`,
-                        type: toast.TYPE.SUCCESS,
-                        autoClose: 2000,
-                    });
+                    ToastSuccess("Ảnh đã được tải lên thành công !")
 
                 } else {
-                    console.error(`Failed to upload image '${file.name}'`);
-                    toast.update(uploadingToast, {
-                        render: `Failed to upload image '${file.name}'`,
-                        type: toast.TYPE.ERROR,
-                        autoClose: 2000,
-                    });
+                    ToastError("Lỗi khi tải ảnh lên !")
                 }
             } catch (error) {
-                console.error(`Error uploading image '${file.name}':`, error);
-                toast.update(uploadingToast, {
-                    render: `Error uploading image '${file.name}'`,
-                    type: toast.TYPE.ERROR,
-                    autoClose: 2000,
-                });
+                ToastError("Lỗi khi tải ảnh lên !")
+
             }
         });
 
@@ -278,24 +236,24 @@ const ImageUploadUpdate = ({
                         justifyContent: "center"
                     }}
                 >
-                    {(imgUrl && !imgUrl?.length > 0) ? (
+                    {(selectedFiles && selectedFiles?.length > 0) ? (
 
-                        <div className="content-imgCreate" style={{ textAlign: 'center', marginTop: "18%", marginLeft: "50%" }}>
+                        <div className="content-imgCreate" style={{ textAlign: 'left', marginTop: "18%" }}>
                             <div className="icon" >
                                 <i className="fa-solid fa-cloud-arrow-up"></i>
                             </div>
                             <div className="content-imgCreate">
-                                {imgUrl && imgUrl.length > 0 ? 'Chưa chọn files !!' : ' Thêm ảnh !!'}
+                                Thêm ảnh !!
                             </div>
                         </div>
 
                     ) : (
-                        <div className="content-imgCreate" style={{ textAlign: 'left', marginTop: "18%" }}>
+                        <div className="content-imgCreate" style={{ textAlign: 'center', marginTop: "18%", marginLeft: "50%" }}>
                             <div className="icon">
                                 <i className="fa-solid fa-cloud-arrow-up"></i>
                             </div>
                             <div className="content-imgCreate">
-                                {imgUrl && !imgUrl?.length > 0 ? '  Chưa chọn Files!' : ' Thêm Ảnh !'}
+                                Chưa chọn Files!
                             </div>
                         </div>
                     )}

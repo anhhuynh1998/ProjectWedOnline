@@ -1,5 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
+import { removeFalsyFields } from "../../components/layoutHome/ShopSideBar/SortPrice";
+
 
 const PRODUCT_API = `http://localhost:8080/api/home/products`;
 
@@ -15,10 +17,10 @@ class ProductService {
     static getAllProductByFilterHome(categoryId) {
         if (categoryId)
             return axios.get(PRODUCT_API + `/filterHome?categoryId=${categoryId}`)
-    }
+    } getProductByFilter
 
-    static getProductByFilter(min, max, search, size, categoryId, page) {
-        return axios.get(PRODUCT_API + `/filter?priceMin=${min}&priceMax=${max}&search=${search}&size=${size}&categoryId=${categoryId}&page=${page}`)
+    static getProductByFilter(filter, page) {
+        return axios.get(PRODUCT_API + `/filter?${removeFalsyFields(filter)}&page=${page}`)
     }
     static getProductByFilterStringify(request) {
         const url = queryString.stringify(request);

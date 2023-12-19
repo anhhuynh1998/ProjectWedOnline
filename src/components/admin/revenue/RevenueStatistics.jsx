@@ -4,6 +4,7 @@ import { ProductService } from "../../../service/admin/product/productService";
 import 'animate.css';
 import { UserService } from "../../../service/admin/user/userService";
 import { CartService } from '../../../service/admin/cart/cartService';
+import { ToastError } from "../../../toastify/Toast";
 const RevenueStatistics = () => {
     const [percentDay, setPercentday] = useState(0);
     const [productSold, setProductSold] = useState("");
@@ -49,7 +50,7 @@ const RevenueStatistics = () => {
             PercentDay();
 
         } catch (error) {
-            console.log(error, "doanh thu ngay");
+            ToastError("Doanh thu bị lỗi");
         }
     }, [])
     return (
@@ -57,7 +58,7 @@ const RevenueStatistics = () => {
             <div className="row ">
                 {productCount > 0 &&
                     // animate__animated  animate__fadeInDown: hiệu ứng animation
-                    <div className=" animate__animated  animate__fadeInDown" >
+                    <div className="table animate__animated  animate__fadeInDown" >
                         <div className="card shadow-sm bg-body " id="cardBorder" >
                             <div className="card-body">
                                 <h5 className="card-title text-center" id="iconRevenue1" >Danh Sách Sản Phẩm Hiện Có</h5>

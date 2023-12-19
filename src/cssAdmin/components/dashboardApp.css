@@ -172,3 +172,29 @@
     color: #aaa;
     font-style: italic;
   }
+  #dropdownMenuLink{
+    width: 74%;
+}
+/* thay doi trang thai o admin */
+.relative-container {
+  position: relative;
+}
+
+.dropdown-container {
+  position: relative;
+  z-index: 2;
+}
+
+.change-status-dropdown {
+  position: relative;
+}
+
+.table {
+  position: relative;
+  z-index: 1;
+}
+#dropdownChangeStatus{
+    max-width: 170%;
+}
+
+  

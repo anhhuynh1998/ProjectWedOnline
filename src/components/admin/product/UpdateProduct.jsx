@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { ProductService } from '../../../service/admin/product/productService';
-import Swal from 'sweetalert2';
 import * as yup from 'yup'
 import { yupResolver } from "@hookform/resolvers/yup"
-import SkeletonSelectOption from './skeleton/SkeletonSelectOption';
 import ImageUploadUpdate from './upload/ImageUploadUpdate';
 import { ToastContainer } from 'react-toastify';
 import SkeletonSave from './skeleton/SkeletonSave';
 import CategorySelectOptionsUpdate from './categorySelectOption/CategorySelectOptionsUpdate';
+import { ToastError, ToastSuccess } from '../../../toastify/Toast';
+import InputField from './componentResue/InputField';
+import SelectField from './componentResue/SelectField';
 
 const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProducts }) => {
     const registerSchema = yup.object({
-        name: yup.string()
-            .required("Vui Lòng Nhập Tên"),
-        price: yup.number()
-            .required("Vui Lòng Nhập giá"),
-        status: yup.string()
-            .required("Vui Lòng Nhập Tình trạng"),
-        description: yup.string()
-            .required("Vui Lòng Nhập Mô tả")
+        name: yup.string().required("Vui Lòng Nhập Tên !!!"),
+        price: yup
+            .number()
+            .transform((value) => (isNaN(value) ? undefined : Number(value)))
+            .nullable()
+            .min(10000, "Giá thấp nhất là 10000 !!!")
+            .max(1000000, "Giá cao nhất là 1000000 !!!")
+            .required("Vui Lòng Nhập giá !!!"),
+        status: yup.string().required("Vui Lòng Nhập Tình trạng !!!"),
+        description: yup.string().required("Vui Lòng Nhập Mô tả !!!"),
+        size: yup.string().required("Vui lòng chọn kích thước !!!"),
     })
 
 
@@ -36,17 +40,14 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
     const [isLoadingSize, setIsLoadingSize] = useState(true);
     const [uploadedFile, setUploadedFile] = useState([]);
     const [uploadedFiles, setUploadedFiles] = useState([]);
-    const [isLoadingSubCategories, setIsLoadingSubCategories] = useState(false);
-    const [isLoadingNestedCategories, setIsLoadingNestedCategories] = useState(false);
     const [isLoadingCategories, setIsLoadingCategories] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isLoadingInput, setIsLoadingInput] = useState(false)
     const [oldProduct, setOldProduct] = useState({});
     const [resetImg, setResetImg] = useState(false)
 
 
     useEffect(() => {
-        setIsLoadingInput(true)
+
         try {
             const findProductById = async () => {
                 let productById = await ProductService.getProductsById(productId)
@@ -57,18 +58,13 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                 setSelectedSubCategories(productById.data.categoryParentId)
                 setSelectedNestedCategories(productById.data.category)
                 setSelectedFiles(productById.data.files)
-                setIsLoadingInput(false)
+
             }
             findProductById()
         } catch (error) {
 
         }
     }, [productId])
-
-
-    const handleCategoryChange = (selectedCategory) => {
-        setSelectedCategory(selectedCategory);
-    };
 
 
     const fetchDataEnumSize = async () => {
@@ -126,23 +122,12 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                 );
                 return updatedProducts;
             });
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'SửaThành Công !',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            ToastSuccess("Sửa thành công !")
 
             handleCloseModal()
             setIsLoading(false);
         } catch (error) {
-            console.error('Error update product:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Có lỗi xảy ra khi sửa sản phẩm!',
-            });
+            ToastError('Có lỗi xảy ra khi sửa sản phẩm!')
             handleCloseModal()
         }
     };
@@ -181,8 +166,6 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
         setIsLoading(false);
         setIsLoadingSize(false)
         setIsLoadingCategories(false);
-        setIsLoadingNestedCategories(false);
-        setIsLoadingSubCategories(false);
     };
     const handleCloseModal = () => {
         resetAllState();
@@ -226,98 +209,52 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                                     <div className="container">
                                         <div className="row mt-3 mb-2">
                                             <div className="col-12">
-                                                <div className="col-4 mb-2">
-                                                    <label className="fw-bold" htmlFor="">
-                                                        Tên Sản Phẩm
-                                                    </label>
-                                                    {isLoadingInput ? (
-                                                        <SkeletonSelectOption />
-                                                    ) : (
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            name="name"
-                                                            {...register("name")}
-
-                                                        />
-                                                    )}
-                                                    <span className="text-danger">{errors?.name?.message}</span>
-                                                </div>
-                                                <div className="col-4 mb-2">
-                                                    <label className="fw-bold" htmlFor="">
-                                                        Giá
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        name="price"
-                                                        {...register("price")}
-
-                                                    />
-                                                    <span className="text-danger">{errors?.price?.message}</span>
-                                                </div>
-
-                                                <div className="col-4 mb-2">
-                                                    <label className="fw-bold" htmlFor="">
-                                                        Tình Trạng
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        name="status"
-                                                        {...register("status")}
-
-                                                    />
-                                                    <span className="text-danger">{errors?.status?.message}</span>
-                                                </div>
+                                                <InputField
+                                                    label="Tên Sản Phẩm"
+                                                    name="name"
+                                                    errors={errors}
+                                                    register={register}
+                                                    placeholder="Nhập tên sản phẩm"
+                                                />
+                                                <InputField
+                                                    label="Giá"
+                                                    name="price"
+                                                    errors={errors}
+                                                    register={register}
+                                                    placeholder="Nhập giá sản phẩm"
+                                                />
+                                                <InputField
+                                                    label="Tình Trạng"
+                                                    name="status"
+                                                    errors={errors}
+                                                    register={register}
+                                                    placeholder="Nhập tình trạng sản phẩm"
+                                                />
                                             </div>
                                             <div className="col-12">
                                                 <CategorySelectOptionsUpdate
                                                     register={register}
                                                     selectedCategory={selectedCategory}
-                                                    selectedSubCategories={selectedSubCategories}
-                                                    selectedNestedCategories={selectedNestedCategories}
                                                     setSelectedCategory={setSelectedCategory}
-                                                    setSelectedNestedCategories={setSelectedNestedCategories}
+                                                    selectedSubCategories={selectedSubCategories}
                                                     setSelectedSubCategories={setSelectedSubCategories}
-                                                    setNestedCategories={setNestedCategories}
                                                     nestedCategories={nestedCategories}
+                                                    setNestedCategories={setNestedCategories}
                                                     categories={categories}
-                                                    setCategories={setCategories}
-                                                    onCategoryChange={handleCategoryChange}
                                                     isLoadingCategories={isLoadingCategories}
-                                                    isLoadingNestedCategories={isLoadingNestedCategories}
-                                                    isLoadingSubCategories={isLoadingSubCategories}
-                                                    setIsLoadingCategories={setIsLoadingCategories}
-                                                    setIsLoadingNestedCategories={setIsLoadingNestedCategories}
-                                                    setIsLoadingSubCategories={setIsLoadingSubCategories}
-
                                                 />
                                             </div>
 
 
                                             <div className="col-12">
-                                                <div className="col-4 mb-2">
-                                                    <label htmlFor="enumSelect">Chọn Size:</label>
-                                                    {isLoadingSize ? (
-                                                        <SkeletonSelectOption />
-                                                    ) : (
-                                                        <select
-                                                            className="form-control"
-                                                            id="enumSelect"
-                                                            name='size'
-                                                            {...register("size")}
-                                                        >
-                                                            <option value="" >Chọn một danh mục</option>
-                                                            {enumValues.map((value, index) => (
-                                                                <option key={index} value={value}>
-                                                                    {value}
-                                                                </option>
-                                                            ))}
-                                                        </select>
-                                                    )}
-                                                    <span className="text-danger">{errors?.size?.message}</span>
-                                                </div>
+                                                <SelectField
+                                                    label="Chọn Size"
+                                                    id="enumSelect"
+                                                    name="size"
+                                                    options={enumValues}
+                                                    isLoading={isLoadingSize}
+                                                    errors={errors}
+                                                    register={register} />
                                             </div>
                                             <div className="col-12">
                                                 <div className="col-12">

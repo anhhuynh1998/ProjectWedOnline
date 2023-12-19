@@ -1,50 +1,45 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { CartService } from '../../../service/admin/cart/cartService';
+import { ToastError } from '../../../toastify/Toast';
 
-const Search = ({ setSearch, search, setListCart }) => {
+const Search = ({ setSearch, search, setListCart, statusCart }) => {
 
   useEffect(() => {
     try {
+      console.log(statusCart)
       // eslint-disable-next-line no-inner-declarations
-      async function searchNameAndPhone(search) {
-        let response = await CartService.searchNameAndPhone(search);
+      async function searchNameAndPhone(search, status) {
+        let response = await CartService.searchNameAndPhone(search, status.id);
         setListCart(response.data.content);
+        if (response.data.content.length === 0) {
+          ToastError("Không tìm thấy dữ liệu")
+        }
       }
-      searchNameAndPhone(search);
+      const timeOut = setTimeout(() => {
+        console.log(statusCart)
+        searchNameAndPhone(search, statusCart);
+      }, 1000)
+      return () => {
+        clearTimeout(timeOut)
+      }
     } catch (error) {
-      console.log(error, "loi");
+      ToastError("Tìm kiếm bị lỗi");
     }
   }, [search])
 
 
-  const handleSearch = () => {
-    const input = document.getElementById("searchNameAndPhone");
-    const searchValue = input.value;
-    console.log(searchValue, "miiiiiiiii");
-    setSearch(searchValue);
-    // searchNameAndPhone(search);
-  }
 
   return (
-    <div className="p-1 shadow-sm mb-4 border-end-0 border rounded  animate__animated  animate__bounceInRight">
+    <div className=" shadow-sm mb-4 border-end-0 border rounded animate__animated  animate__bounceInRight">
       <div className="input-group">
         <input
           type="search"
-          placeholder="Nhập từ bạn cần tìm?"
+          placeholder="Nhập tên hoặc SDT bạn cần tìm?"
           aria-describedby="button-addon1"
           className="form-control border-0 bg-light"
           id='searchNameAndPhone'
-          onChange={handleSearch}
+          onChange={(e) => setSearch(e.target.value)}
         />
-        {/* <span className="input-group-append " style={{ paddingLeft: "7px" }}>
-          <button
-            className="
-                              border rounded-pill ms-n5  btn btn-outline-danger"
-            type="button"
-          >
-            <i className="fa fa-search" />
-          </button>
-        </span> */}
       </div>
     </div>
 

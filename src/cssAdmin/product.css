@@ -99,7 +99,7 @@
     margin-right: auto;
 }
 
-.text {
+.text-align {
     text-align: left;
 
 }
@@ -149,7 +149,11 @@
 }
 
 .form-update-body {
-    line-height: 130% !important;
+    line-height: 70% !important;
+}
+
+.form-create-body {
+    line-height: 70% !important;
 }
 
 .text-margin {
@@ -158,4 +162,8 @@
 
 .text-margin-add {
     margin: 4% 4% 6% 2%;
+}
+
+.layout-text {
+    text-align: left !important;
 }
