@@ -12,6 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ProductSchema } from './sChema/ProductSchema';
 import SelectField from './componentResue/SelectField';
 import InputField from './componentResue/InputField';
+import serviceUserInfo from '../../service/ServiceUserInfo';
+import { ToastError, ToastSuccess } from '../../../toastify/Toast';
 const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
 
     const [nestedCategories, setNestedCategories] = useState([])
@@ -27,6 +29,12 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
     const [categories, setCategories] = useState([])
     const [uploadedFileCreate, setUploadedFileCreate] = useState([]);
     const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+    const [checkPhone, setCheckPhone] = useState({})
+
+
+
+
+
 
 
 
@@ -63,27 +71,42 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
     }, [isOpenModal]);
 
 
-    const resetAllState = () => {
-        reset();
-        setAvatarId([]);
-        setSelectedFiles([]);
-        setAvatarURLs([]);
-        setSelectedCategory(null);
-        setSelectedSubCategories(null);
-        setSelectedNestedCategories(null);
-        setUploadedFileCreate([]);
-        setIsLoading(false);
-        setIsLoadingSize(false)
-        setIsLoadingCategories(false);
-    };
-    const handleCloseModal = () => {
-        resetAllState();
-        handleClose();
-    };
 
-    const handleResetModal = () => {
-        resetAllState();
-    };
+
+
+
+
+
+    const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm({
+        resolver: yupResolver(ProductSchema)
+    })
+
+    let getUserByPhone = async (phone) => {
+        try {
+            let userByPhone = await serviceUserInfo.getUserByPhone(phone);
+            console.log((userByPhone))
+            setCheckPhone(userByPhone.data)
+            setValue('fullName', userByPhone.data?.fullName || '')
+            if (userByPhone.data) {
+                ToastSuccess("Đã tìm thấy người ký gửi !")
+            } else {
+                ToastError("Không thể tìm thấy người ký gửi!")
+            }
+
+        } catch (error) {
+            ToastError("Không thể lấy dữ liệu!")
+        }
+
+    }
+
+    const handleCheckUser = (e) => {
+
+        getUserByPhone(e)
+    }
+
+
+
+
 
     const handleSubmitForm = async (data) => {
         console.log(data);
@@ -101,18 +124,12 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                 ...nestedCategories,
                 category: {
                     id: data.category
-                }
+                },
+                userInfo: checkPhone ? { id: checkPhone.id } : null
             };
             console.log(dataList);
             const response = await ProductService.createProducts(dataList);
-
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Thêm Mới Thành Công !',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            ToastSuccess("Thêm mới thành công !")
             console.log("response.data ===========");
             console.log(response);
             const newProduct = response.data
@@ -121,27 +138,38 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
             setIsLoading(false);
 
         } catch (error) {
-            console.error('Error creating product:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Có lỗi xảy ra khi tạo sản phẩm!',
-            });
-            handleCloseModal()
+            ToastError('Có lỗi xảy ra khi tạo sản phẩm!')
+            // handleCloseModal()
         }
     };
-
-
-
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
-        resolver: yupResolver(ProductSchema)
-    })
+    const resetAllState = () => {
+        reset();
+        setAvatarId([]);
+        setSelectedFiles([]);
+        setAvatarURLs([]);
+        setSelectedCategory(null);
+        setSelectedSubCategories(null);
+        setSelectedNestedCategories(null);
+        setUploadedFileCreate([]);
+        setIsLoading(false);
+        setIsLoadingSize(false)
+        setIsLoadingCategories(false);
+    };
 
     useEffect(() => {
         if (!isOpenModal) {
             resetAllState()
         }
     }, [isOpenModal, reset]);
+
+    const handleCloseModal = () => {
+        resetAllState();
+        handleClose();
+    };
+
+    const handleResetModal = () => {
+        resetAllState();
+    };
 
     return (
 
@@ -171,6 +199,38 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                             <div className="modal-body no-scrollbar form-create-body" >
                                 <div className="container-fluid">
                                     <div className="row mt-3 mb-2">
+                                        <div>
+                                            <div className="col-4 mb-2">
+                                                <label className="fw-bold" >
+                                                    Số điện thoại
+                                                </label>
+                                                <>
+                                                    <input type="text"
+                                                        className="form-control"
+                                                        name='phone'
+                                                        {...register("phone")}
+                                                        placeholder="Hãy nhập số điện thoại"
+                                                        onBlur={(e) => handleCheckUser(e.target.value)}
+                                                    />
+                                                </>
+
+                                            </div>
+                                            <div className="col-4 mb-2">
+                                                <label className="fw-bold" >
+                                                    Người ký gửi
+                                                </label>
+                                                <>
+                                                    <input type="text"
+                                                        className="form-control"
+                                                        name='fullName'
+                                                        {...register("fullName")}
+                                                        placeholder="Hãy nhập Người ký gửi"
+                                                    />
+                                                </>
+
+                                            </div>
+
+                                        </div>
                                         <div className="col-12">
                                             <InputField
                                                 label="Tên Sản Phẩm"
@@ -187,12 +247,28 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                                                 placeholder="Nhập giá sản phẩm"
                                             />
                                             <InputField
+                                                label="Giá bán ra"
+                                                name="salesPrice"
+                                                errors={errors}
+                                                register={register}
+                                                placeholder="Nhập giá bán ra sản phẩm"
+                                            />
+                                            <InputField
                                                 label="Tình Trạng"
                                                 name="status"
                                                 errors={errors}
                                                 register={register}
                                                 placeholder="Nhập tình trạng sản phẩm"
                                             />
+                                            <SelectField
+                                                label="Chọn Size"
+                                                id="enumSelect"
+                                                name="size"
+                                                options={enumValues}
+                                                isLoading={isLoadingSize}
+                                                errors={errors}
+                                                register={register} />
+
                                         </div>
 
                                         <div className="col-12">
@@ -212,14 +288,7 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                                         </div>
 
                                         <div className="col-12">
-                                            <SelectField
-                                                label="Chọn Size"
-                                                id="enumSelect"
-                                                name="size"
-                                                options={enumValues}
-                                                isLoading={isLoadingSize}
-                                                errors={errors}
-                                                register={register} />
+
                                         </div>
                                         <div className="col-12">
                                             <div className="col-12">

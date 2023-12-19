@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import formatPrice from '../../../layoutHome/formatPrice/formatPrice';
 
-const InputField = ({ label, name, register, errors, placeholder }) => {
+const InputField = ({ label, name, register, errors, placeholder, disabled }) => {
+
 
     return (
         <div className="col-4 mb-2">
@@ -10,16 +11,17 @@ const InputField = ({ label, name, register, errors, placeholder }) => {
                 {label}
             </label>
             <>
-                <input type="text"
+                <input
+                    type="text"
                     className="form-control"
                     name={name}
                     {...register(name)}
                     placeholder={placeholder}
-                // onChange={handleInputChange}
+                    disabled={disabled}
+
                 />
                 <span className="text-danger">{errors?.[name]?.message}</span>
             </>
-
         </div>
     );
 };

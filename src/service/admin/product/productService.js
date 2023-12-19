@@ -12,6 +12,7 @@ export class ProductService {
     }
 
 
+
     static getAllCategories() {
         return axios.get(API_CATEGORIES).then(response => response.data)
     }

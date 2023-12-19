@@ -97,3 +97,7 @@ const DetailProduct = ({ productId }) => {
     )
 }
 export default DetailProduct
+
+
+
+

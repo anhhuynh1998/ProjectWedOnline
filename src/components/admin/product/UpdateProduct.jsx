@@ -89,6 +89,29 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
     };
 
 
+    let getUserByPhone = async (phone) => {
+        try {
+            let userByPhone = await serviceUserInfo.getUserByPhone(phone);
+            console.log((userByPhone))
+            setCheckPhone(userByPhone.data)
+            setValue('fullName', userByPhone.data?.fullName || '')
+            if (userByPhone.data) {
+                ToastSuccess("Đã tìm thấy người ký gửi !")
+            } else {
+                ToastError("Không thể tìm thấy người ký gửi!")
+            }
+
+        } catch (error) {
+            ToastError("Không thể lấy dữ liệu!")
+        }
+
+    }
+
+    const handleCheckUser = (e) => {
+
+        getUserByPhone(e)
+    }
+
     const handleSubmitUpdateProductForm = async (data) => {
 
         try {
@@ -210,6 +233,22 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                                         <div className="row mt-3 mb-2">
                                             <div className="col-12">
                                                 <InputField
+                                                    label="Số điện thoại"
+                                                    name="phone"
+                                                    register={register}
+                                                    placeholder="hãy nhập số điện thoại"
+                                                    disabled={true}
+
+                                                />
+                                                <InputField
+                                                    label="Người ký gửi"
+                                                    name="fullName"
+                                                    register={register}
+                                                    placeholder="Hãy nhập người ký gửi"
+                                                    disabled={true}
+
+                                                />
+                                                <InputField
                                                     label="Tên Sản Phẩm"
                                                     name="name"
                                                     errors={errors}
@@ -222,6 +261,13 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
                                                     errors={errors}
                                                     register={register}
                                                     placeholder="Nhập giá sản phẩm"
+                                                />
+                                                <InputField
+                                                    label="Giá bán ra"
+                                                    name="salesPrice"
+                                                    errors={errors}
+                                                    register={register}
+                                                    placeholder="Nhập giá bán ra sản phẩm"
                                                 />
                                                 <InputField
                                                     label="Tình Trạng"
