@@ -192,5 +192,11 @@
 #dropdownChangeStatus{
     max-width: 170%;
 }
+/* ô search nằm đè lên trên table phần add product */
+.custom-select-class {
+    position: relative;
+    z-index: 2; 
+ }
+ 
 
   

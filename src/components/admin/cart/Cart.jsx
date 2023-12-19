@@ -30,6 +30,7 @@ const Cart = () => {
                 // for(const cartItem of response.data){
                 //     const detailResponse = await 
                 // }
+
             }
             getAllCart();
         } catch (error) {
