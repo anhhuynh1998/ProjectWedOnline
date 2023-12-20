@@ -6,6 +6,7 @@ import CreateProduct from './CreateProduct';
 import UpdateProduct from './UpdateProduct';
 import Swal from 'sweetalert2';
 import DetailProduct from './DetailProduct';
+import { ToastError } from '../../../toastify/Toast';
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -21,17 +22,9 @@ const Product = () => {
   const [selectedPage, setSelectedPage] = useState(page);
   const [isFirstPage, setIsFirstPage] = useState()
   const [isLastPage, setIsLastPage] = useState()
-  const [sort, setSort] = useState({ field: "id", sortBy: 'asc' });
+  const [sortField, setSortField] = useState("id");
+  const [orderByType, setOrderByType] = useState("desc");
 
-  const handleSort = str => {
-    setSort(prevSort => {
-      if (prevSort.field === str) {
-        return { ...prevSort, sortBy: prevSort.sortBy === 'asc' ? 'desc' : 'asc' };
-      } else {
-        return { field: str, sortBy: 'desc' };
-      }
-    });
-  };
 
   const openModal = () => {
     setIsOpenModal(true);
@@ -74,7 +67,7 @@ const Product = () => {
     }
   };
 
-  const sizeOptions = [5, 10, 15, 25];
+  const sizeOptions = [1, 5, 10, 15, 25];
 
   const handleSizePageChange = (e) => {
     const newSize = parseInt(e.target.value, 10);
@@ -86,11 +79,9 @@ const Product = () => {
 
 
   const scrollToRef = useRef(null);
-
-  // Effect để cuộn tới phần tử sản phẩm mới khi danh sách sản phẩm thay đổi
   useEffect(() => {
     if (scrollToRef.current) {
-      // Sử dụng smooth scroll để có hiệu ứng cuộn mượt mà
+
       scrollToRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }, [products]);
@@ -117,41 +108,40 @@ const Product = () => {
   useEffect(() => {
     try {
       setLoading(true);
-      let isMounted = true;
-
-      async function finAllProductList(search, page, size, pageable) {
+      console.log(orderByType)
+      async function finAllProductList() {
         try {
-          const response = await ProductService.getAllProduct(search, page, size, pageable);
-          if (isMounted) {
-            setProducts(response.data.content);
-            setPageable(response.data.totalPages);
-            setLoading(false);
-            setIsFirstPage(page === 0);
-            setIsLastPage(page === response.data.totalPages - 1);
-          }
+          const response = await ProductService.getAllProduct(search, page, size, sortField,
+            orderByType);
+          setProducts(response.data.content);
+          setPageable(response.data.totalPages);
+          setLoading(false);
+          setIsFirstPage(page === 0);
+          setIsLastPage(page === response.data.totalPages - 1);
+
         } catch (error) {
-          console.error("Lỗi khi lấy dữ liệu:", error);
+          ToastError("Lỗi khi lấy dữ liệu !")
           setLoading(false);
         }
       }
-
-
-      finAllProductList(search, page, size, pageable);
-
-      return () => {
-        isMounted = false;
-      };
+      finAllProductList();
     } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu:", error);
+      ToastError("Lỗi khi lấy dữ liệu !")
+
     }
-  }, [search, page, size, pageable]);
+  }, [search, page, size, sortField, orderByType]);
+
+  const handleSortChange = (field) => {
+    if (field === sortField) {
+      setOrderByType(orderByType === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setOrderByType("asc");
+    }
+  };
 
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSearch();
-    }
-  }
+
 
   const handleInput = (e) => {
     e.preventDefault();
@@ -171,12 +161,13 @@ const Product = () => {
     const pageNumber = 0;
     if (nextPage < pageable && nextPage > pageNumber) {
       try {
-        const res = await ProductService.getAllProduct(search, nextPage, size, pageable, sort);
+        const res = await ProductService.getAllProduct(search, nextPage, size, sortField,
+          orderByType);
         setProducts(res.data.content);
-        setPageable(res.data.pageable.pageNumber);
         setPage(nextPage);
       } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu:", error);
+        ToastError("Lỗi khi lấy dữ liệu !")
+
       }
     }
   };
@@ -188,24 +179,6 @@ const Product = () => {
     }).format(amount);
   };
 
-
-  const deleteCustomerById = async (productId) => {
-    try {
-      await Swal.fire({
-        title: 'Bạn muốn xóa sản phẩm này ?',
-        showCancelButton: true,
-        confirmButtonText: 'Xóa',
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          Swal.fire('Xóa!', '', 'success')
-          await ProductService.deleteProducts(productId)
-          setProducts((product) => product.filter((product) => product.id !== productId))
-        }
-      });
-    } catch (error) {
-      // Xử lý lỗi nếu có
-    }
-  }
 
   return (
 
@@ -240,9 +213,15 @@ const Product = () => {
               <table className="table table-hover " >
                 <thead>
                   <tr >
-                    <th scope="col-2" onClick={() => handleSort('id')}>
-                      # {sort === 'id' && <i className="fa fa-sort"></i>}
-                      {sort === 'id_asc' && <i className="fa fa-sort-down"></i>}
+                    <th>
+                      <button
+                        className="btn btn-outline-primary"
+                        onClick={() => handleSortChange("id")}
+                        disabled={sortField !== "id"}
+                      >
+                        ID
+                        {sortField === "id" && <i className="fa-solid fa-sort"></i>}
+                      </button>
                     </th>
                     <th scope="col-2" > Tên Sản Phẩm  </th>
                     <th scope="col-2" > Mô tả </th>
@@ -252,10 +231,8 @@ const Product = () => {
                     <th scope="col-2" >Tình Trạng</th>
                     <th scope="col-2" >Loại</th>
                     <th scope="col-2" >Người ký gửi</th>
-                    <th scope="col-2" onClick={() => handleSort('depositDate')}>
+                    <th scope="col-2" >
                       Ngày ký gửi
-                      {sort === 'depositDate' && <i className="fa fa-sort"></i>}
-                      {sort === 'depositDate_asc' && <i className="fa fa-sort-down"></i>}
                     </th>
 
                     <th scope="col-2" >Trạng thái</th>

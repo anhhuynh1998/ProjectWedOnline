@@ -2,13 +2,17 @@ import axios from "axios";
 
 const PRODUCT_API = 'http://localhost:8080/api/admin/products';
 const API_SIZE = 'http://localhost:8080/api/admin/sizes';
+const API_STATUS = 'http://localhost:8080/api/admin/status';
 const API_CATEGORIES = 'http://localhost:8080/api/admin/categories'
 const API_UPLOAD_CLOUDINARY = 'http://localhost:8080/api/admin/files/images'
 
 export class ProductService {
 
-    static getAllProduct(search, page, size) {
-        return axios.get(PRODUCT_API + `?search=${search || ''}&page=${page || 0}&size=${size}`);
+    static getAllProduct(search, page, size, sortField, orderByType) {
+
+        console.log(sortField, orderByType);
+
+        return axios.get(PRODUCT_API + `?search=${search || ''}&page=${page || 0}&size=${size}&sort=${sortField + "," + orderByType}`);
     }
 
 
@@ -19,6 +23,9 @@ export class ProductService {
 
     static getAllSizeEnum() {
         return axios.get(API_SIZE)
+    }
+    static getAllStatusEnum() {
+        return axios.get(API_STATUS)
     }
 
     static getAllSubCategories(categoriesId) {

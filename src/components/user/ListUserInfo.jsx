@@ -117,7 +117,7 @@ const ListUserInfo = () => {
 
     if (nextPage >= 0 && nextPage < pageable) {
       try {
-        const res = await serviceUserInfo.getAll(search, nextPage, size);
+        const res = await serviceUserInfo.getAll(search, nextPage, size, sortField, orderByType);
         setListUserInfo(res.data.content);
         setPage(nextPage);
       } catch (error) {
@@ -130,7 +130,7 @@ const ListUserInfo = () => {
     <div className="container-fluid">
       <div>
         <div className="d-flex-right">
-          <div className="col-lg-12 mt-2 me-2">
+          <div className="col-lg-12 mb-4 p-0">
             <div className="d-flex justify-content-between">
               <button className="btn btn-outline-success" onClick={openModal}>
                 <i className="fa-solid fa-user-plus"></i>
@@ -168,6 +168,7 @@ const ListUserInfo = () => {
                 {sortField === "id" && <i className="fa-solid fa-sort"></i>}
               </button>
 
+              <th scope="col-2">Họ tên</th>
               <th scope="col-2">Họ tên</th>
               <th scope="col-2">Email</th>
               <th scope="col-2">Số điện thoại</th>
