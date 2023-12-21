@@ -1,4 +1,5 @@
-import axios from "axios";
+import { axiosInstance } from "../../axiosInstance/axiosInstance";
+
 
 const PRODUCT_API = 'http://localhost:8080/api/admin/products';
 const API_SIZE = 'http://localhost:8080/api/admin/sizes';
@@ -9,57 +10,52 @@ const API_UPLOAD_CLOUDINARY = 'http://localhost:8080/api/admin/files/images'
 export class ProductService {
 
     static getAllProduct(search, page, size, sortField, orderByType) {
-
-        console.log(sortField, orderByType);
-
-        return axios.get(PRODUCT_API + `?search=${search || ''}&page=${page || 0}&size=${size}&sort=${sortField + "," + orderByType}`);
+        return axiosInstance.get(PRODUCT_API + `?search=${search || ''}&page=${page || 0}&size=${size}&sort=${sortField + "," + orderByType}`);
     }
 
-
-
     static getAllCategories() {
-        return axios.get(API_CATEGORIES).then(response => response.data)
+        return axiosInstance.get(API_CATEGORIES).then(response => response.data)
     }
 
     static getAllSizeEnum() {
-        return axios.get(API_SIZE)
+        return axiosInstance.get(API_SIZE)
     }
     static getAllStatusEnum() {
-        return axios.get(API_STATUS)
+        return axiosInstance.get(API_STATUS)
     }
 
     static getAllSubCategories(categoriesId) {
-        return axios.get(API_CATEGORIES + `/${categoriesId}/subCategories`).then(response => response.data)
+        return axiosInstance.get(API_CATEGORIES + `/${categoriesId}/subCategories`).then(response => response.data)
     }
 
     static getAllNestedCategories(subCategoriesId) {
-        return axios.get(API_CATEGORIES + `/${subCategoriesId}/nestedCategories`).then(response => response.data)
+        return axiosInstance.get(API_CATEGORIES + `/${subCategoriesId}/nestedCategories`).then(response => response.data)
     }
 
     static findCategoryById(id) {
-        return axios.get(API_CATEGORIES + `/${id}`)
+        return axiosInstance.get(API_CATEGORIES + `/${id}`)
     }
 
     static postFilesImageUpCloudinary() {
-        return axios.post(API_UPLOAD_CLOUDINARY)
+        return axiosInstance.post(API_UPLOAD_CLOUDINARY)
     }
 
     static createProducts(data) {
-        return axios.post(PRODUCT_API, data)
+        return axiosInstance.post(PRODUCT_API, data)
     }
 
     static updateProducts(data, productId) {
-        return axios.put(PRODUCT_API + `/${productId}`, data)
+        return axiosInstance.put(PRODUCT_API + `/${productId}`, data)
     }
 
     static deleteProducts(productId) {
-        return axios.delete(PRODUCT_API + `/${productId}`)
+        return axiosInstance.delete(PRODUCT_API + `/${productId}`)
     }
 
     static getProductsById(productId) {
-        return axios.get(PRODUCT_API + `/${productId}`)
+        return axiosInstance.get(PRODUCT_API + `/${productId}`)
     }
     static countProduct() {
-        return axios.get(`${PRODUCT_API}/count`)
+        return axiosInstance.get(`${PRODUCT_API}/count`)
     }
 }

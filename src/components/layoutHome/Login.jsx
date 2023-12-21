@@ -32,9 +32,9 @@ const Login = ({ activeTab }) => {
             document.getElementById('exampleLogin').click();
             reset();
             ToastSuccess("Đăng Nhập Thành Công");
-            localStorage.setItem("jwt", response.data);
             setLogoutIcon((prev) => !prev)
-            backHome();
+            localStorage.setItem("jwt", response.data);
+            backHome()
         } catch (error) {
             ToastWarning(error.response.data);
         }

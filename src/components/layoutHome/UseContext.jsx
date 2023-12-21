@@ -39,7 +39,8 @@ const UseContext = ({ children }) => {
     useEffect(() => {
         async function getALl() {
             let response = await ProductService.getAll();
-            setProductList(response.data.content);
+            setProductList(response.data.content.filter(e => e.imageUrl !== null));
+            console.log(response.data.content);
             if (localStorage.getItem("jwt")) {
                 let respo = await CartService.findAllByUser();
                 setCount(respo.data.listCartDetail.length)
