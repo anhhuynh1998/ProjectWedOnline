@@ -255,7 +255,7 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                                                 placeholder="Nhập tên sản phẩm"
                                             />
                                             <InputField
-                                                label="Giá"
+                                                label="Giá ký gửi"
                                                 name="price"
                                                 errors={errors}
                                                 register={register}

@@ -7,6 +7,8 @@ import UpdateProduct from './UpdateProduct';
 import Swal from 'sweetalert2';
 import DetailProduct from './DetailProduct';
 import { ToastError } from '../../../toastify/Toast';
+import TableHeader from './componentResue/TableHeader';
+import SearchForm from './componentResue/SearchForm';
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -15,7 +17,6 @@ const Product = () => {
   const [isOpenModalUpdate, setIsOpenModalUpdate] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(5);
   const [pageable, setPageable] = useState(0);
@@ -24,6 +25,7 @@ const Product = () => {
   const [isLastPage, setIsLastPage] = useState()
   const [sortField, setSortField] = useState("id");
   const [orderByType, setOrderByType] = useState("desc");
+  const [search, setSearch] = useState("");
 
 
   const openModal = () => {
@@ -131,22 +133,16 @@ const Product = () => {
     }
   }, [search, page, size, sortField, orderByType]);
 
-  const handleSortChange = (field) => {
-    if (field === sortField) {
-      setOrderByType(orderByType === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setOrderByType("asc");
-    }
+
+
+
+
+  const handleSearch = (value) => {
+    setSearch(value);
+    // Thực hiện các bước tìm kiếm khác nếu cần
   };
 
 
-
-
-  const handleInput = (e) => {
-    e.preventDefault();
-    setSearch(e.target.value);
-  };
 
   const handlePreviousPage = () => {
     handlePageChange(page - 1);
@@ -191,17 +187,7 @@ const Product = () => {
           </button>
           {<CreateProduct isOpenModal={isOpenModal} handleClose={closeModal} products={products} setProducts={setProducts} />}
         </div>
-        <form className="d-flex m-2-bg-info" role="search">
-          <i className="fa-solid fa-magnifying-glass"></i>
-          <input
-            className="form-control me-2"
-            type="search"
-            placeholder="Tìm Kiếm sản phẩm..."
-            aria-label="Search"
-            value={search}
-            onChange={(e) => handleInput(e)}
-          />
-        </form>
+        <SearchForm onSearch={handleSearch} />
 
       </section>
 
@@ -212,31 +198,20 @@ const Product = () => {
             <div>
               <table className="table table-hover " >
                 <thead>
-                  <tr >
-                    <th>
-                      <button
-                        className="btn btn-outline-primary"
-                        onClick={() => handleSortChange("id")}
-                        disabled={sortField !== "id"}
-                      >
-                        ID
-                        {sortField === "id" && <i className="fa-solid fa-sort"></i>}
-                      </button>
-                    </th>
-                    <th scope="col-2" > Tên Sản Phẩm  </th>
-                    <th scope="col-2" > Mô tả </th>
-                    <th scope="col-2" >Giá ký gửi(Đồng)</th>
-                    <th scope="col-2" >Giá giá bán ra(Đồng)</th>
-                    <th scope="col-2" >Kích Cỡ</th>
-                    <th scope="col-2" >Tình Trạng</th>
-                    <th scope="col-2" >Loại</th>
-                    <th scope="col-2" >Người ký gửi</th>
-                    <th scope="col-2" >
-                      Ngày ký gửi
-                    </th>
+                  <tr>
+                    <TableHeader field="id" label="ID" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="name" label="Tên Sản Phẩm" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="description" label="Mô tả" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="price" label="Giá ký gửi" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="salesPrice" label="Giá bán ra" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="size" label="Kích cỡ" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="status" label="Tình trạng" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="category" label="Loại" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="userInfo" label="Người ký gửi" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="depositDate" label="Ngày ký gửi" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="paid" label="Trạng thái" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="codeProduct" label="Mã sản phẩm" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
 
-                    <th scope="col-2" >Trạng thái</th>
-                    <th scope="col-2" >Mã sản phẩm</th>
                     <th scope="col-2" colSpan={2}>Hành Động</th>
                   </tr>
                 </thead>
@@ -334,7 +309,7 @@ const Product = () => {
               value={size}
               onChange={handleSizePageChange}
               className='form-control'
-              style={{ marginBottom: '5px', width: '30%' }}
+              style={{ marginBottom: '5px', width: '35%' }}
             >
               {sizeOptions.map((option) => (
                 <option key={option} value={option}>
