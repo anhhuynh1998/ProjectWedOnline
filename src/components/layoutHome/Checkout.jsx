@@ -11,7 +11,7 @@ import formatPrice from "./formatPrice/FormatPrice";
 import "../layoutHome/cssHome/cssHome.css"
 import { UseProduct } from "./UseContext";
 
-const CheckOut = ({ cartDetails, total }) => {
+const CheckOut = ({ cartDetails, total, userInfo }) => {
     const { backHome } = useContext(UseProduct);
     const totalPrice = cartDetails.total || total;
     const [totals, setTotals] = useState(totalPrice);
@@ -164,14 +164,14 @@ const CheckOut = ({ cartDetails, total }) => {
                                                     <div className="col-lg-12 form-group d-flex mb-3 ">
                                                         <div className="col-lg-6 me-3 ">
                                                             <label>Tên Người Nhận</label>
-                                                            <input type="text" placeholder="Tên Người Nhận*"
+                                                            <input type="text" placeholder="Tên Người Nhận*" defaultValue={userInfo.username}
                                                                 className={`form-control me-5 ${errors?.name?.message ? " is-invalid" : ""}`}
                                                                 {...register('name')} />
                                                             <span className="invalid-feedback">{errors?.name?.message}</span>
                                                         </div>
                                                         <div className="col-lg-6">
                                                             <label>Số Điện Thoại</label>
-                                                            <input type="text" placeholder="Số Điện Thoại*"
+                                                            <input type="text" placeholder="Số Điện Thoại*" defaultValue={userInfo.phone}
                                                                 className={`form-control ${errors?.phone?.message ? " is-invalid " : ""}`}
                                                                 {...register('phone')} />
                                                             <span className="invalid-feedback">{errors?.phone?.message}</span>

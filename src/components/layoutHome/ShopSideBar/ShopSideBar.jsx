@@ -56,7 +56,7 @@ const ShopSideBar = () => {
 
             setIsLoading(true);
             let response = await ProductService.getProductByFilter(filter, 0);
-            setProducts([...response.data.content]);
+            setProducts([...response.data.content.filter(e => e.imageUrl != null)]);
             if (page < response.data.totalPages) {
                 setPage(1)
                 setTotalPages(response.data.totalPages)

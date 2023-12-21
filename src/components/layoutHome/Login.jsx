@@ -34,7 +34,7 @@ const Login = ({ activeTab }) => {
             ToastSuccess("Đăng Nhập Thành Công");
             setLogoutIcon((prev) => !prev)
             localStorage.setItem("jwt", response.data);
-            backHome()
+            backHome("/home")
         } catch (error) {
             ToastWarning(error.response.data);
         }
@@ -53,7 +53,7 @@ const Login = ({ activeTab }) => {
                 console.log(res);
                 document.getElementById('exampleLogin').click();
                 ToastSuccess("Đăng Nhập Thành Công");
-                backHome();
+                backHome("/home");
                 let respon = await AuthService.loginGoogle(res.data);
                 localStorage.setItem("jwt", respon.data);
                 setLoginEmail(res.data.email)

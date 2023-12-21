@@ -14,12 +14,14 @@ const Cart = () => {
     const { setCount } = useContext(UseProduct);
     const [cartDetails, setCartDetails] = useState([]);
     const [total, setTotal] = useState(0);
+    const [userInfo, setUserInfo] = useState({});
 
     useEffect(() => {
         if (localStorage.getItem("jwt")) {
             async function findAllByUser() {
                 let response = await CartService.findAllByUser();
                 setCartDetails(response.data.listCartDetail);
+                setUserInfo(response.data);
                 setCount(response.data.listCartDetail.length)
             }
             findAllByUser();
@@ -119,7 +121,7 @@ const Cart = () => {
                         </div>
                     </div>
                     <div className="row">
-                        <CheckOut cartDetails={cartDetails} total={total} />
+                        <CheckOut cartDetails={cartDetails} total={total} userInfo={userInfo} />
                     </div>
                 </div>
             </div>

@@ -8,5 +8,8 @@ class UserInfoService {
     static showCartByUser() {
         return axiosInstance.get(`${API_USERINFO}/showCartByUser`)
     }
+    static showProductByUser() {
+        return axiosInstance.get(`${API_USERINFO}/showProductByUser`)
+    }
 }
 export default UserInfoService;
