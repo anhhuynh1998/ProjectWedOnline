@@ -19,10 +19,12 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
     const [selectedNestedCategories, setSelectedNestedCategories] = useState(null);
     const [avatarId, setAvatarId] = useState([]);
     const [enumValues, setEnumValues] = useState([]);;
+    const [enumStatusValues, setEnumStatusValues] = useState([]);;
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [avatarURLs, setAvatarURLs] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingSize, setIsLoadingSize] = useState(true);
+    const [isLoadingStatus, setIsLoadingStatus] = useState(true);
     const [categories, setCategories] = useState([])
     const [uploadedFileCreate, setUploadedFileCreate] = useState([]);
     const [isLoadingCategories, setIsLoadingCategories] = useState(false);
@@ -33,6 +35,16 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
             let sizeData = await ProductService.getAllSizeEnum();
             setEnumValues(sizeData.data);
             setIsLoadingSize(false);
+        } catch (error) {
+            console.error('Error fetching size data:', error);
+        }
+    };
+
+    const fetchDataEnumStatus = async () => {
+        try {
+            let statusData = await ProductService.getAllStatusEnum();
+            setEnumStatusValues(statusData.data);
+            setIsLoadingStatus(false);
         } catch (error) {
             console.error('Error fetching size data:', error);
         }
@@ -52,8 +64,10 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
     useEffect(() => {
         if (isOpenModal) {
             setIsLoadingSize(true);
+            setIsLoadingStatus(true)
             setIsLoadingCategories(true);
             setTimeout(fetchDataEnumSize, 200);
+            setTimeout(fetchDataEnumStatus, 200);
             setTimeout(fetchCategories, 200);
         }
     }, [isOpenModal]);
@@ -130,6 +144,7 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
         setUploadedFileCreate([]);
         setIsLoading(false);
         setIsLoadingSize(false)
+        setIsLoadingStatus(false)
         setIsLoadingCategories(false);
     };
 
@@ -216,7 +231,7 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                                                 placeholder="Nhập tên sản phẩm"
                                             />
                                             <InputField
-                                                label="Giá"
+                                                label="Giá ký gửi"
                                                 name="price"
                                                 errors={errors}
                                                 register={register}
@@ -229,13 +244,14 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                                                 register={register}
                                                 placeholder="Nhập giá bán ra sản phẩm"
                                             />
-                                            <InputField
-                                                label="Tình Trạng"
+                                            <SelectField
+                                                label="Chọn tình trạng"
+                                                id="enumSelect"
                                                 name="status"
+                                                options={enumStatusValues}
+                                                isLoading={isLoadingStatus}
                                                 errors={errors}
-                                                register={register}
-                                                placeholder="Nhập tình trạng sản phẩm"
-                                            />
+                                                register={register} />
                                             <SelectField
                                                 label="Chọn Size"
                                                 id="enumSelect"

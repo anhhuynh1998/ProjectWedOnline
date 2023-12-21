@@ -44,7 +44,7 @@ const InforProduct = () => {
 
                                         <div className="addtocart-btn" data-dismiss="modal"
                                             onClick={() => handleAddCart(product)}>
-                                            <a type="button" className="text-white"> Add to cart</a>
+                                            <a type="button" className="text-white">Thêm Vào Giỏ</a>
                                         </div>
                                     </div>
                                 }

@@ -4,10 +4,10 @@ import { useContext, useEffect, useState } from "react"
 import CartService from "../../service/homeService/cartService";
 import formatPrice from "./formatPrice/FormatPrice";
 import CheckOut from "./Checkout";
-import Login from "./Login";
 import { UseProduct } from "./UseContext";
 import { ToastSuccess } from "../../toastify/Toast";
 import Background from "./userHome/background";
+import LoginAndRegister from "./LoginAndRegister";
 
 const Cart = () => {
     const productIdList = JSON.parse(localStorage.getItem('productDetail')) || [];
@@ -38,7 +38,6 @@ const Cart = () => {
         setTotal(cartDetails?.reduce((total, e) => total + e.total, 0));
     }, [cartDetails])
 
-
     const removeItem = async (id) => {
         if (localStorage.getItem("jwt")) {
             let response = await CartService.removeItem(id);
@@ -61,7 +60,7 @@ const Cart = () => {
 
     return (
         <div >
-            <Login />
+            <LoginAndRegister />
             <div className="body__overlay" />
             <Background message={"Giỏ Hàng"}
                 img={"rgba(0, 0, 0, 0) url(images/bg/cart1.jpeg) no-repeat scroll center center / cover"}
@@ -69,7 +68,7 @@ const Cart = () => {
                 animateNav={"animate__animated animate__flash"} />
 
             <div className="cart-main-area ptb--120 bg__white">
-                <div className="container">
+                <div className="container animate__animated animate__bounceInLeft">
                     <div className="row">
                         <div className="col-md-12 col-sm-12 col-xs-12">
                             <div className="table-content table-responsive col-xs-12">

@@ -161,14 +161,16 @@ const CheckOut = ({ cartDetails, total }) => {
                                         <div className="d-flex">
                                             <div className="col-md-8 col-lg-8">
                                                 <div className="row">
-                                                    <div className="col-lg-12 form-group d-flex mb-5 ">
+                                                    <div className="col-lg-12 form-group d-flex mb-3 ">
                                                         <div className="col-lg-6 me-3 ">
+                                                            <label>Tên Người Nhận</label>
                                                             <input type="text" placeholder="Tên Người Nhận*"
                                                                 className={`form-control me-5 ${errors?.name?.message ? " is-invalid" : ""}`}
                                                                 {...register('name')} />
                                                             <span className="invalid-feedback">{errors?.name?.message}</span>
                                                         </div>
                                                         <div className="col-lg-6">
+                                                            <label>Số Điện Thoại</label>
                                                             <input type="text" placeholder="Số Điện Thoại*"
                                                                 className={`form-control ${errors?.phone?.message ? " is-invalid " : ""}`}
                                                                 {...register('phone')} />
@@ -177,13 +179,14 @@ const CheckOut = ({ cartDetails, total }) => {
                                                     </div>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-lg-12 form-group d-flex mb-5">
+                                                    <div className="col-lg-12 form-group d-flex mb-3">
                                                         <div className="col-lg-6 me-3">
+                                                            <label>Tỉnh / Thành Phố</label>
                                                             <select
                                                                 className={`form-control me-5 ${provinceSelected && errors?.province?.message ? " is-invalid" : ""}`}
                                                                 {...register('province')}
                                                                 onChange={onchangeProvince}>
-                                                                <option value="">Tỉnh*</option>
+                                                                <option value="">Tỉnh / Thành Phố*</option>
                                                                 {provinces.map((item, index) => (
                                                                     <option value={item.id} key={index} >{item.name}</option>
                                                                 ))}
@@ -191,10 +194,11 @@ const CheckOut = ({ cartDetails, total }) => {
                                                             <span className="invalid-feedback">{errors?.province?.message}</span>
                                                         </div>
                                                         <div className="col-lg-6">
+                                                            <label>Quận Huyện</label>
                                                             <select className={`form-control ${districtSelected && errors?.district?.message ? " is-invalid" : ""}`}
                                                                 {...register('district')}
                                                                 onChange={onChangDistrict}>
-                                                                <option value="">Thành Phố*</option>
+                                                                <option value="">Quận Huyện*</option>
                                                                 {districts.map((item, index) => (
                                                                     <option value={item.id} key={index} >{item.name}</option>
                                                                 ))}
@@ -206,10 +210,11 @@ const CheckOut = ({ cartDetails, total }) => {
                                                 <div className="row">
                                                     <div className="col-lg-12 form-group d-flex mb-5 ">
                                                         <div className="col-lg-6 me-3">
+                                                            <label>Phường Xã</label>
                                                             <select className={`form-control me-5 ${wardSelected && errors?.ward?.message ? " is-invalid" : ""}`}
                                                                 {...register('ward')}
                                                                 onChange={onChangeWard}>
-                                                                <option value="">Quận Huyện*</option>
+                                                                <option value="">Phường Xã*</option>
                                                                 {wards.map((item, index) => (
                                                                     <option value={item.id} key={index} >{item.name}</option>
                                                                 ))}
@@ -217,6 +222,7 @@ const CheckOut = ({ cartDetails, total }) => {
                                                             <span className="invalid-feedback">{errors?.ward?.message}</span>
                                                         </div>
                                                         <div className="col-lg-6">
+                                                            <label>Địa Chỉ</label>
                                                             <input type="text" placeholder="Địa Chỉ*"
                                                                 className={`form-control ${errors?.address?.message ? "is-invalid" : ""}`}
                                                                 {...register('address')} />

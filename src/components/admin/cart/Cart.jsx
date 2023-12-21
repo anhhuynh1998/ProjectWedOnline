@@ -105,7 +105,7 @@ const Cart = () => {
       </div>
       <table className="table table-hover rounded animate__animated animate__bounceInUp">
         <thead>
-          <tr className="bg-success">
+          <tr className="bg-dark">
             <th scope="col" className="text-white text-start">
               #
             </th>

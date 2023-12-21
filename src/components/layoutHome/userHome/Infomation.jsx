@@ -2,21 +2,19 @@ import { useContext, useEffect, useState } from "react";
 import DivUser from "./DivUser";
 import Background from "./background";
 import { UseProduct } from "../UseContext";
-// import UserInfoService from "../../../service/homeService/userInfoService";
 import { NavLink } from "react-router-dom";
 import UserInfoService from "../../../service/homeService/userInfoService";
 
 const Infomation = () => {
-    const { showEdit, setShowEdit, loginEmail } = useContext(UseProduct);
+    const { showEdit, setShowEdit } = useContext(UseProduct);
     const [userInfos, setUserInfos] = useState({});
 
     useEffect(() => {
-        async function getUserInfoByEmail(loginEmail) {
-            const data = { email: loginEmail }
-            let respo = await UserInfoService.getUserInfoByEmail(data);
+        async function getUserInfoByEmail() {
+            let respo = await UserInfoService.getUserInfoByEmail();
             setUserInfos(respo.data);
         }
-        getUserInfoByEmail(loginEmail);
+        getUserInfoByEmail();
     }, [])
 
     const showEditInfo = () => {
@@ -27,7 +25,7 @@ const Infomation = () => {
     }
 
     return (
-        <>
+        <div style={{ backgroundColor: "#f5f5f5" }}>
             <div>
                 <div className="body__overlay" />
                 <Background message={"Thông Tin Của Tôi"}
@@ -35,7 +33,7 @@ const Infomation = () => {
             </div>
             <div className="container" style={{ width: "700px" }}>
                 <h1 className="text-center mt-5" style={{ color: "#dc3545" }}>Thông Tin Của Tôi</h1>
-                <form className="mt-4">
+                <form className="mt-4 animate__animated animate__bounceInLeft">
                     <DivUser message={"Họ Và Tên"} value={userInfos?.fullName} />
                     <DivUser message={"Email"} value={userInfos?.email} read={true} />
                     <DivUser message={"Số Điện Thoại"} value={userInfos?.phone} />
@@ -59,7 +57,7 @@ const Infomation = () => {
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     );
 };
 

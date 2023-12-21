@@ -11,5 +11,6 @@ class AuthService {
         if (data)
             return axios.post(`${API_AUTH}/loginGoogle`, data)
     }
+    
 }
 export default AuthService;

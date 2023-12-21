@@ -6,6 +6,9 @@ import CreateProduct from './CreateProduct';
 import UpdateProduct from './UpdateProduct';
 import Swal from 'sweetalert2';
 import DetailProduct from './DetailProduct';
+import { ToastError } from '../../../toastify/Toast';
+import TableHeader from './componentResue/TableHeader';
+import SearchForm from './componentResue/SearchForm';
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -14,24 +17,16 @@ const Product = () => {
   const [isOpenModalUpdate, setIsOpenModalUpdate] = useState(false)
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(5);
   const [pageable, setPageable] = useState(0);
   const [selectedPage, setSelectedPage] = useState(page);
   const [isFirstPage, setIsFirstPage] = useState()
   const [isLastPage, setIsLastPage] = useState()
-  const [sort, setSort] = useState({ field: "id", sortBy: 'asc' });
+  const [sortField, setSortField] = useState("id");
+  const [orderByType, setOrderByType] = useState("desc");
+  const [search, setSearch] = useState("");
 
-  const handleSort = str => {
-    setSort(prevSort => {
-      if (prevSort.field === str) {
-        return { ...prevSort, sortBy: prevSort.sortBy === 'asc' ? 'desc' : 'asc' };
-      } else {
-        return { field: str, sortBy: 'desc' };
-      }
-    });
-  };
 
   const openModal = () => {
     setIsOpenModal(true);
@@ -74,7 +69,7 @@ const Product = () => {
     }
   };
 
-  const sizeOptions = [5, 10, 15, 25];
+  const sizeOptions = [1, 5, 10, 15, 25];
 
   const handleSizePageChange = (e) => {
     const newSize = parseInt(e.target.value, 10);
@@ -86,11 +81,9 @@ const Product = () => {
 
 
   const scrollToRef = useRef(null);
-
-  // Effect để cuộn tới phần tử sản phẩm mới khi danh sách sản phẩm thay đổi
   useEffect(() => {
     if (scrollToRef.current) {
-      // Sử dụng smooth scroll để có hiệu ứng cuộn mượt mà
+
       scrollToRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     }
   }, [products]);
@@ -117,45 +110,33 @@ const Product = () => {
   useEffect(() => {
     try {
       setLoading(true);
-      let isMounted = true;
-
-      async function finAllProductList(search, page, size, pageable) {
+      console.log(orderByType)
+      async function finAllProductList() {
         try {
-          const response = await ProductService.getAllProduct(search, page, size, pageable);
-          if (isMounted) {
-            setProducts(response.data.content);
-            setPageable(response.data.totalPages);
-            setLoading(false);
-            setIsFirstPage(page === 0);
-            setIsLastPage(page === response.data.totalPages - 1);
-          }
+          const response = await ProductService.getAllProduct(search, page, size, sortField,
+            orderByType);
+          setProducts(response.data.content);
+          setPageable(response.data.totalPages);
+          setLoading(false);
+          setIsFirstPage(page === 0);
+          setIsLastPage(page === response.data.totalPages - 1);
+
         } catch (error) {
-          console.error("Lỗi khi lấy dữ liệu:", error);
+          ToastError("Lỗi khi lấy dữ liệu !")
           setLoading(false);
         }
       }
-
-
-      finAllProductList(search, page, size, pageable);
-
-      return () => {
-        isMounted = false;
-      };
+      finAllProductList();
     } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu:", error);
+      ToastError("Lỗi khi lấy dữ liệu !")
+
     }
-  }, [search, page, size, pageable]);
+  }, [search, page, size, sortField, orderByType]);
 
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSearch();
-    }
-  }
-
-  const handleInput = (e) => {
-    e.preventDefault();
-    setSearch(e.target.value);
+  const handleSearch = (value) => {
+    setSearch(value);
+    // Thực hiện các bước tìm kiếm khác nếu cần
   };
 
   const handlePreviousPage = () => {
@@ -164,19 +145,19 @@ const Product = () => {
     console.log(page - 1);
   };
 
-
   const handleNextPage = async () => {
     const nextPage = page + 1;
 
     const pageNumber = 0;
     if (nextPage < pageable && nextPage > pageNumber) {
       try {
-        const res = await ProductService.getAllProduct(search, nextPage, size, pageable, sort);
+        const res = await ProductService.getAllProduct(search, nextPage, size, sortField,
+          orderByType);
         setProducts(res.data.content);
-        setPageable(res.data.pageable.pageNumber);
         setPage(nextPage);
       } catch (error) {
-        console.error("Lỗi khi lấy dữ liệu:", error);
+        ToastError("Lỗi khi lấy dữ liệu !")
+
       }
     }
   };
@@ -189,24 +170,6 @@ const Product = () => {
   };
 
 
-  const deleteCustomerById = async (productId) => {
-    try {
-      await Swal.fire({
-        title: 'Bạn muốn xóa sản phẩm này ?',
-        showCancelButton: true,
-        confirmButtonText: 'Xóa',
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          Swal.fire('Xóa!', '', 'success')
-          await ProductService.deleteProducts(productId)
-          setProducts((product) => product.filter((product) => product.id !== productId))
-        }
-      });
-    } catch (error) {
-      // Xử lý lỗi nếu có
-    }
-  }
-
   return (
 
     <div className="container-fluid">
@@ -218,48 +181,30 @@ const Product = () => {
           </button>
           {<CreateProduct isOpenModal={isOpenModal} handleClose={closeModal} products={products} setProducts={setProducts} />}
         </div>
-        <form className="d-flex m-2-bg-info w-75 animate__animated animate__bounceInRight" role="search">
-          <i className="fa-solid fa-magnifying-glass"></i>
-          <input
-            className="form-control me-2 rounded-1 "
-            type="search"
-            placeholder="Tìm Kiếm sản phẩm..."
-            aria-label="Search"
-            value={search}
-            onChange={(e) => handleInput(e)}
-          />
-        </form>
+        <SearchForm onSearch={handleSearch} />
 
       </section>
-
 
       <section className="mt-2 ">
         {
           loading ? <Spinner /> : (
             <div>
-              <table className="table table-hover animate__animated " >
+              <table className="table table-hover " >
                 <thead className='thead-dark'>
-                  <tr >
-                    <th scope="col-2 " onClick={() => handleSort('id')}>
-                      # {sort === 'id' && <i className="fa fa-sort"></i>}
-                      {sort === 'id_asc' && <i className="fa fa-sort-down"></i>}
-                    </th>
-                    <th scope="col-2" > Tên Sản Phẩm  </th>
-                    <th scope="col-2" > Mô tả </th>
-                    <th scope="col-2" >Giá ký gửi(Đồng)</th>
-                    <th scope="col-2" >Giá giá bán ra(Đồng)</th>
-                    <th scope="col-2" >Kích Cỡ</th>
-                    <th scope="col-2" >Tình Trạng</th>
-                    <th scope="col-2" >Loại</th>
-                    <th scope="col-2" >Người ký gửi</th>
-                    <th scope="col-2" onClick={() => handleSort('depositDate')}>
-                      Ngày ký gửi
-                      {sort === 'depositDate' && <i className="fa fa-sort"></i>}
-                      {sort === 'depositDate_asc' && <i className="fa fa-sort-down"></i>}
-                    </th>
+                  <tr>
+                    <TableHeader field="id" label="ID" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="name" label="Tên Sản Phẩm" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="description" label="Mô tả" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="price" label="Giá ký gửi" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="salesPrice" label="Giá bán ra" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="size" label="Kích cỡ" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="status" label="Tình trạng" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="category" label="Loại" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="userInfo" label="Người ký gửi" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="depositDate" label="Ngày ký gửi" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="paid" label="Trạng thái" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
+                    <TableHeader field="codeProduct" label="Mã sản phẩm" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
 
-                    <th scope="col-2" >Trạng thái</th>
-                    <th scope="col-2" >Mã sản phẩm</th>
                     <th scope="col-2" colSpan={2}>Hành Động</th>
                   </tr>
                 </thead>
@@ -278,8 +223,8 @@ const Product = () => {
 
                       <td>{new Date(product.depositDate).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}</td>
 
-                      <td className={product.paid === 'true' ? 'sold' : 'not-sold'}>
-                        {product.paid === 'true' ? 'đã bán' : 'chưa bán'}
+                      <td className={product.paid === true ? 'sold' : 'not-sold'}>
+                        {product.paid === true ? 'đã bán' : 'chưa bán'}
                       </td>
                       <td>{product.codeProduct}</td>
                       <td>
@@ -357,7 +302,7 @@ const Product = () => {
               value={size}
               onChange={handleSizePageChange}
               className='form-control'
-              style={{ marginBottom: '5px', width: '30%' }}
+              style={{ marginBottom: '5px', width: '35%' }}
             >
               {sizeOptions.map((option) => (
                 <option key={option} value={option}>

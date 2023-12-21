@@ -11,7 +11,7 @@ export const ProductSchema = yup.object({
         .min(10000, "Giá thấp nhất là 10000 !!!")
         .max(1000000, "Giá cao nhất là 1000000 !!!")
         .required("Vui Lòng Nhập giá !!!"),
-    status: yup.string().required("Vui Lòng Nhập Tình trạng !!!"),
+    status: yup.string().required("Vui Lòng chọn Tình trạng !!!"),
     description: yup.string().required("Vui Lòng Nhập Mô tả !!!"),
     size: yup.string().required("Vui lòng chọn kích thước !!!"),
     // gender: yup.string().required("Vui lòng chọn một danh mục"),
