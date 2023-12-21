@@ -6,6 +6,7 @@ import { UseProduct } from "./UseContext";
 import { ToastSuccess } from "../../toastify/Toast";
 import "../layoutHome/cssHome/cssHome.css"
 import { removeFalsyFields } from "./ShopSideBar/SortPrice";
+import { axiosInstance } from "../../service/axiosInstance/axiosInstance";
 
 const NavbarHome = () => {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ const NavbarHome = () => {
         ToastSuccess("Đăng Xuất Thành Công");
         setLogoutIcon((prev) => !prev)
         backHome("/home");
+        axiosInstance.cancel();
     }
 
     const handleCategoryId = (cate) => {
