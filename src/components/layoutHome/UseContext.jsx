@@ -5,13 +5,14 @@ import { createContext, useEffect, useState } from "react";
 import ProductService from "../../service/homeService/productService";
 import CartService from "../../service/homeService/cartService";
 import { ToastError, ToastSuccess } from "../../toastify/Toast";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import formatPrice from "./formatPrice/FormatPrice";
 
 const UseProduct = createContext();
 
 const UseContext = ({ children }) => {
     const [productList, setProductList] = useState([]);
+    const [products, setProducts] = useState([]);
     const [productId, setProductId] = useState('');
     const [product, setProduct] = useState({});
     const [listFile, setListFile] = useState([]);
@@ -22,6 +23,18 @@ const UseContext = ({ children }) => {
     const back = useNavigate();
     const formatPriceProduct = formatPrice(product.price);
     const [categoryId, setCategoryId] = useState("");
+    const [page, setPage] = useState(0);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [filter, setFilter] = useState({
+        categoryId: "",
+        priceMin: "",
+        priceMax: "",
+        size: "",
+        totalPage: 0
+    });
+    const [showEdit, setShowEdit] = useState(false);
+    const [loginEmail, setLoginEmail] = useState("");
+
 
     useEffect(() => {
         async function getALl() {
@@ -38,15 +51,6 @@ const UseContext = ({ children }) => {
         }
         getALl();
     }, [location])
-
-    useEffect(() => {
-        async function getAllFilterHome(categoryId) {
-            let respo = await ProductService.getAllProductByFilterHome(categoryId);
-            if (respo && respo.data)
-                setProductList(respo.data.content);
-        }
-        getAllFilterHome(categoryId);
-    }, [categoryId])
 
     useEffect(() => {
         async function getById() {
@@ -75,6 +79,7 @@ const UseContext = ({ children }) => {
             const products = JSON.parse(localStorage.getItem('productDetail')) || [];
             if (products.some(e => e === data.id)) {
                 ToastError('Sản Phẩm Đã Trong Giỏ Hàng');
+                setCount(products.length);
             } else {
                 products.push(data.id);
                 localStorage.setItem("productDetail", JSON.stringify(products));
@@ -85,7 +90,6 @@ const UseContext = ({ children }) => {
     }
 
     const handleSelectedProduct = (id) => {
-        setCount(0);
         setProductId(id);
     }
     const backHome = (message) => {
@@ -103,7 +107,13 @@ const UseContext = ({ children }) => {
             handleAddCart, handleSelectedProduct,
             logoutIcon, setLogoutIcon, backHome,
             product, listFile,
-            setCategoryId,
+            categoryId, setCategoryId,
+            page, setPage,
+            products, setProducts,
+            searchParams, setSearchParams,
+            filter, setFilter,
+            showEdit, setShowEdit,
+            loginEmail, setLoginEmail
         }}>
             {children}
         </UseProduct.Provider>

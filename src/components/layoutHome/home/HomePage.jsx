@@ -48,7 +48,7 @@ const HomePage = () => {
                     style={{
                         background:
                             "rgba(0, 0, 0, 0) url(images/bg/thu.jpeg) no-repeat scroll center center / cover",
-                        height: "500px"
+                        height: "400px"
                     }}
                 >
                     <div className="ht__bradcaump__wrap ">
@@ -61,7 +61,7 @@ const HomePage = () => {
                                             style={{ color: "white" }}>Chúc Mừng Giáng Sinh</h1>
                                         <br />
                                         <h1 className={`bradcaump-title animate__animated ${isHovered ? 'animate__bounceInUp' : ''}`}
-                                            style={{ color: "white" }}>Sale of 70%</h1>
+                                            style={{ color: "white" }}>Giảm Đến 70%</h1>
                                     </div>
                                 </div>
                             </div>

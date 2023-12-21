@@ -1,12 +1,15 @@
 /* eslint-disable react/prop-types */
-
+import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AvatarUploader from "./AvatarUploader";
-import { ToastError, ToastSuccess } from "../../toastify/Toast";
+import { ToastSuccess } from "../../toastify/Toast";
+import SelectOption from "../CustomField/SelectOption";
+import { values } from "lodash";
+import Input from "../CustomField/Input";
 
 const createUserinfo = yup.object({
   password: yup.lazy((value) =>
@@ -15,12 +18,23 @@ const createUserinfo = yup.object({
       : yup.string()
   ),
 });
+const gendeOption = [
+  {
+    id: "male",
+    name: "Nam",
+  },
+  {
+    id: "female",
+    name: "Nữ",
+  },
+];
 
 const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
   const {
     register,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors },
     reset,
   } = useForm({
@@ -83,7 +97,13 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
         setNoneContent(false);
       } else {
         if (response.status === 400) {
-          ToastError("Số Điện Thoại đã tồn tại");
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "SĐT đã tồn tại!.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         } else throw new Error("Không tạo được thông tin người dùng");
       }
     } catch (error) {
@@ -199,7 +219,6 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
       wardName: wardName,
     }));
   };
-
   return (
     <>
       <div
@@ -249,7 +268,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                               errors?.username ? "is-invalid" : ""
                             }`}
                             {...register("username")}
-                            placeholder="Vui lòng nhập username"
+                            placeholder="Vui lòng nhập username.."
                           />
                           {errors?.username && (
                             <span className="invalid-feedback valid-text">
@@ -258,7 +277,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                           )}
                         </div>
                       </div>
-                      <div className="form-group col-lg-6 mb-3 ">
+                      {/* <div className="form-group col-lg-6 mb-3 ">
                         <label
                           htmlFor="password"
                           className="form-label col-3 text-start"
@@ -273,7 +292,7 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                               errors?.password ? "is-invalid" : ""
                             }`}
                             {...register("password")}
-                            placeholder="Vui lòng nhập password"
+                            placeholder="Vui lòng nhập password.."
                           />
                           {errors?.password && (
                             <span className="invalid-feedback valid-text">
@@ -281,110 +300,41 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                             </span>
                           )}
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="row">
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label
-                          htmlFor="fullName"
-                          className="form-label col-3 text-start"
-                        >
-                          Họ Tên
-                        </label>
-                        <div className="col-9">
-                          <input
-                            type="text"
-                            id="fullName"
-                            className={`form-control ${
-                              errors?.fullName ? "is-invalid" : ""
-                            }`}
-                            {...register("fullName")}
-                            placeholder="Vui lòng nhập tên"
-                          />
-                          {errors?.fullName && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.fullName.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label
-                          htmlFor="email"
-                          className="form-label col-3 text-start"
-                        >
-                          Email
-                        </label>
-                        <div className="col-9">
-                          <input
-                            type="email"
-                            id="email"
-                            className={`form-control ${
-                              errors?.email ? "is-invalid" : ""
-                            }`}
-                            {...register("email")}
-                            placeholder="Vui lòng nhập email"
-                          />
-                          {errors?.email && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.email.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                      <Input
+                        label="Họ Tên"
+                        name="fullName"
+                        register={register}
+                        errors={errors}
+                        placeholder="Vui Lòng nhập tên.."
+                      />
+                      <Input
+                        label="Email"
+                        name="email"
+                        register={register}
+                        errors={errors}
+                        placeholder="Vui lòng nhập email.."
+                      />
                     </div>
                     <div className="row">
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label
-                          htmlFor="phone"
-                          className="form-label col-3 text-start"
-                        >
-                          Số điện Thoại
-                        </label>
-                        <div className="col-9">
-                          <input
-                            type="text"
-                            id="phone"
-                            className={`form-control ${
-                              errors?.phone ? "is-invalid" : ""
-                            }`}
-                            {...register("phone")}
-                            placeholder="Vui lòng nhập số điện thoại"
-                          />
-                          {errors?.phone && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.phone.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label
-                          htmlFor="gender"
-                          className="form-label col-3 text-start"
-                        >
-                          Giới tính
-                        </label>
-                        <div className="col-9">
-                          <select
-                            name="gender"
-                            id="gender"
-                            className={`form-select ${
-                              errors?.gender ? "is-invalid" : ""
-                            }`}
-                            {...register("gender")}
-                          >
-                            <option value="">Vui lòng chọn giới tính</option>
-                            <option value="male">Nam </option>
-                            <option value="female">Nữ</option>
-                          </select>
-                          {errors?.gender && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.gender.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                      <Input
+                        label="Số Điện Thoại"
+                        name="phone"
+                        register={register}
+                        errors={errors}
+                        placeholder="Vui Lòng nhập SDT.."
+                      />
+                      <SelectOption
+                        name="gender"
+                        register={register}
+                        label="Giới Tính"
+                        errors={errors}
+                        options={gendeOption}
+                        setValue={setValue}
+                        defaultValue={values.gender}
+                      ></SelectOption>
                     </div>
                     <div className="row">
                       <div className="form-group col-lg-6 mb-3 ">
@@ -489,30 +439,13 @@ const AddUserInfo = ({ isOpen, onClose, listUserInfo, setListUserInfo }) => {
                           )}
                         </div>
                       </div>
-                      <div className="form-group col-lg-6 mb-3">
-                        <label
-                          htmlFor="address"
-                          className="form-label col-3 text-start"
-                        >
-                          Địa chỉ
-                        </label>
-                        <div className="col-9">
-                          <input
-                            type="text"
-                            id="address"
-                            className={`form-control ${
-                              errors?.address ? "is-invalid" : ""
-                            }`}
-                            {...register("address")}
-                            placeholder="Vui lòng nhập địa chỉ"
-                          />
-                          {errors?.address && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.address.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                      <Input
+                        label="Địa Chỉ"
+                        name="address"
+                        register={register}
+                        errors={errors}
+                        placeholder="Vui Lòng Nhập địa chỉ.."
+                      />
                     </div>
                   </div>
                 </div>

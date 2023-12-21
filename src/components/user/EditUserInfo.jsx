@@ -10,6 +10,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AvatarUploader from "./AvatarUploader";
 import { ToastSuccess } from "../../toastify/Toast";
+import SelectOption from "../CustomField/SelectOption";
+import { values } from "lodash";
+import Input from "../CustomField/Input";
 
 const editUserinfo = yup.object({
   fullName: yup.string().required("tên không được để trống"),
@@ -39,9 +42,6 @@ const UpdateFormModal = ({
   const [noneContent, setNoneContent] = useState(false);
   const [avatarURL, setAvatarURL] = useState("");
   const [avatarId, setAvatarId] = useState("");
-  const [provinceId, setProvinceId] = useState();
-  const [districtId, setDistrictId] = useState();
-  const [wardId, setWardId] = useState();
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -49,6 +49,16 @@ const UpdateFormModal = ({
   const [locationRegion, setLocationRegion] = useState(
     selectedUserInfo?.locationRegion || {}
   );
+  const gendeOption = [
+    {
+      id: "male",
+      name: "Nam",
+    },
+    {
+      id: "female",
+      name: "Nữ",
+    },
+  ];
 
   const getAllProvinces = async () => {
     await axios
@@ -113,39 +123,15 @@ const UpdateFormModal = ({
       });
   };
 
-  const handleDistrictChange = (event) => {
-    setDistrictId(event.target.value);
-    const districtName = event.target.options[event.target.selectedIndex].text;
-    setLocationRegion((prevState) => ({
-      ...prevState,
-      districtId: event.target.value,
-      districtName: districtName,
-    }));
-  };
-
-  const handleWardChange = (event) => {
-    setWardId(event.target.value);
-    const wardName = event.target.options[event.target.selectedIndex].text;
-    setLocationRegion((prevState) => ({
-      ...prevState,
-      wardId: event.target.value,
-      wardName: wardName,
-    }));
-  };
-
   const handleUpdate = (values) => {
     try {
       const data = {
         ...values,
         avatarId: avatarId,
         provinceName: provinces.find((e) => e.id == values.provinceId)?.name,
-        districtId: locationRegion.districtId,
-        districtName: locationRegion.districtName,
-        wardId: locationRegion.wardId,
-        wardName: locationRegion.wardName,
-        address: values.address,
-        // username: selectedUserInfo.username,
-        // password: selectedUserInfo.password,
+        districtName: districts.find((e) => e.id == values.districtId)?.name,
+        wardName: wards.find((e) => e.id == values.wardId)?.name,
+        // address: values.address,
       };
 
       fetch(
@@ -180,26 +166,23 @@ const UpdateFormModal = ({
 
   useEffect(() => {
     if (selectedUserInfo.provinceId) {
-      setProvinceId(selectedUserInfo.provinceId);
-      setDistrictId(selectedUserInfo.districtId);
-      setWardId(selectedUserInfo.wardId);
+      setValue("provinceId", selectedUserInfo.provinceId);
+      setValue("districtId", selectedUserInfo.districtId);
+      setValue("wardId", selectedUserInfo.wardId);
     }
     if (selectedUserInfo) {
       setValue("fullName", selectedUserInfo.fullName);
+      setValue("email", selectedUserInfo.email);
+      setValue("phone", selectedUserInfo.phone);
+      setValue("address", selectedUserInfo.address);
     }
   }, [selectedUserInfo]);
 
   useEffect(() => {
     getAllProvinces();
-  }, []);
-
-  useEffect(() => {
-    selectedUserInfo.provinceId && getAllDistrictsByProvinceId(provinceId);
-  }, [provinceId]);
-
-  useEffect(() => {
-    selectedUserInfo.districtId && getAllWardsByDistrictId(districtId);
-  }, [districtId]);
+    getAllDistrictsByProvinceId(selectedUserInfo.provinceId);
+    getAllWardsByDistrictId(selectedUserInfo.districtId);
+  }, [selectedUserInfo]);
 
   return (
     <>
@@ -231,219 +214,83 @@ const UpdateFormModal = ({
                 <div className="row mb-3">
                   <div className="col-12">
                     <div className="row">
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="fullName" className="form-label col-3">
-                          Họ Tên
-                        </label>
-                        <div className="col-9">
-                          <input
-                            type="text"
-                            id="fullName"
-                            name="fullName"
-                            className={`form-control ${
-                              errors?.fullName ? "is-invalid" : ""
-                            }`}
-                            {...register("fullName")}
-                            defaultValue={selectedUserInfo.fullName}
-                          />
-                          {errors?.fullName && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.fullName.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="email" className="form-label col-3">
-                          Email
-                        </label>
-                        <div className="col-9">
-                          <input
-                            type="email"
-                            id="email"
-                            defaultValue={selectedUserInfo.email}
-                            className={`form-control ${
-                              errors?.email ? "is-invalid" : ""
-                            }`}
-                            {...register("email")}
-                            placeholder="Vui lòng nhập email"
-                          />
-                          {errors?.email && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.email.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                      <Input
+                        label="Họ Tên"
+                        name="fullName"
+                        register={register}
+                        errors={errors}
+                        defaultValue={selectedUserInfo.fullName}
+                      />
+                      <Input
+                        label="Email"
+                        name="email"
+                        register={register}
+                        errors={errors}
+                        defaultValue={selectedUserInfo.email}
+                      />
                     </div>
                     <div className="row">
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="phone" className="form-label col-3">
-                          Số Điện Thoại
-                        </label>
-                        <div className="col-9">
-                          <input
-                            type="text"
-                            id="phone"
-                            defaultValue={selectedUserInfo.phone}
-                            className={`form-control ${
-                              errors?.phone ? "is-invalid" : ""
-                            }`}
-                            {...register("phone")}
-                            placeholder="Vui lòng nhập số điện thoại"
-                          />
-                          {errors?.phone && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.phone.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="gender" className="form-label col-3">
-                          Giới Tính
-                        </label>
-                        <div className="col-9">
-                          <select
-                            name="gender"
-                            id="gender"
-                            defaultValue={selectedUserInfo.gender}
-                            className={`form-select ${
-                              errors?.gender ? "is-invalid" : ""
-                            }`}
-                            {...register("gender")}
-                          >
-                            <option value="male">Nam</option>
-                            <option value="female">Nữ</option>
-                          </select>
-                          {errors?.gender && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.gender.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                      <Input
+                        label="Số Điện Thoại"
+                        name="phone"
+                        register={register}
+                        errors={errors}
+                        defaultValue={selectedUserInfo.phone}
+                      />
+                      <SelectOption
+                        name="gender"
+                        register={register}
+                        label="Giới Tính"
+                        errors={errors}
+                        options={gendeOption}
+                        setValue={setValue}
+                        defaultValue={values.gender}
+                      ></SelectOption>
                     </div>
                     <div className="row">
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="province" className="form-label col-3">
-                          Thành Phố
-                        </label>
-                        <div className="col-9">
-                          <select
-                            name="provinceId"
-                            id="province"
-                            className={`form-select ${
-                              errors?.province ? "is-invalid" : ""
-                            }`}
-                            {...register("provinceId")}
-                            onChange={(e) =>
-                              getAllDistrictsByProvinceId(e.target.value)
-                            }
-                          >
-                            <option value="">
-                              Vui lòng chọn tỉnh/thành phố
-                            </option>
-                            {provinces &&
-                              provinces.map((province) => (
-                                <option key={province.id} value={province.id}>
-                                  {province.name}
-                                </option>
-                              ))}
-                          </select>
-                          {errors?.province && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.province.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="form-group col-lg-6 mb-3 ">
-                        <label htmlFor="district" className="form-label col-3">
-                          Quận/Huyện
-                        </label>
-                        <div className="col-9">
-                          <select
-                            name="districtId"
-                            id="district"
-                            className={`form-select ${
-                              errors?.district ? "is-invalid" : ""
-                            }`}
-                            {...register("districtId")}
-                            onChange={(e) =>
-                              getAllWardsByDistrictId(e.target.value)
-                            }
-                          >
-                            <option value="">Vui lòng chọn quận/huyện</option>
-                            {districts &&
-                              districts.map((district) => (
-                                <option key={district.id} value={district.id}>
-                                  {district.name}
-                                </option>
-                              ))}
-                          </select>
-                          {errors?.district && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.district.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="form-group col-lg-6 mb-3">
-                        <label htmlFor="ward" className="form-label col-3">
-                          Phường/Xã
-                        </label>
-                        <div className="col-9">
-                          <select
-                            name="ward"
-                            id="ward"
-                            value={wardId}
-                            className={`form-select ${
-                              errors?.ward ? "is-invalid" : ""
-                            }`}
-                            {...register("ward")}
-                            onChange={handleWardChange}
-                          >
-                            <option value="">Vui lòng chọn phường/xã</option>
-                            {wards &&
-                              wards.map((ward) => (
-                                <option key={ward.id} value={ward.id}>
-                                  {ward.name}
-                                </option>
-                              ))}
-                          </select>
-                          {errors?.ward && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.ward.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                      <SelectOption
+                        name="provinceId"
+                        register={register}
+                        handleOnChange={(value) => {
+                          getAllDistrictsByProvinceId(value);
+                        }}
+                        label="Thành Phố"
+                        errors={errors}
+                        options={provinces}
+                        setValue={setValue}
+                        defaultValue={selectedUserInfo.provinceId}
+                      ></SelectOption>
 
-                      <div className="form-group col-lg-6 mb-3">
-                        <label htmlFor="address" className="form-label col-3">
-                          Địa Chỉ
-                        </label>
-                        <div className="col-9">
-                          <input
-                            type="text"
-                            id="address"
-                            defaultValue={selectedUserInfo.address}
-                            className={`form-control ${
-                              errors?.address ? "is-invalid" : ""
-                            }`}
-                            {...register("address")}
-                            placeholder="Vui lòng nhập địa chỉ"
-                          />
-                          {errors?.address && (
-                            <span className="invalid-feedback valid-text">
-                              {errors.address.message}
-                            </span>
-                          )}
-                        </div>
-                      </div>
+                      <SelectOption
+                        name="districtId"
+                        register={register}
+                        handleOnChange={(value) => {
+                          getAllWardsByDistrictId(value);
+                        }}
+                        label="Quận/Huyện"
+                        errors={errors}
+                        options={districts}
+                        setValue={setValue}
+                        defaultValue={selectedUserInfo.districtId}
+                      ></SelectOption>
+                    </div>
+                    <div className="row">
+                      <SelectOption
+                        name="wardId"
+                        register={register}
+                        label="Phường/Xã"
+                        errors={errors}
+                        options={wards}
+                        setValue={setValue}
+                        defaultValue={selectedUserInfo.wardId}
+                      ></SelectOption>
+                      <Input
+                        label="Địa Chỉ"
+                        name="address"
+                        register={register}
+                        errors={errors}
+                        defaultValue={selectedUserInfo.address}
+                      />
                     </div>
                   </div>
                 </div>

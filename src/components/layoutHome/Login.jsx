@@ -12,12 +12,13 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import "../layoutHome/cssHome/cssHome.css"
+import UserInfoService from '../../service/homeService/userInfoService';
 
 const Login = () => {
     const [activeTab, setActiveTab] = useState('login');
     const [type, setType] = useState('password');
     const [icon, setIcon] = useState(eyeOff);
-    const { setLogoutIcon, backHome } = useContext(UseProduct);
+    const { setLogoutIcon, backHome, setLoginEmail, loginEmail, setUserInfos } = useContext(UseProduct);
     const schema = yup.object({
         username: yup.string().required("Tên Đăng Nhập Không Được Để Trống"),
         password: yup.string().required("Mật Khẩu Không Được Để Trống")
@@ -69,6 +70,7 @@ const Login = () => {
                 backHome();
                 let respon = await AuthService.loginGoogle(res.data);
                 localStorage.setItem("jwt", respon.data);
+                setLoginEmail(res.data.email)
                 setLogoutIcon((prev) => !prev)
             } catch (error) {
                 ToastError("Tài Khoản Google Không Đúng")

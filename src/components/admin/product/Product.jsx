@@ -21,7 +21,17 @@ const Product = () => {
   const [selectedPage, setSelectedPage] = useState(page);
   const [isFirstPage, setIsFirstPage] = useState()
   const [isLastPage, setIsLastPage] = useState()
-  const [sortType, setSortType] = useState('id');
+  const [sort, setSort] = useState({ field: "id", sortBy: 'asc' });
+
+  const handleSort = str => {
+    setSort(prevSort => {
+      if (prevSort.field === str) {
+        return { ...prevSort, sortBy: prevSort.sortBy === 'asc' ? 'desc' : 'asc' };
+      } else {
+        return { field: str, sortBy: 'desc' };
+      }
+    });
+  };
 
   const openModal = () => {
     setIsOpenModal(true);
@@ -64,7 +74,7 @@ const Product = () => {
     }
   };
 
-  const sizeOptions = [5, 10, 15, 25, 50, 100];
+  const sizeOptions = [5, 10, 15, 25];
 
   const handleSizePageChange = (e) => {
     const newSize = parseInt(e.target.value, 10);
@@ -115,11 +125,9 @@ const Product = () => {
           if (isMounted) {
             setProducts(response.data.content);
             setPageable(response.data.totalPages);
-
             setLoading(false);
-            // console.log(response.data);
             setIsFirstPage(page === 0);
-            setIsLastPage(page === response.data.totalPages - 1)
+            setIsLastPage(page === response.data.totalPages - 1);
           }
         } catch (error) {
           console.error("Lỗi khi lấy dữ liệu:", error);
@@ -127,8 +135,8 @@ const Product = () => {
         }
       }
 
-      finAllProductList(search, page, size, pageable);
 
+      finAllProductList(search, page, size, pageable);
 
       return () => {
         isMounted = false;
@@ -139,22 +147,16 @@ const Product = () => {
   }, [search, page, size, pageable]);
 
 
-
-
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSearch();
     }
   }
 
-
-  const handleSearch = () => {
-    const input = document.getElementById("example-search-input");
-    const searchValue = input.value;
-    setPage(0);
-    setProducts([]);
-    setSearch(searchValue);
-  }
+  const handleInput = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+  };
 
   const handlePreviousPage = () => {
     handlePageChange(page - 1);
@@ -169,7 +171,7 @@ const Product = () => {
     const pageNumber = 0;
     if (nextPage < pageable && nextPage > pageNumber) {
       try {
-        const res = await ProductService.getAllProduct(search, nextPage, size, pageable);
+        const res = await ProductService.getAllProduct(search, nextPage, size, pageable, sort);
         setProducts(res.data.content);
         setPageable(res.data.pageable.pageNumber);
         setPage(nextPage);
@@ -208,73 +210,57 @@ const Product = () => {
   return (
 
     <div className="container-fluid">
-      <section className="d-flex justify-content-between align-items-center">
-        <div className="d-flex align-items-center">
-          <button className="btn btn-outline-success" onClick={openModal}>
+      <section className="d-flex justify-content-between align-items-left">
+        <div className="d-flex align-items-left">
+          <button className="btn bg-primary text-white animate__animated animate__bounceInLeft rounded-1" onClick={openModal}>
             <i className="fa fa-plus me-3" />
             Tạo Sản Phẩm
           </button>
           {<CreateProduct isOpenModal={isOpenModal} handleClose={closeModal} products={products} setProducts={setProducts} />}
         </div>
-        <form className="d-flex p-2 m-2 flex-grow-1" id="search" role="search">
-          {/* <i className="fa-solid fa-magnifying-glass" id="search-icon" style={{ position: 'absolute', top: '50%', left: '10%', transform: 'translateY(-50%)', zIndex: '1' }} /> */}
+        <form className="d-flex m-2-bg-info w-75 animate__animated animate__bounceInRight" role="search">
+          <i className="fa-solid fa-magnifying-glass"></i>
           <input
-            className="form-control me-2 pl-5 flex-grow-1"
+            className="form-control me-2 rounded-1 "
             type="search"
             placeholder="Tìm Kiếm sản phẩm..."
             aria-label="Search"
-            id="example-search-input"
             value={search}
-            onKeyDown={handleKeyPress}
+            onChange={(e) => handleInput(e)}
           />
-          <span className="input-group-append " style={{ paddingLeft: "7px" }}>
-            <button
-              className="
-                             border-bottom-0 border rounded-pill ms-n5  btn btn-outline-danger"
-              type="button"
-              onClick={handleSearch}
-            >
-              <i className="fa fa-search" />
-            </button>
-          </span>
         </form>
-        <div className="d-flex flex-column align-items-end">
-          <label style={{ marginBottom: "17px" }}>
-            Số sản phẩm trên mỗi trang:
-            <select
-              value={size}
-              onChange={handleSizePageChange}
-              className="form-select"
-              style={{ marginBottom: '5px' }}
 
-            >
-              {sizeOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
       </section>
 
 
-      <section className="mt-2">
+      <section className="mt-2 ">
         {
           loading ? <Spinner /> : (
             <div>
-              <table className="table table-hover " >
-                <thead>
+              <table className="table table-hover animate__animated " >
+                <thead className='thead-dark'>
                   <tr >
-                    <th scope="col-2" >#</th>
-                    <th scope="col-2" >Tên Sản Phẩm</th>
-                    <th scope="col-2" >Mô Tả</th>
+                    <th scope="col-2 " onClick={() => handleSort('id')}>
+                      # {sort === 'id' && <i className="fa fa-sort"></i>}
+                      {sort === 'id_asc' && <i className="fa fa-sort-down"></i>}
+                    </th>
+                    <th scope="col-2" > Tên Sản Phẩm  </th>
+                    <th scope="col-2" > Mô tả </th>
                     <th scope="col-2" >Giá ký gửi(Đồng)</th>
                     <th scope="col-2" >Giá giá bán ra(Đồng)</th>
                     <th scope="col-2" >Kích Cỡ</th>
                     <th scope="col-2" >Tình Trạng</th>
                     <th scope="col-2" >Loại</th>
-                    <th scope="col-2" colSpan={3}>Hành Động</th>
+                    <th scope="col-2" >Người ký gửi</th>
+                    <th scope="col-2" onClick={() => handleSort('depositDate')}>
+                      Ngày ký gửi
+                      {sort === 'depositDate' && <i className="fa fa-sort"></i>}
+                      {sort === 'depositDate_asc' && <i className="fa fa-sort-down"></i>}
+                    </th>
+
+                    <th scope="col-2" >Trạng thái</th>
+                    <th scope="col-2" >Mã sản phẩm</th>
+                    <th scope="col-2" colSpan={2}>Hành Động</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -284,9 +270,18 @@ const Product = () => {
                       <td title={product.name}>{truncateStr(product.name, 20)}</td>
                       <td title={product.description}>{truncateStr(product.description, 20)}</td>
                       <td>{formatCurrencyVND(product.price)}</td>
+                      <td>{formatCurrencyVND(product.salesPrice)}</td>
                       <td>{product.size}</td>
                       <td>{product.status}</td>
                       <td>{product.category}</td>
+                      <td>{product.fullName !== null ? product.fullName : 'N/A'}</td>
+
+                      <td>{new Date(product.depositDate).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}</td>
+
+                      <td className={product.paid === 'true' ? 'sold' : 'not-sold'}>
+                        {product.paid === 'true' ? 'đã bán' : 'chưa bán'}
+                      </td>
+                      <td>{product.codeProduct}</td>
                       <td>
                         <i role="button" className="fa fa-edit me-3 btn btn-outline-success bth-width"
                           onClick={() => openUpdateModal(product.id)}
@@ -299,6 +294,12 @@ const Product = () => {
                             products={products} setProducts={setProducts}
                           />
                         )}
+                      </td>
+                      <td>
+                        <button className='btn btn-outline-danger'>
+
+                          <i className="fa-solid fa-check"></i>
+                        </button>
                       </td>
 
                       {/* <td>
@@ -325,19 +326,57 @@ const Product = () => {
       </section >
 
       <section>
-        <div className="d-flex justify-content-between mt-3">
-          <div className="mt-2">
+        <div className="d-flex mt-3">
+          <div className='div-layout'>
+            <label>Chọn Trang bạn muốn đến:</label>
+            <select
+              value={selectedPage}
+              onChange={handleSelectedPageChange}
+              className="form-select"
+              style={{ width: "18%" }}
+            >
+              {Array.from({ length: pageable }, (_, index) => index + 1).map((pageNumber) => (
+                <option key={pageNumber} value={pageNumber}>
+                  {pageNumber}
+                </option>
+              ))}
+            </select>
+            <button
+              className="btn btn-outline-primary ms-2"
+              onClick={handlePageChangeSelect}
+              disabled={selectedPage > pageable}
+            >
+              Tới
+            </button>
+          </div>
+          <div className="ms-auto d-flex align-items-center">
+            <label style={{ marginBottom: '17px', marginRight: '10px', marginTop: "10px" }}>
+              Số hàng :
+            </label>
+            <select
+              value={size}
+              onChange={handleSizePageChange}
+              className='form-control'
+              style={{ marginBottom: '5px', width: '30%' }}
+            >
+              {sizeOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="h-flex">
             <h5>
               {page * size + 1} - {Math.min((page + 1) * size, (pageable * size))} của {pageable * size}
             </h5>
           </div>
-
           <div className="d-flex align-items-center">
             <button
               className="btn btn-outline-primary me-2"
               onClick={handlePreviousPage}
               disabled={isFirstPage}
-              style={{ display: isFirstPage ? 'none' : "block" }}
+            // style={{ display: isFirstPage ? 'none' : "block" }}
             >
               <i className="fa-solid fa-angles-left"></i>
             </button>
@@ -346,44 +385,15 @@ const Product = () => {
               className="btn btn-outline-primary ms-2"
               onClick={handleNextPage}
               disabled={isLastPage}
-              style={{ display: isLastPage ? 'none' : 'block' }}
+            // style={{ display: isLastPage ? 'none' : 'block' }}
             >
               <i className="fa-solid fa-angles-right"></i>
             </button>
           </div>
         </div>
-      </section>
-
-
-
-      <section >
-        <div className='div-layout'>
-          <label>Chọn Trang bạn muốn đến:</label>
-          <select
-            value={selectedPage}
-            onChange={handleSelectedPageChange}
-            className="form-select"
-            style={{ width: "8%" }}
-          >
-            {Array.from({ length: pageable }, (_, index) => index + 1).map((pageNumber) => (
-              <option key={pageNumber} value={pageNumber}>
-                {pageNumber}
-              </option>
-            ))}
-          </select>
-          <button
-            className="btn btn-outline-primary ms-2"
-            onClick={handlePageChangeSelect}
-            disabled={selectedPage > pageable}
-          >
-            Tới
-          </button>
-        </div>
 
 
       </section>
-
-
 
     </div >
   )

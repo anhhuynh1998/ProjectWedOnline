@@ -43,7 +43,6 @@ const ChangeStatus = ({ setListCart, setStatusCart, selectStatus, statusCart, se
 
     const changePreStatus = async () => {
         await setListCart(preListCart)
-        setStatusName("Tất cả")
     }
 
     return (
@@ -51,44 +50,35 @@ const ChangeStatus = ({ setListCart, setStatusCart, selectStatus, statusCart, se
             <table className="rounded animate__animated animate__bounceInDown ">
                 <tbody >
                     <tr>
-                        <div className="dropdown show w-100">
-                            <a
-                                className="btn bg-primary dropdown-toggle"
-                                href="#"
-                                role="button"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                id='dropdownChangeStatus'
-                            >
-                                {`${statusName}`}
-                            </a>
-                            <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a className='dropdown-item' onClick={changePreStatus}
-                                    href="#">Tất Cả</a>
-                                {statusCart.length && statusCart.map((item, index) => (
-                                    <a
-                                        className={`dropdown-item ${item.id === selectStatus ? 'active' : ''
-                                            }`}
-                                        href="#"
-                                        key={index}
-                                        value={item.id}
-                                        onClick={(e) => {
-                                            setSelectStatus(item)
-                                            changeStatus(e, item.id)
-                                            setStatusName(item.name)
-                                        }}
-                                    >
-                                        {item.name}
-                                    </a>
-                                ))
+                        <select
+                            className="form-select"
+                            aria-label="Default select example"
+                            onChange={(e) => {
+                                if (e.target.value == 1) {
+                                    changePreStatus()
                                 }
-                            </div>
-                        </div>
+                                else {
+
+                                    const selectedOption = statusCart.find(
+                                        (item) => item.id === parseInt(e.target.value)
+                                    );
+                                    setSelectStatus(selectedOption);
+                                    setStatusName(selectedOption.name);
+                                    changeStatus(e, selectedOption.id);
+                                }
+                            }}
+                        >
+                            <option value="1">Tất Cả</option>
+                            {statusCart.length && statusCart.map((item, index) => (
+                                <option key={index} value={item.id}>
+                                    {item.name}
+                                </option>
+                            ))}
+                        </select>
                     </tr>
                 </tbody>
             </table>
-            
+
         </>
     );
 };

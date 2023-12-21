@@ -12,6 +12,7 @@ export class ProductService {
     }
 
 
+
     static getAllCategories() {
         return axios.get(API_CATEGORIES).then(response => response.data)
     }
@@ -53,5 +54,11 @@ export class ProductService {
     }
     static countProduct() {
         return axios.get(`${PRODUCT_API}/count`)
+    }
+    static findProductByCode(search){
+        return axios.get(PRODUCT_API + `/add?search=${search}`)
+    }
+    static checkOutProduct(){
+        return axios.get(PRODUCT_API + `/checkOut`)
     }
 }

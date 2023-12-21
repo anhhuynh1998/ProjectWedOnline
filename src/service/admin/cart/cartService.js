@@ -20,7 +20,7 @@ export class CartService {
     static updateStatus(cartId, statusId) {
         return axios.put(`${CART_API}?cartId=${cartId}&statusId=${statusId}`);
     }
-    // static getCartByStatusId(id) {
-    //     return axios.get(`${CART_API}/status/${id}`);
-    // }
+    static deleteProduct(id){
+        return axios.delete(`${CART_API}/${id}`)
+    }
 }

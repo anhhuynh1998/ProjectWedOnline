@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, } from 'react';
 import { CartService } from '../../../service/admin/cart/cartService';
 import { ToastError } from '../../../toastify/Toast';
 
+// eslint-disable-next-line react/prop-types
 const Search = ({ setSearch, search, setListCart, statusCart }) => {
 
   useEffect(() => {
     try {
-      console.log(statusCart)
       // eslint-disable-next-line no-inner-declarations
       async function searchNameAndPhone(search, status) {
         let response = await CartService.searchNameAndPhone(search, status.id);

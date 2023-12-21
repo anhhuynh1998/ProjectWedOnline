@@ -4,10 +4,9 @@ import ListFile from "./ListFile";
 
 const InforProduct = () => {
     const { product, handleAddCart, formatPriceProduct } = useContext(UseProduct);
-
     return (
         <div id="quickview-wrapper">
-            <div className={`modal fade`} id="productDetail" tabIndex="-1"
+            <div className={`modal fade `} id="productDetail" tabIndex="-1"
                 aria-labelledby="exampleModalLabel" >
                 <div className="modal-dialog" role="document">
                     <div className="modal-content" style={{ width: "835px" }} >
@@ -28,17 +27,18 @@ const InforProduct = () => {
                                                 <span className="new-price">{formatPriceProduct}</span>
                                             </div>
                                         </div>
-                                        <div className="quick-desc">{product.description}
+                                        <div className="quick-desc">{product.description}</div>
+                                        <div>
+                                            <h6>Tình Trạng : {product.status}</h6>
                                         </div>
                                         <div className="select__size">
                                             <h2>Size </h2>
                                             <ul className="color__list">
                                                 <li className="l__size">
-                                                    <a title={product.size} href="">
+                                                    <a title={product.size} >
                                                         {product.size}
                                                     </a>
                                                 </li>
-
                                             </ul>
                                         </div>
 
@@ -57,3 +57,4 @@ const InforProduct = () => {
     )
 }
 export default InforProduct
+

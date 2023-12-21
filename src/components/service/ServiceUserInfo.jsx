@@ -1,10 +1,12 @@
 import axios from "axios";
 const SERVER_API = `http://localhost:8080`;
 class serviceUserInfo {
-  static getAll(search, page, size) {
+  static getAll(search, page, size, sortField, orderByType) {
+    console.log(sortField, orderByType);
     return axios.get(
       SERVER_API +
-        `/api/admin/userinfo?search=${search}&page=${page}&size=${size}`
+      `/api/admin/userinfo?search=${search}&page=${page}&size=${size}&sort=${sortField + "," + orderByType
+      }`
     );
   }
   static addUserInfo(data) {
@@ -21,6 +23,9 @@ class serviceUserInfo {
   }
   static getUserById(id) {
     return axios.get(SERVER_API + `/api/admin/userinfo/${id}`);
+  }
+  static getUserByPhone(phone) {
+    return axios.get(SERVER_API + `/api/admin/userinfo/checkPhone/${phone}`);
   }
 }
 export default serviceUserInfo;

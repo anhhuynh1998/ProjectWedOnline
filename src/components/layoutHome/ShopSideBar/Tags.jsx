@@ -1,7 +1,7 @@
 const Tags = () => {
     return(
             <>
-                <div className="htc__shop__cat">
+                {/* <div className="htc__shop__cat">
                                         <h4 className="section-title-4">Tags</h4>
                                         <ul className="htc__tags">
                                             <li>
@@ -35,7 +35,7 @@ const Tags = () => {
                                                 <a href="#">Beauty</a>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> */}
             </>
         )
 }

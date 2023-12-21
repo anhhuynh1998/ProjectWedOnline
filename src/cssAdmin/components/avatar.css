@@ -132,7 +132,7 @@ label {
   height: 30px;
   padding: 5px;
   border-radius: 8px;
-  color: #04a86f;
+  color: #000000;
   font-size: 16px;
   cursor: pointer;
 
@@ -144,8 +144,8 @@ label {
 }
 
 .selectpicker:focus {
-  border-color: rgba(5, 166, 72, 0.872);
-  box-shadow: 0 0 0 0.2rem rgba(14, 221, 52, 0.952)
+  /* border-color: rgba(5, 166, 72, 0.872); */
+  /* box-shadow: 0 0 0 0.2rem rgba(14, 221, 52, 0.952) */
 }
 
 span.page-number {
