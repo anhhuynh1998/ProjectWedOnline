@@ -8,10 +8,10 @@ import SortPrice, { removeFalsyFields } from "./SortPrice"
 import Tags from "./Tags"
 import ProductShop from "./ProductShop"
 import ProductService from "../../../service/homeService/productService"
-import Login from "../Login"
 import { UseProduct } from "../UseContext";
 import Background from "../userHome/background"
 import { useNavigate } from "react-router-dom"
+import LoginAndRegister from "../LoginAndRegister"
 const ShopSideBar = () => {
     const { categoryId, page, setPage, setProducts, searchParams, filter } = useContext(UseProduct);
     const [sortPrice, setSortPrice] = useState({
@@ -83,7 +83,7 @@ const ShopSideBar = () => {
 
     return (
         <>
-            <Login />
+            <LoginAndRegister />
             <div >
                 <div className="body__overlay" />
                 <div className="offset__wrapper">

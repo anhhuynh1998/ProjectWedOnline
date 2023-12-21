@@ -230,8 +230,8 @@ const Product = () => {
 
                       <td>{new Date(product.depositDate).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}</td>
 
-                      <td className={product.paid === 'true' ? 'sold' : 'not-sold'}>
-                        {product.paid === 'true' ? 'đã bán' : 'chưa bán'}
+                      <td className={product.paid === true ? 'sold' : 'not-sold'}>
+                        {product.paid === true ? 'đã bán' : 'chưa bán'}
                       </td>
                       <td>{product.codeProduct}</td>
                       <td>

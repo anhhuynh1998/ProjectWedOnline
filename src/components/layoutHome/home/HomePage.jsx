@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import Login from "../Login";
 import HomeProductPrice from "./HomeProductPrice";
+import LoginAndRegister from "../LoginAndRegister";
 
 const HomePage = () => {
 
@@ -72,7 +72,7 @@ const HomePage = () => {
                 {/* List Product */}
                 <HomeProductPrice />
             </div>
-            <Login />
+            <LoginAndRegister />
         </div >
     )
 }
