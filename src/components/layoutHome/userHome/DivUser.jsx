@@ -14,7 +14,7 @@ export const DivUser = ({ register, errors, title, value, read, name }) => {
                     showEdit ? <>
                         <input type="text" placeholder={`${title}`}
                             className={`form-control ${errors?.[name]?.message ? "is-invalid" : ""}`}
-                            value={value} readOnly={read} {...register(name)}></input>
+                            readOnly={read} {...register(name)}></input>
                         <span className='invalid-feedback'>{errors?.[name]?.message} </span>
                     </>
                         : <p className="text-dark">{value}</p>
@@ -37,8 +37,8 @@ export const SelectOptionUser = ({ register, title, errors, name, value }) => {
                         <select type="text" placeholder={`${title}`}
                             className={`form-control ${errors?.[name]?.message ? "is-invalid" : ""}`}
                             {...register(name)}>
-                            <option value={name}>Nam</option>
-                            <option value={name}>Nữ</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
                         </select>
                         <span className='invalid-feedback'>{errors?.[name]?.message} </span>
                     </>

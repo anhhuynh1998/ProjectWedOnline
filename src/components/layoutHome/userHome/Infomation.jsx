@@ -31,23 +31,27 @@ const Infomation = () => {
         setUserInfos(respo.data);
     }
 
-
     useEffect(() => {
         getUserInfoByEmail();
     }, [])
 
     const showEditInfo = () => {
         setShowEdit(true);
+        setValue("fullName", userInfos.fullName);
+        setValue("email", userInfos.email);
+        setValue("phone", userInfos.phone);
+        setValue("username", userInfos.username);
+        setValue("gender", userInfos.gender);
     }
     const notShowEditInfo = () => {
         setShowEdit(false);
     }
 
-    const changeInfomation = async (data) => {
-        console.log(data);
+    const changeInfomation = async (data, event) => {
+        event.preventDefault();
         await UserInfoService.updateUserInfo(data);
-        ToastSuccess("Chỉnh Sửa Thông Tin Thành Công");
         getUserInfoByEmail();
+        ToastSuccess("Cập Nhật Thông Tin Thành Công")
     }
 
     return (
@@ -75,8 +79,7 @@ const Infomation = () => {
                             showEdit ? <>
                                 <button className="btn btn-success me-3" onClick={notShowEditInfo} type="button">
                                     Quay Lại </button>
-                                <button className="btn btn-primary me-3" type="submit">
-                                    Xác Nhận </button>
+                                <button className="btn btn-primary me-3" > Xác Nhận </button>
                             </>
                                 : <>
                                     <NavLink to={"/home"} type="button" className="btn btn-danger me-3">Quay Lại</NavLink>
@@ -87,9 +90,10 @@ const Infomation = () => {
 
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
 export default Infomation;
+
