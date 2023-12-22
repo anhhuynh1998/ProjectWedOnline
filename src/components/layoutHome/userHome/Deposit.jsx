@@ -35,7 +35,7 @@ const Deposit = () => {
             <div className="body__overlay" />
             <Background message={"Thông Tin Ký Gởi"}
                 img={"rgba(0, 0, 0, 0) url(http://localhost:5173/images/bg/userinfo.jpeg) no-repeat scroll center center / cover"} />
-            <div className="container mt-5">
+            <div className="container mt-5 animate__animated animate__bounceInLeft">
                 <div className="container">
                     <div className="product__menu">
                         <button onClick={() => all()} style={{ color: selectedId === 1 ? 'red' : '' }}>All</button>

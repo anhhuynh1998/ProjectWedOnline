@@ -9,7 +9,7 @@ import { SkeletonLoadSideBar } from '../../skeleton/SkeletonLoad';
 
 const ProductShop = ({ getALlProducts, isLoading }) => {
     const { handleAddCart, handleSelectedProduct, products } = useContext(UseProduct);
-
+    console.log(products);
     const handleLoadList = (index, e) => {
         if (index === products.length - 1 && e === true) {
             getALlProducts();

@@ -18,8 +18,8 @@ const ShopSideBar = () => {
         min: "",
         max: ""
     });
-    const [search, setSearch] = useState("");
-    const [size, setSelectedSize] = useState("");
+    // const [search, setSearch] = useState("");
+    // const [size, setSelectedSize] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [totalPages, setTotalPages] = useState(1)
     const [reset, setReset] = useState(false)
@@ -28,6 +28,7 @@ const ShopSideBar = () => {
     const categoryIdURL = getParamsInURL(searchParams?.get('categoryId'));
     const priceMinURL = getParamsInURL(searchParams?.get('priceMin'));
     const priceMaxURL = getParamsInURL(searchParams?.get('priceMax'));
+    const searchURL = getParamsInURL(searchParams?.get('search'));
     console.log(page);
 
     async function getALlProducts() {
@@ -36,10 +37,13 @@ const ShopSideBar = () => {
         categoryIdURL ? filter.categoryId = categoryIdURL : filter.categoryId = categoryId || "";
         priceMinURL ? filter.priceMin = priceMinURL : filter.priceMin = "";
         priceMaxURL ? filter.priceMax = priceMaxURL : filter.priceMax = "";
-
+        searchURL ? filter.search = searchURL : filter.search = "";
         setIsLoading(true);
         let response = await ProductService.getProductByFilter(filter, page);
-        setProducts(prevProduct => [...prevProduct, ...response.data.content]);
+        setProducts(prevProduct => [
+            ...prevProduct,
+            ...response.data.content
+        ]);
         if (page < response.data.totalPages) {
             setPage((prev) => prev + 1)
             setTotalPages(response.data.totalPages)
@@ -53,10 +57,10 @@ const ShopSideBar = () => {
             categoryIdURL ? filter.categoryId = categoryIdURL : filter.categoryId = "";
             priceMinURL ? filter.priceMin = priceMinURL : filter.priceMin = "";
             priceMaxURL ? filter.priceMax = priceMaxURL : filter.priceMax = "";
-
+            searchURL ? filter.search = searchURL : filter.search = "";
             setIsLoading(true);
             let response = await ProductService.getProductByFilter(filter, 0);
-            setProducts([...response.data.content.filter(e => e.imageUrl != null)]);
+            setProducts([...response.data.content.filter(e => e.imageUrl != null && e.paid === false)]);
             if (page < response.data.totalPages) {
                 setPage(1)
                 setTotalPages(response.data.totalPages)
@@ -114,7 +118,7 @@ const ShopSideBar = () => {
                     animateNav={"animate__animated animate__fadeInDown"} />
 
                 <section className="htc__shop__sidebar bg__white ptb--20">
-                    <SearchProduct setSearch={setSearch} setPage={setPage} />
+                    <SearchProduct />
                     <div className="container">
                         <div className="row">
                             <div className="col-md-3 col-lg-3 col-sm-12 col-xs-12">
@@ -127,7 +131,7 @@ const ShopSideBar = () => {
                                     <Category />
 
                                     {/* Start Size Cat */}
-                                    <SizeProduct setSelectedSize={setSelectedSize} getParamsInURL={getParamsInURL} />
+                                    <SizeProduct getParamsInURL={getParamsInURL} />
 
                                     {/* Start Tag Area */}
                                     <Tags />

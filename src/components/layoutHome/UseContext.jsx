@@ -30,6 +30,7 @@ const UseContext = ({ children }) => {
         priceMin: "",
         priceMax: "",
         size: "",
+        search: "",
         totalPage: 0
     });
     const [showEdit, setShowEdit] = useState(false);
@@ -52,6 +53,10 @@ const UseContext = ({ children }) => {
         }
         getALl();
     }, [location])
+
+    useEffect(() => {
+        console.log('Hi hi', products)
+    }, [products])
 
     useEffect(() => {
         async function getById() {

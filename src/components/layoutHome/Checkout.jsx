@@ -37,8 +37,9 @@ const CheckOut = ({ cartDetails, total, userInfo }) => {
         ward: yup.string().required("Vui Lòng Chọn Phường/Xã"),
     })
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
         resolver: yupResolver(checkOutSchema)
+
     });
 
     const [locationRegion, setLocationRegion] = useState({
@@ -61,6 +62,11 @@ const CheckOut = ({ cartDetails, total, userInfo }) => {
     useEffect(() => {
         setTotals(totalPrice)
     }, [totalPrice])
+
+    useEffect(() => {
+        setValue("name", userInfo.username);
+        setValue("phone", userInfo.phone);
+    }, [userInfo])
 
     const getALlDistricts = async (provinceId) => {
         let response = await LocationRegionService.getAllDistricts(provinceId);
@@ -164,14 +170,14 @@ const CheckOut = ({ cartDetails, total, userInfo }) => {
                                                     <div className="col-lg-12 form-group d-flex mb-3 ">
                                                         <div className="col-lg-6 me-3 ">
                                                             <label>Tên Người Nhận</label>
-                                                            <input type="text" placeholder="Tên Người Nhận*" defaultValue={userInfo.username}
+                                                            <input type="text" placeholder="Tên Người Nhận*"
                                                                 className={`form-control me-5 ${errors?.name?.message ? " is-invalid" : ""}`}
                                                                 {...register('name')} />
                                                             <span className="invalid-feedback">{errors?.name?.message}</span>
                                                         </div>
                                                         <div className="col-lg-6">
                                                             <label>Số Điện Thoại</label>
-                                                            <input type="text" placeholder="Số Điện Thoại*" defaultValue={userInfo.phone}
+                                                            <input type="text" placeholder="Số Điện Thoại*"
                                                                 className={`form-control ${errors?.phone?.message ? " is-invalid " : ""}`}
                                                                 {...register('phone')} />
                                                             <span className="invalid-feedback">{errors?.phone?.message}</span>
