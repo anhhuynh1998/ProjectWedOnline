@@ -45,7 +45,7 @@ export class ProductService {
     }
 
     static updateProducts(data, productId) {
-        return axiosInstance.put(PRODUCT_API + `/${productId}`, data)
+        return axios.patch(PRODUCT_API + `/${productId}`, data)
     }
 
     static deleteProducts(productId) {

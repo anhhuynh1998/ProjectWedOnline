@@ -73,14 +73,6 @@ const SortPrice = ({ setSortPrice, getParamsInURL }) => {
         }
     }, [searchParams]);
 
-    const resetPrice = () => {
-        setFilter({
-            ...filter,
-            priceMin: "",
-            priceMax: "",
-        })
-    }
-
     return (
         <>
             <div className="htc-grid-range">

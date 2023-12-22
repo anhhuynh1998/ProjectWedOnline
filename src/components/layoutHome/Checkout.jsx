@@ -11,7 +11,7 @@ import formatPrice from "./formatPrice/FormatPrice";
 import "../layoutHome/cssHome/cssHome.css"
 import { UseProduct } from "./UseContext";
 
-const CheckOut = ({ cartDetails, total }) => {
+const CheckOut = ({ cartDetails, total, userInfo }) => {
     const { backHome } = useContext(UseProduct);
     const totalPrice = cartDetails.total || total;
     const [totals, setTotals] = useState(totalPrice);
@@ -37,8 +37,9 @@ const CheckOut = ({ cartDetails, total }) => {
         ward: yup.string().required("Vui Lòng Chọn Phường/Xã"),
     })
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
         resolver: yupResolver(checkOutSchema)
+
     });
 
     const [locationRegion, setLocationRegion] = useState({
@@ -61,6 +62,11 @@ const CheckOut = ({ cartDetails, total }) => {
     useEffect(() => {
         setTotals(totalPrice)
     }, [totalPrice])
+
+    useEffect(() => {
+        setValue("name", userInfo.username);
+        setValue("phone", userInfo.phone);
+    }, [userInfo])
 
     const getALlDistricts = async (provinceId) => {
         let response = await LocationRegionService.getAllDistricts(provinceId);

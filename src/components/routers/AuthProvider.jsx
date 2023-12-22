@@ -6,7 +6,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setLoggedIn] = useState(false);
 
     const login = () => {
-        // Logic xác thực đăng nhập, có thể gọi API, kiểm tra cookie, localStorage, vv.
+
         setLoggedIn(true);
     };
 

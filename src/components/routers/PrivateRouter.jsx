@@ -1,20 +1,26 @@
-import React from "react";
-import { Route, Navigate, Router } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
-// import { useAuth } from "../routers/AuthContext";
+// PrivateRoute.js
+import React, { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const PrivateRoute = ({ props }) => {
-    const { isLoggedIn } = useAuth();
+    let back = Navigate();
+
+    useEffect(() => {
+        let session = localStorage.getItem("account")
+        if (!session) {
+            back("/home")
+        } else {
+
+        }
+    })
 
     return (
-        <Router>
-            <Route
-                {...rest}
-                element={isLoggedIn ? <Component /> : <Navigate to="/" />}
-            />
-        </Router>
+        <>
 
-    );
-};
+            {props.children}
+        </>
+    )
+}
+
 
 export default PrivateRoute;

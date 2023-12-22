@@ -25,16 +25,23 @@ const Login = ({ activeTab }) => {
         resolver: yupResolver(schemaLogin)
     });
 
+
+
     const login = async (value) => {
         console.log(value);
         try {
             let response = await AuthService.login(value);
             document.getElementById('exampleLogin').click();
+            console.log(response.data.isAdmin);
             reset();
+            if (response.data.isAdmin === true) {
+                backHome("/admin");
+            } else {
+                backHome();
+            }
             ToastSuccess("Đăng Nhập Thành Công");
-            setLogoutIcon((prev) => !prev)
+            setLogoutIcon((prev) => !prev);
             localStorage.setItem("jwt", response.data);
-            backHome()
         } catch (error) {
             ToastWarning(error.response.data);
         }
@@ -53,7 +60,7 @@ const Login = ({ activeTab }) => {
                 console.log(res);
                 document.getElementById('exampleLogin').click();
                 ToastSuccess("Đăng Nhập Thành Công");
-                backHome();
+                backHome("/home");
                 let respon = await AuthService.loginGoogle(res.data);
                 localStorage.setItem("jwt", respon.data);
                 setLoginEmail(res.data.email)
