@@ -149,11 +149,11 @@
 }
 
 .form-update-body {
-    line-height: 70% !important;
+    line-height: 0% !important;
 }
 
 .form-create-body {
-    line-height: 70% !important;
+    line-height: 0% !important;
 }
 
 .text-margin {
