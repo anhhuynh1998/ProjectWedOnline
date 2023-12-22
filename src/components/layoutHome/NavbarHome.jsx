@@ -27,7 +27,6 @@ const NavbarHome = () => {
         ToastSuccess("Đăng Xuất Thành Công");
         setLogoutIcon((prev) => !prev)
         backHome("/home");
-        axiosInstance.cancel();
     }
 
     const handleCategoryId = (cate) => {
@@ -63,7 +62,7 @@ const NavbarHome = () => {
                         <div className="col-md-2 col-lg-3 col-sm-3 col-xs-3">
                             <div className="logo">
                                 <NavLink to={"/home"}>
-                                    <img src="http://localhost:5173/images/logo/uniqlo.png" alt="logo" />
+                                    <img src="http://localhost:5173/images/logo/uniq.png" alt="logo" />
                                 </NavLink>
                             </div>
                         </div>

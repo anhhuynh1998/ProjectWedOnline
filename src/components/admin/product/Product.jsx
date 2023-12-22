@@ -175,7 +175,8 @@ const Product = () => {
     <div className="container-fluid">
       <section className="d-flex justify-content-between align-items-left">
         <div className="d-flex align-items-left">
-          <button className="btn bg-primary text-white animate__animated animate__bounceInLeft rounded-1" onClick={openModal}>
+          <button className="btn bg-primary text-white 
+          animate__animated animate__bounceInLeft rounded-1" onClick={openModal}>
             <i className="fa fa-plus me-3" />
             Tạo Sản Phẩm
           </button>
@@ -204,7 +205,6 @@ const Product = () => {
                     <TableHeader field="depositDate" label="Ngày ký gửi" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
                     <TableHeader field="paid" label="Trạng thái" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
                     <TableHeader field="codeProduct" label="Mã sản phẩm" setSortField={setSortField} setOrderByType={setOrderByType} orderByType={orderByType} sortField={sortField} />
-
                     <th scope="col-2" colSpan={2}>Hành Động</th>
                   </tr>
                 </thead>
@@ -240,12 +240,7 @@ const Product = () => {
                           />
                         )}
                       </td>
-                      <td>
-                        <button className='btn btn-outline-danger'>
-
-                          <i className="fa-solid fa-check"></i>
-                        </button>
-                      </td>
+                     
 
                       {/* <td>
                         <button
@@ -272,7 +267,7 @@ const Product = () => {
 
       <section>
         <div className="d-flex mt-3">
-          <div className='div-layout'>
+          {/* <div className='div-layout'>
             <label>Chọn Trang bạn muốn đến:</label>
             <select
               value={selectedPage}
@@ -293,7 +288,7 @@ const Product = () => {
             >
               Tới
             </button>
-          </div>
+          </div> */}
           <div className="ms-auto d-flex align-items-center">
             <label style={{ marginBottom: '17px', marginRight: '10px', marginTop: "10px" }}>
               Số hàng :

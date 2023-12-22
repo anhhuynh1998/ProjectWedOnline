@@ -83,8 +83,8 @@ const Infomation = () => {
                             </>
                                 : <>
                                     <NavLink to={"/home"} type="button" className="btn btn-danger me-3">Quay Lại</NavLink>
-                                    <button className="btn btn-success " onClick={showEditInfo} type="button">
-                                        Chỉnh Sửa </button>
+                                    <a className="btn btn-success " onClick={showEditInfo} type="button">
+                                        Chỉnh Sửa </a>
                                 </>
                         }
 

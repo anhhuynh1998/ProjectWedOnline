@@ -13,7 +13,6 @@ export const QuarterlyRevenue = () => {
       // eslint-disable-next-line no-inner-declarations
       async function quarterly() {
         let response = await CartService.quarterlyRevenue();
-        console.log(response.data, "doanh thu theo quy");
         const formattedData = Object.keys(response.data).map(key => {
           let quarterName = "";
           switch(key){
@@ -53,7 +52,7 @@ export const QuarterlyRevenue = () => {
       </BarChart>
       
     <div className="navbar-expand-lg bg-white" id="quarter-title">
-      <h5 className="text-muted" id="lead">Doanh Thu Theo Quý </h5> 
+      <h5 className="text-muted text-center" id="lead">Doanh Thu Theo Quý </h5> 
     </div>
     </div>
   );

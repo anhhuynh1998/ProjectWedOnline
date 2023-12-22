@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ProductService } from '../../../service/admin/product/productService';
 import { ToastError, ToastSuccess } from '../../../toastify/Toast';
+import { CartService } from '../../../service/admin/cart/cartService';
 
 
 const AddProduct = () => {
@@ -10,7 +11,7 @@ const AddProduct = () => {
     const [searchValue, setSearchValue] = useState("");
     const [addProduct, setAddProduct] = useState(JSON.parse(localStorage.getItem("cartOffline")) || []);
     const [infoProduct, setInfoProduct] = useState(JSON.parse(localStorage.getItem("cartOffline")) || []);
-    const [checkOut, setCheckOut] = useState("");
+    const [checkOut, setCheckOut] = useState(0);
 
     const findProductByCode = async (search) => {
         try {
@@ -22,6 +23,7 @@ const AddProduct = () => {
                 try {
 
                     let res = await ProductService.findProductByCode(search);
+                    console.log(res, "iiiii");
                     if (res.data) {
                         setProduct(res.data.name)
                         if (addProduct.filter(e => e.codeProduct === search).length > 0) {
@@ -36,7 +38,7 @@ const AddProduct = () => {
                     }
 
                 } catch (e) {
-                    ToastError(e.response.data);
+                    ToastError("Mã sản phẩm không đúng");
                     setSearchValue("");
                     setProduct({});
                 }
@@ -87,17 +89,16 @@ const AddProduct = () => {
     }
 
     const checkOutProduct = async () => {
-        // const soldProduct = JSON.parse(localStorage.getItem("cartOffline") || []);
-        // const update = soldProduct.filter(e => e.id !== id);
-        // localStorage.setItem("cartOffline", JSON.stringify(update));
-        // setAddProduct(addProduct?.filter(e => e.id !== id));
-        console.log(infoProduct, "infoooo");
-        ToastSuccess("Thanh toán thành công")
-        // if (soldProduct.length === 0) {
-        //     localStorage.removeItem("cartOffline")
-        // }
-        // setAddProduct
+        const listId = infoProduct.map(e => e.id);
+        await CartService.checkOutAdmin({ productIds: listId });
+        ToastSuccess("Thanh toán thành công");
+        localStorage.removeItem("cartOffline")
+        setAddProduct([]);
+        setCheckOut(0);
     }
+
+    const total = addProduct.reduce((total, item) => item.salesPrice + total, 0);
+    console.log(total);
 
     return (
         <>
@@ -140,7 +141,7 @@ const AddProduct = () => {
                 </div>
             </nav>
             <button className="btn btn-primary col-2 animate__animated animate__bounceInDown"
-                type="button" disabled={addProduct.length === infoProduct.length} onClick={() => submitProduct()}>Thêm</button>
+                type="button" disabled={!searchValue} onClick={() => submitProduct()}>Thêm</button>
 
             <table className="table mt-3 " style={{ position: 'relative', zIndex: 1 }}>
                 <thead className="thead-dark">
@@ -174,16 +175,12 @@ const AddProduct = () => {
                 </tbody>
             </table>
 
-            <ul className="list-group w-25 ">
-                <li className="list-group-item bg-secondary text-white" aria-current="true">Tổng Giỏ Hàng</li>
-                {/* {
-                    checkOut.length && checkOut.map((check, index) => (
-                        <li className="list-group-item" key={index}>Tổng tiền : {check.salesPrice}</li>
-                    ))
-                } */}
-                <li className="list-group-item" >Tổng tiền : {checkOut}</li>
+            <ul className="list-group w-25 animate__animated animate__bounceInUp">
+                <li className="list-group-item bg-secondary text-white " aria-current="true">Tổng Giỏ Hàng</li>
+
+                <li className="list-group-item" >Tổng tiền : {total}</li>
                 <li className="list-group-item"></li>
-                <button className="list-group-item bg-success text-white " onClick={checkOutProduct}>
+                <button className="list-group-item bg-success text-white " onClick={checkOutProduct} disabled={total === 0}>
                     <i className="fa-solid fa-sack-dollar fa-lg" ></i> Thanh Toán</button>
             </ul>
         </>

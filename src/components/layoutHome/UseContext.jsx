@@ -6,7 +6,8 @@ import ProductService from "../../service/homeService/productService";
 import CartService from "../../service/homeService/cartService";
 import { ToastError, ToastSuccess } from "../../toastify/Toast";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import formatPrice from "./formatPrice/FormatPrice";
+import formatPrice from "./formatPrice/formatPrice";
+
 
 const UseProduct = createContext();
 
@@ -21,7 +22,7 @@ const UseContext = ({ children }) => {
     const [logoutIcon, setLogoutIcon] = useState(localStorage.getItem("jwt"));
     const location = useLocation();
     const back = useNavigate();
-    const formatPriceProduct = formatPrice(product.price);
+    const formatPriceProduct = formatPrice(product.salesPrice);
     const [categoryId, setCategoryId] = useState("");
     const [page, setPage] = useState(0);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -35,7 +36,7 @@ const UseContext = ({ children }) => {
     });
     const [showEdit, setShowEdit] = useState(false);
     const [loginEmail, setLoginEmail] = useState("");
-
+    console.log(product,"proooooo");
 
     useEffect(() => {
         async function getALl() {

@@ -198,6 +198,7 @@
     width: 1px;
 }
 .product__action li {
+    left: -14px;
     position: relative;
     width: 50%;
 }

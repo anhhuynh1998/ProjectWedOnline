@@ -233,7 +233,7 @@ const CreateProduct = ({ isOpenModal, handleClose, products, setProducts }) => {
                                             <InputField
                                                 label="Giá ký gửi"
                                                 name="price"
-                                                errors={errors}
+                                                // errors={errors}
                                                 register={register}
                                                 placeholder="Nhập giá sản phẩm"
                                             />

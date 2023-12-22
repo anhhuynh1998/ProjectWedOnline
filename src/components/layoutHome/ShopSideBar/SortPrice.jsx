@@ -16,6 +16,10 @@ export const PRICE_FILTER = [{
 {
     priceMin: 1_000_000,
     priceMax: 2_000_000
+},
+{
+    priceMin: 2_000_000,
+    priceMax: 5_000_000
 }
 ]
 export function removeFalsyFields(obj) {

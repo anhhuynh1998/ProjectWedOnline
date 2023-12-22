@@ -45,7 +45,7 @@ export class ProductService {
     }
 
     static updateProducts(data, productId) {
-        return axios.patch(PRODUCT_API + `/${productId}`, data)
+        return axiosInstance.put(PRODUCT_API + `/${productId}`, data)
     }
 
     static deleteProducts(productId) {
@@ -58,10 +58,10 @@ export class ProductService {
     static countProduct() {
         return axiosInstance.get(`${PRODUCT_API}/count`)
     }
-    static findProductByCode(search){
-        return axios.get(PRODUCT_API + `/add?search=${search}`)
+    static findProductByCode(search) {
+        return axiosInstance.get(PRODUCT_API + `/add?search=${search}`)
     }
-    static checkOutProduct(){
-        return axios.get(PRODUCT_API + `/checkOut`)
+    static checkOutProduct() {
+        return axiosInstance.get(PRODUCT_API + `/checkOut`)
     }
 }

@@ -88,7 +88,7 @@ const Cart = () => {
                                     <tbody>
                                         {
                                             cartDetails && cartDetails?.map((item, index) => {
-                                                const formattedPrice = formatPrice(item?.product?.price);
+                                                const formattedPrice = formatPrice(item?.product?.salesPrice);
                                                 return (
                                                     <tr key={index}>
                                                         <td className="product-thumbnail">

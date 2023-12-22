@@ -23,4 +23,10 @@ export class CartService {
     static deleteProduct(id){
         return axios.delete(`${CART_API}/${id}`)
     }
+    static cartByStatusId(id){
+        return axios.get(`${CART_API}/status/${id}`)
+    }
+    static checkOutAdmin(data){
+        return axios.post(`${CART_API}/checkOutAdmin`, data)
+    }
 }

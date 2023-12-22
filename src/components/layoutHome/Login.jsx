@@ -41,7 +41,7 @@ const Login = ({ activeTab }) => {
             }
             ToastSuccess("Đăng Nhập Thành Công");
             setLogoutIcon((prev) => !prev);
-            localStorage.setItem("jwt", response.data);
+            localStorage.setItem("jwt", response.data.jwt);
         } catch (error) {
             ToastWarning(error.response.data);
         }

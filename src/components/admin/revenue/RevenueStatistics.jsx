@@ -16,7 +16,8 @@ const RevenueStatistics = () => {
         try {
             async function productList() {
                 let countProduct = await ProductService.countProduct();
-                setProductCount(countProduct.data.content.length);
+                console.log(countProduct)
+                setProductCount(countProduct.data);
 
                 let countUsers = await UserService.countUsers();
                 setUsersCount(countUsers.data.content.length)

@@ -16,7 +16,6 @@ const Order = () => {
         async function listStatus() {
             let respo = await StatusService.findAll();
             setStatus(respo.data);
-            console.log(status);
             let respon = await UserInfoService.showCartByUser();
             setOrders(respon.data);
             setfilterByStatusId(respon.data);
@@ -30,7 +29,7 @@ const Order = () => {
     const changerAll = () => {
         setOrders(filterByStatusId);
     }
-    console.log(orders.statusId);
+    console.log(orders);
 
     return (
         <div style={{ backgroundColor: "#f5f5f5" }}>
@@ -54,7 +53,6 @@ const Order = () => {
                         orders?.map((item, index) => {
                             const formattedTotal = formatPrice(item.totalCart);
                             const formattedShipping = formatPrice(item.shippingFee);
-                            const formattedPrice = formatPrice(item.cartDetailList.total);
                             const DATA = {
                                 "2": "Đơn Hàng Đang Chờ Xác Nhận",
                                 "3": "Đơn Hàng Đã Được Xác Nhận",
@@ -74,6 +72,7 @@ const Order = () => {
                                         </div>
                                         {
                                             item.cartDetailList?.map((item, index) => {
+                                                const formattedPrice = formatPrice(item.product.salesPrice);
                                                 return (
                                                     <div className="" key={index}>
                                                         <div className="row justify-content-between">

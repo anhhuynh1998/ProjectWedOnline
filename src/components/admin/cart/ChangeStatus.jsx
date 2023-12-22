@@ -5,40 +5,31 @@ import StatusService from '../../../service/homeService/statusService';
 import { ToastError } from '../../../toastify/Toast';
 import { CartService } from '../../../service/admin/cart/cartService';
 
-const ChangeStatus = ({ setListCart, setStatusCart, selectStatus, statusCart, setSelectStatus, preListCart, search }) => {
+const ChangeStatus = ({ setListCart, setStatusCart, selectStatus, 
+    statusCart, setSelectStatus, preListCart, search , setStatusId}) => {
     const [nodata, setNodata] = useState(false);
     const [showToast, setShowToast] = useState(false);
     const [statusName, setStatusName] = useState("Tất cả");
 
-    useEffect(() => {
-        try {
-            async function getAllStatus() {
-                let response = await StatusService.findAll();
-                console.log(response.data, "iiii");
-                setStatusCart(response.data);
-            }
-            getAllStatus();
-        } catch (error) {
-            ToastError("Trạng thái bị lỗi");
-        }
-    }, [])
+    // useEffect(() => {
+    //     try {
+    //         async function getAllStatus() {
+    //             let response = await StatusService.findAll();
+    //             console.log(response.data, "iiii");
+    //             setStatusCart(response.data);
+    //         }
+    //         getAllStatus();
+    //     } catch (error) {
+    //         ToastError("Trạng thái bị lỗi");
+    //     }
+    // }, [])
 
     const changeStatus = async (e, id) => {
         e.preventDefault();
+        setStatusId(id);
+        setNodata(true);
         setShowToast(false);
-        try {
-            let response = await CartService.searchNameAndPhone(search, id)
-            if (response.data.content.length === 0) {
-                setNodata(true);
-                setListCart([])
-                ToastError("Không tìm thấy trạng thái")
-            } else {
-                setNodata(false)
-                setListCart(response.data.content)
-            }
-        } catch (error) {
-            ToastError("Chọn trạng thái bị lỗi")
-        }
+  
     }
 
     const changePreStatus = async () => {

@@ -23,7 +23,7 @@ const ProductShop = ({ getALlProducts, isLoading }) => {
                         <InforProduct />
                         {
                             products.map((item, index) => {
-                                const formattedPrice = formatPrice(item.price);
+                                const formattedPrice = formatPrice(item.salesPrice);
                                 return (
                                     <InView as="div" className="col-md-4 single__pro col-lg-4 cat--1 col-sm-4 col-xs-12"
                                         key={index} delay={2000} onChange={(e) => handleLoadList(index, e)}>

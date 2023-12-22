@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-inner-declarations */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CartService } from "../../../service/admin/cart/cartService";
 import Search from "./Search";
 import formatPrice from "../../layoutHome/formatPrice/formatPrice";
@@ -14,24 +14,22 @@ const Cart = () => {
   const [statusCart, setStatusCart] = useState({});
   const [selectStatus, setSelectStatus] = useState([]);
   const [preListCart, setPreListCart] = useState({});
+  const [statusId, setStatusId] = useState(2);
 
   useEffect(() => {
     try {
       // eslint-disable-next-line no-inner-declarations
       async function getAllCart() {
-        let response = await CartService.getAllCart();
-        setPreListCart(response.data);
-        setListCart(response.data);
-
-        // for(const cartItem of response.data){
-        //     const detailResponse = await
-        // }
+        // let response = await CartService.getAllCart();
+        let respon = await CartService.cartByStatusId(statusId);
+        setPreListCart(respon.data);
+        setListCart(respon.data);
       }
       getAllCart();
     } catch (error) {
       ToastError("Danh sách giỏ hàng lỗi");
     }
-  }, []);
+  }, [statusId]);
 
   useEffect(() => {
     try {
@@ -50,8 +48,8 @@ const Cart = () => {
     try {
       let response = await CartService.updateStatus(cartId, status.id);
       console.log(response.data, "eeeeeeeeeee");
-      let response1 = await CartService.getAllCart();
-      setListCart(response1.data);
+      // let response1 = await CartService.getAllCart();
+      // setListCart(response1.data.filter(e => e.statusId != 5));
       ToastSuccess("Thay đổi trạng thái thành công");
     } catch (error) {
       ToastError("Chọn trạng thái bị lỗi");
@@ -80,9 +78,10 @@ const Cart = () => {
   return (
     <>
       <div>
-        <div className="col-3" >
+        <div className="col-3 mb-3" >
           <div className="dropdown-container">
             <ChangeStatus
+            setStatusId = {setStatusId}
               setListCart={setListCart}
               selectStatus={selectStatus}
               statusCart={statusCart}
@@ -94,14 +93,14 @@ const Cart = () => {
             />
           </div>
         </div>
-        <div className="col-9">
+        {/* <div className="col-9">
           <Search
             setSearch={setSearch}
             search={search}
-            setListCart={setListCart}
+            setPreListCart={setPreListCart}
             statusCart={selectStatus}
           />
-        </div>
+        </div> */}
       </div>
       <table className="table table-hover rounded animate__animated animate__bounceInUp">
         <thead>
@@ -192,7 +191,7 @@ const Cart = () => {
           )}
         </tbody>
       </table>
-      
+
     </>
   );
 };

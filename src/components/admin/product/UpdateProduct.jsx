@@ -19,7 +19,7 @@ const UpdateProduct = ({ isOpenModal, handleClose, productId, products, setProdu
             .transform((value) => (isNaN(value) ? undefined : Number(value)))
             .nullable()
             .min(10000, "Giá thấp nhất là 10000 !!!")
-            .max(1000000, "Giá cao nhất là 1000000 !!!")
+            .max(10000000, "Giá cao nhất là 1000000 !!!")
             .required("Vui Lòng Nhập giá !!!"),
         status: yup.string().required("Vui Lòng Nhập Tình trạng !!!"),
         description: yup.string().required("Vui Lòng Nhập Mô tả !!!"),

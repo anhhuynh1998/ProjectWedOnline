@@ -146,7 +146,7 @@ const ImageUpload = ({
                             alt={file.fileName}
                             className="product-image"
                             style={{
-                                width: "70%",
+                                width: "50%",
                                 height: "70%",
                                 margin: "5px",
                                 border: "solid 1px"
@@ -162,9 +162,9 @@ const ImageUpload = ({
                                 borderRadius: "1px",
                                 zIndex: 1,
                                 position: "absolute",
-                                left: "130px",
+                                left: "-13px",
                                 background: "none",
-                                top: "15px",
+                                top: "27px",
                                 fontSize: "20px",
                                 fontWeight: 700,
                                 color: "red"
@@ -180,9 +180,9 @@ const ImageUpload = ({
                     className="image"
                     style={{
                         position: "absolute",
-                        height: "80%",
+                        height: "40%",
                         display: "flex",
-                        width: "80%",
+                        width: "40%",
                         alignItems: "center",
                         justifyContent: "center"
                     }}

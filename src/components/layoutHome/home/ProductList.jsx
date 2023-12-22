@@ -12,7 +12,7 @@ const ProductList = () => {
                 {<InforProduct />}
                 {
                     productList.map((item, index) => {
-                        const formattedPrice = formatPrice(item.price);
+                        const formattedPrice = formatPrice(item.salesPrice);
                         return (
                             <div className="col-md-4 single__pro col-lg-3 cat--1 col-sm-4 col-xs-12" key={index}>
                                 <div className="product foo">

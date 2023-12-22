@@ -3,14 +3,14 @@ import { CartService } from '../../../service/admin/cart/cartService';
 import { ToastError } from '../../../toastify/Toast';
 
 // eslint-disable-next-line react/prop-types
-const Search = ({ setSearch, search, setListCart, statusCart }) => {
+const Search = ({ setSearch, search, setPreListCart, statusCart }) => {
 
   useEffect(() => {
     try {
       // eslint-disable-next-line no-inner-declarations
       async function searchNameAndPhone(search, status) {
         let response = await CartService.searchNameAndPhone(search, status.id);
-        setListCart(response.data.content);
+        setPreListCart(response.data.content.filter(e => e.statusId != 5));
         if (response.data.content.length === 0) {
           ToastError("Không tìm thấy dữ liệu")
         }

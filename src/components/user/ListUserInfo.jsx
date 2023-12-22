@@ -116,7 +116,8 @@ const ListUserInfo = () => {
                 listUserInfo={listUserInfo}
                 setListUserInfo={setListUserInfo}
               />
-              <form className="d-flex m-2-bg-info w-75 animate__animated animate__bounceInRight" role="search">
+              <form className="d-flex m-2-bg-info w-75 
+              animate__animated animate__bounceInRight" role="search">
                 <i className="fa-solid fa-magnifying-glass text-danger  "></i>
                 <input
                   className="form-control me-2 rounded-1 "

@@ -18,7 +18,8 @@ const SearchForm = ({ onSearch }) => {
     };
 
     return (
-        <form className="d-flex m-2-bg-info" role="search">
+        <form className="d-flex m-2-bg-info w-75 
+        animate__animated animate__bounceInRight" role="search">
             <i className="fa-solid fa-magnifying-glass"></i>
             <input
                 className="form-control me-2"
